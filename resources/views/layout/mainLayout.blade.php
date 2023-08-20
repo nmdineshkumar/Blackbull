@@ -248,6 +248,7 @@
                             <li><a href="{{route('admin.supplier.index')}}"><i class="mdi mdi-account-switch"></i>Supplier</a></li>
                             <li><a href="{{route('admin.category.index')}}"><i class="mdi mdi-application-cog"></i>Category</a></li>
                             <li><a href="{{route('admin.manufacture.index')}}"><i class="mdi mdi-application-cog"></i>Manufacture</a></li>
+                            <li><a href="{{route('admin.tyresize.index')}}"><i class="mdi mdi-tire"></i>Tyre Size</a></li>
                         </ul>
                     </li>
                 </ul>                

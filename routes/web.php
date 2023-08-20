@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ManufacturersController;
 use App\Http\Controllers\Admin\SupplierController;
+use App\Http\Controllers\Admin\TyresizeController;
 use App\Http\Controllers\Auth\Logincontroller;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\HelperController;
@@ -41,6 +42,9 @@ Route::get('/admin/login', [Logincontroller::class,'showLoginForm'])->name('logi
 Route::post('/admin/login', [Logincontroller::class,'Auth_validateLogin'])->name('auth.login');
 $prefix = 'admin';
 Route::group(['prefix'=>$prefix,'middleware'=>'auth:admin'], function () use($prefix) {
+    Route::post('/save-tyreheight', [HelperController::class, 'saveTyreheight'])->name('save-tyreheight');
+    Route::post('/save-tyreprofile', [HelperController::class, 'saveTyreprofile'])->name('save-tyreprofile');
+    Route::post('/save-tyrerimsize', [HelperController::class, 'saveTyrerimsize'])->name('save-tyrerimsize');
     Route::post('/save-image',[FileController::class,'saveImage']);
     Route::post('/delete-image',[FileController::class,'deleteImage']);
     Route::get('/dashboard',[DashboardController::class,'index'])->name($prefix.'.dashboard');
@@ -49,4 +53,5 @@ Route::group(['prefix'=>$prefix,'middleware'=>'auth:admin'], function () use($pr
     Route::resource('category', CategoryController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.category');
     //manufacture
     Route::resource('manufacture', ManufacturersController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.manufacture');
+    Route::resource('tyresize', TyresizeController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.tyresize');
 });
