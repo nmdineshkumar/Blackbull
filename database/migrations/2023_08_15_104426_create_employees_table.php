@@ -17,7 +17,7 @@ class CreateEmployeesTable extends Migration
             $table->id();
             $table->string('first_name');
             $table->string('last_name');
-            $table->integer('department_id');
+            $table->unsignedBigInteger('department_id');
             $table->foreign('department_id')
                     ->references('id')
                     ->on('departments')
@@ -28,7 +28,7 @@ class CreateEmployeesTable extends Migration
             $table->integer('email_verified');
             $table->string('position');
             $table->timestamp('joining_date');
-            $table->integer('branch_id');
+            $table->unsignedBigInteger('branch_id');
             $table->foreign('branch_id')
                     ->references('id')
                     ->on('branches')
