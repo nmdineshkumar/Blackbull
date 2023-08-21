@@ -1,6 +1,67 @@
 @php
     $preload = [];
     $image =old('image');
+    $name = old('name');
+    $brand = old('brand');
+    $pattern = old('pattern');
+    $type = old('type');
+    $origin = old('origin');
+    $myear = old('myear');
+    $sku = old('sku');
+    $wyear = old('wyear');
+    $make = old('make');
+    $model = old('model');
+    $year = old('year');
+    $fuel_type = old('fuel_type');
+    $engine_type = old('engine_type');
+    $other = old('other');
+    $tyre_size = old('tyre_size');
+    $description = old('description');
+    $price = old('price');
+    
+    if($id != ''){
+        $name = (old('name') != '') ? $name : $tyre->name;
+        $brand = (old('brand') != '') ? $brand : $tyre->brand;
+        $pattern = (old('pattern') != '') ? $pattern : $tyre->pattern;
+        $tyre_type = (old('tyre_type') != '') ? $tyre_type : $tyre->tyre_type;
+        $origin = (old('orgin') != '') ? $orgin : $tyre->origin;
+        $myear = (old('myear') != '') ? $myear : $tyre->manufactory_year;
+        $wyear = (old('wyear') != '') ? $wyear : $tyre->warranty_year;
+        $sku = (old('sku') != '') ? $sku : $tyre->sku;
+        $description = (old('description') != '') ? $description : $tyre->description;
+        $price = (old('price') != '') ? $price : $tyre->price;
+        $image = (old('image') != '') ? $image : $tyre->image;
+        $make = (old('make') != '') ? $make : $cars_data[0]->maker;
+        $model = (old('model') != '') ? $model : $cars_data[0]->model;
+        $year = (old('year') != '') ? $year : $cars_data[0]->year;
+        $fuel_type = (old('fuel_type') != '') ? $fuel_type : $cars_data[0]->fuel_type;
+        $engine_type = (old('engine_type') != '') ? $engine_type : $cars_data[0]->engine;
+        $other = (old('other') != '') ? $other : $cars_data[0]->Horsepower;
+        $tyre_size = (old('tyre_size') != '') ? $tyre_size : $cars_data[0]->tyre_size;
+        
+     }
+    if ($image != "") {
+    $path1 = "products/tyre" . $image;
+    if (Storage::disk(getFileDisk())->exists($path1)) {
+        $path = Storage::disk(getFileDisk())->url($path1);
+        $mime = Storage::disk(getFileDisk())->mimeType($path1);
+        $size = Storage::disk(getFileDisk())->size($path1);
+
+        $inner = array(
+            "url" => $path,
+            "thumbnail" => $path,
+            "readerForce" => true
+        );
+        $preload[] = array(
+            "name" => $image,
+            "type" => $mime,
+            "size" => $size,
+            "file" => $path,
+            "local" => $path,
+            "data" => array("url" => $path, "thumbnail" => $path, "readerForce" => true)
+        );
+    }
+}
 @endphp
 @extends('layout.mainLayout')
 @section('page-breadcrumb')
@@ -35,10 +96,12 @@
                 </div>
             </div>
             <div class="card-body">
+                <form action="{{route($resourceUrl.'.store')}}" method="post">
+                    @csrf
                 <div class="row mb-2">
                     <div class="col-md-6 col-sm-12">
                         <label for="">Name</label>
-                        <input type="text" name="name" id="name" class="form-control">
+                        <input type="text" name="name" id="name" class="form-control" value="{{$name}}">
                         @error('name')
                             <div class="error">{{$message}}</div>
                         @enderror
@@ -48,9 +111,19 @@
                         <div class="input-group">
                             <select name="brand" id="brand" class="form-select">
                                 <option value="">---SELECT---</option>
+                                @if($id != '')
+                                @foreach ($brand_dataset as $row)
+                                    @if($brand == $row->id)                                    
+                                    <option value="{{$row->id}}" selected>{{$row->name}}</option>
+                                    @else
+                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endif
+                                @endforeach
+                                @else
                                 @foreach ($brand_dataset as $row)
                                     <option value="{{$row->id}}">{{$row->name}}</option>
                                 @endforeach
+                                @endif
                             </select>
                             <div class="input-group-append">
                                 <a data-bs-toggle="modal" data-bs-target="#brandModal" class="btn btn-primary"><i class="mdi mdi-plus-circle"></i></a>
@@ -67,9 +140,19 @@
                         <div class="input-group">
                             <select name="pattern" id="pattern" class="form-select">
                                 <option value="">---SELECT---</option>
+                                @if($id != '')
+                                @foreach ($pattern_dataset as $row)
+                                    @if($pattern == $row->id)                                    
+                                    <option value="{{$row->id}}" selected>{{$row->name}}</option>
+                                    @else
+                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endif
+                                @endforeach
+                                @else
                                 @foreach ($pattern_dataset as $row)
                                     <option value="{{$row->id}}">{{$row->name}}</option>
                                 @endforeach
+                                @endif
                             </select>
                             <div class="input-group-append">
                                 <a data-bs-toggle="modal" data-bs-target="#patternModal" class="btn btn-primary"><i class="mdi mdi-plus-circle"></i></a>
@@ -83,9 +166,19 @@
                         <label for="">Type</label>
                         <select name="type" id="type" class="form-select">
                             <option value="">---SELECT---</option>
+                            @if($id != '')
+                                @foreach (tyreType() as $row)
+                                    @if($tyre_type == $row->id)                                    
+                                    <option value="{{$row->id}}" selected>{{$row->name}}</option>
+                                    @else
+                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endif
+                                @endforeach
+                                @else
                             @foreach (tyreType() as $row)
                                 <option value="{{$row->id}}">{{$row->name}}</option>
                             @endforeach
+                            @endif
                         </select>
                         @error('brand')
                             <div class="error">{{$message}}</div>
@@ -98,9 +191,19 @@
                         <div class="input-group">
                             <select name="origin" id="origin" class="form-select">
                                 <option value="">---SELECT---</option>
+                                @if($id != '')
+                                @foreach ($origin_dataset as $row)
+                                    @if($origin == $row->id)                                    
+                                    <option value="{{$row->id}}" selected>{{$row->name}}</option>
+                                    @else
+                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endif
+                                @endforeach
+                                @else
                                 @foreach ($origin_dataset as $row)
                                     <option value="{{$row->id}}">{{$row->name}}</option>
                                 @endforeach
+                                @endif
                             </select>
                             <div class="input-group-append">
                                 <a data-bs-toggle="modal" data-bs-target="#originModal" class="btn btn-primary"><i class="mdi mdi-plus-circle"></i></a>
@@ -112,7 +215,7 @@
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <label for="">Manufacture Year</label>
-                        <input type="text" name="myear" id="myear" class="form-control">
+                        <input type="text" name="myear" id="myear" class="form-control" value="{{$myear}}">
                         @error('myear')
                             <div class="error">{{$message}}</div>
                         @enderror
@@ -121,14 +224,14 @@
                 <div class="row mb-2">
                     <div class="col-md-6 col-sm-12">
                         <label for="">Sku</label>
-                        <input type="text" name="sku" id="sku" class="form-control">
+                        <input type="text" name="sku" id="sku" class="form-control" value="{{$sku}}">
                         @error('sku')
                             <div class="error">{{$message}}</div>
                         @enderror                      
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <label for="">Warranty Year</label>
-                        <input type="text" name="wyear" id="wyear" class="form-control">
+                        <input type="text" name="wyear" id="wyear" class="form-control" value="{{$wyear}}">
                         @error('brand')
                             <div class="error">{{$message}}</div>
                         @enderror
@@ -141,9 +244,19 @@
                         <label for="">Make</label>
                         <select name="make" id="make" class="form-select">
                             <option value="">---SELECT---</option>
+                            @if($id != '')
+                                @foreach ($make_dataset as $row)
+                                    @if($make == $row->id)                                    
+                                    <option value="{{$row->id}}" selected>{{$row->name}}</option>
+                                    @else
+                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endif
+                                @endforeach
+                                @else
                                 @foreach ($make_dataset as $row)
                                     <option value="{{$row->id}}">{{$row->name}}</option>
-                                @endforeach                            
+                                @endforeach
+                            @endif                            
                         </select>
                         @error('make')
                             <div class="error">{{$message}}</div>
@@ -154,6 +267,15 @@
                         <div class="input-group">
                             <select name="model" id="model" class="form-select">
                                 <option value="">---SELECT---</option>
+                                @if($id != '')
+                                @foreach ($model_dataset as $row)
+                                    @if($model == $row->id)                                    
+                                    <option value="{{$row->id}}" selected>{{$row->name}}</option>
+                                    @else
+                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endif
+                                @endforeach
+                                @endif
                             </select>
                             <div class="input-group-append">
                                 <a data-bs-toggle="modal" data-bs-target="#carmodelModal" class="btn btn-primary"><i class="mdi mdi-plus-circle"></i></a>
@@ -169,7 +291,16 @@
                         <label for="">Year</label>
                         <div class="input-group">
                             <select name="year" id="year" class="form-select">
-                                <option value="">---SELECT---</option>                                                           
+                                <option value="">---SELECT---</option>  
+                                @if($id != '')
+                                @foreach ($year_dataset as $row)
+                                    @if($year == $row->id)                                    
+                                    <option value="{{$row->id}}" selected>{{$row->name}}</option>
+                                    @else
+                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endif
+                                @endforeach
+                                @endif                                                         
                             </select>
                             <div class="input-group-append">
                                 <a data-bs-toggle="modal" data-bs-target="#caryearModal" class="btn btn-primary"><i class="mdi mdi-plus-circle"></i></a>
@@ -183,20 +314,30 @@
                         <label for="">Fuel Type</label>
                         <select name="fuel_type" id="fuel_type" class="form-select">
                             <option value="">---SELECT---</option>   
+                            @if($id != '')
+                                @foreach (carFuelType() as $row)
+                                    @if($fuel_type == $row->id)                                    
+                                    <option value="{{$row->id}}" selected>{{$row->name}}</option>
+                                    @else
+                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endif
+                                @endforeach
+                                @else
                             @foreach (carFuelType() as $row)
                                 <option value="{{$row->id}}">{{$row->name}}</option>
-                            @endforeach                                                        
+                            @endforeach  
+                            @endif                                                      
                         </select>
                     </div>
                 </div>
                 <div class="row mb-2">
                     <div class="col-md-6 col-sm-12">
                         <label for="">Engine Type</label>
-                        <input type="text" name="engine_type" id="engine_type" class="form-control">                        
+                        <input type="text" name="engine_type" id="engine_type" class="form-control" value="{{$engine_type}}">                        
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <label for="">Speed/HP</label>
-                        <input type="text" name="other" id="other" class="form-control">
+                        <input type="text" name="other" id="other" class="form-control" value="{{$other}}">
                     </div>
                 </div>
                 <div class="row mb-2">
@@ -204,9 +345,19 @@
                         <label for="">Tyre Size</label>
                         <select name="tyre_size" id="tyre_size" class="form-select">
                             <option value="">---SELECT---</option>
+                            @if($id != '')
+                                @foreach ($tyre_size_dataset as $row)
+                                    @if($tyre_size == $row->id)                                    
+                                    <option value="{{$row->id}}" selected>{{$row->height.'/'.$row->width.' R'.$row->rim_size.' '.$row->speed}}</option>
+                                    @else
+                                    <option value="{{$row->id}}">{{$row->height.'/'.$row->width.' R'.$row->rim_size.' '.$row->speed}}</option>
+                                    @endif
+                                @endforeach
+                                @else
                             @foreach ($tyre_size_dataset as $row)
                                 <option value="{{$row->id}}">{{$row->height.'/'.$row->width.' R'.$row->rim_size.' '.$row->speed}}</option>                                
                             @endforeach
+                            @endif
                         </select>                      
                     </div>
                     <div class="col-md-6 col-sm-12">
@@ -214,16 +365,30 @@
                         <input type="file"name="file1" id="file1" 
                         file-accept='<?php echo json_encode(array('jpg', 'png', 'gif', 'jpeg', 'svg')) ?>'
                         data-fileuploader-files='<?php echo json_encode($preload) ?>'
-                        data-id="{{url('admin/delete-image?path=brand')}}" 
+                        data-id="{{url('admin/delete-image?path=products/tyre')}}" 
                         data-attr-name="image-file-saver"
                         data-url="{{url('admin/save-image?path=products/tyre')}}"
                         class="form-control">
                         <input type="hidden" name="image" class="image-file-saver" value="<?php echo $image; ?>">
-{{--                         
-                        <label for="">Description</label>
-                        <textarea name="description" id="description" cols="30" rows="10" class="form-control"></textarea> --}}
                     </div>
                 </div>
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label for="">Description</label>
+                        <textarea id="summernote" name="description">{{$description}}</textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-12 text-center">
+                        <input type="hidden" name="id" value="{{$id}}">
+                        @if ($id != '')
+                            <input type="hidden" name="car_data_id" value="{{$tyre->cars}}">
+                        @endif
+                        <a href="{{route($resourceUrl.'.index')}}" class="btn btn-primary">Close</a>
+                        <button type="submit" class="btn btn-primary">@if($id != '') Update @else Save @endif </button>
+                    </div>
+                </div>
+            </form>
             </div>
         </div>
     </div>
@@ -399,6 +564,9 @@
         $('[data-bs-target="#caryearModal"]').on('click', function(){
             $('#hiddenMake').val($('#make').val());
             $('#hiddenModel').val($('#model').val());
+        });
+        $(document).ready(function() {
+            $('#summernote').summernote();
         });
         $('form[ajax-submit=true]').submit(function(e){
             var mySlection,modal,formid;

@@ -58,7 +58,7 @@
               {data: 'name', name: 'Name'},
               {data: 'brand', name: 'Brand'},
               {data: 'origin', name: 'Origin'},
-              {data: 'year', name: 'Year'},
+              {data: 'manufactory_year', name: 'Year'},
               {data: 'action', name: 'action'}
           ];
         initializeDataTable('Ajaxdatatable', '{{ route("$resourceUrl".'.index') }}', columns);

@@ -188,7 +188,7 @@ class HelperController extends Controller
             }
         }
     }
-    public function getCar_model($id){
+    public static function getCar_model($id){
         return DB::table('car_model')->where('make','=',$id)->get(['id','name']);
     }
     public function saveCar_year(Request $request){
@@ -218,7 +218,7 @@ class HelperController extends Controller
             }
         }
     }
-    public function getCar_year($id){
+    public static function getCar_year($id){
         return DB::table('car_model_year')->where(['make'=>$id])->get(['id','year as name']);
     }
 }

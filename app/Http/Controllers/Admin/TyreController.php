@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\HelperController;
+use App\Models\Cars_data;
 use App\Models\manufacturers;
 use App\Models\Tyre;
 use App\Models\Tyresize;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class TyreController extends Controller
@@ -32,7 +36,7 @@ class TyreController extends Controller
                         return $this->getBrand($row->brand);
                     })
                     ->addColumn('origin',function($row){
-                        return $row->origin;
+                        return $this->getOrigin($row->origin);
                     })
                     ->addColumn('manufactory_year',function($row){
                         return $row->manufactory_year;
@@ -54,7 +58,10 @@ class TyreController extends Controller
         }
     }
     public function getBrand($id){
-        return DB::table('brand')->where('id',$id)->get(['name'])->pluck();
+        return DB::table('brand')->where('id',$id)->get(['name'])->pluck('name')->first();
+    }
+    public function getOrigin($id){
+        return DB::table('origin')->where('id',$id)->get(['name'])->pluck('name')->first();
     }
     public function create(){
         $brand_dataset = DB::table('brand')->get(['id','name']);
@@ -71,58 +78,120 @@ class TyreController extends Controller
                 ->with('resourceUrl',$this->resourceUrl());
     }
     public function edit($id){
+        $brand_dataset = DB::table('brand')->get(['id','name']);
+        $pattern_dataset = DB::table('pattern')->get(['id','name']);
+        $origin_dataset = DB::table('origin')->get(['id','name']);
+        $make_dataset = manufacturers::get(['id','name']);   
+        $tyre_size_dataset = Tyresize::get(['id',"height","width","rim_size","speed"]); 
         $tyre = $this->modelIns()::find($id);
-        return view('admin.tyre.editTyre',compact('tyre'))
+        $cars_data = Cars_data::where('id',$tyre->cars)->get();
+        $model_dataset = HelperController::getCar_model($cars_data[0]->maker);
+        $year_dataset = HelperController::getCar_year($cars_data[0]->model);
+        return view('admin.tyre.editTyre',compact('tyre','brand_dataset'
+                                            ,'pattern_dataset','origin_dataset'
+                                            ,'make_dataset','tyre_size_dataset','cars_data'
+                                            ,'model_dataset','year_dataset'))
         ->with('pageName', 'Edit Tyre')
         ->with('id',$id)
         ->with('resourceUrl',$this->resourceUrl()); 
     }
     public function store(Request $request){
         $validate = $request->validate([
-            'height' =>['required'],
-            'width' =>['required'],
-            'rimsize' =>['required'],
+            'name' => ['required','unique:tyres,name,'.$request->id.',id'],
+            'brand' => ['required'],
+            'pattern' => ['required'],
+            'type' => ['required'],
+            'origin' => ['required'],
+            'myear' => ['required'],
+            'sku' => ['required','unique:tyres,sku,'.$request->id.',id'],
+            'wyear' => ['required'],
+            'make' => ['required'],
+            'model' => ['required'],
+            'year'  => ['required'],
+            'fuel_type' => ['required'],
+            'engine_type' => ['required'],
+            'tyre_size' => ['required'],
+            'image' => ['required'],
+            'description' => ['required'],
         ]);
         if($validate){
             if($request->id == '' || $request->id == null){
+                $model_data = [
+                    'maker' => $request->make,
+                    'model' => $request->model,
+                    'year' => $request->myear,
+                    'engine' => $request->engine_type,
+                    'fuel_type' => $request->fuel_type,
+                    'Horsepower' => $request->other,
+                    'tyre_size' => $request->tyre_size,
+                    'created_by' => Auth::guard('admin')->user()->id,
+                    'created_at' => Carbon::now()
+                ];
+                $car_data_id = Cars_data::insertGetId($model_data);
                 $data = [
-                    'height' => $request->height,
-                    'width' => $request->width,
-                    'rim_size' => $request->rimsize,
-                    'speed' => $request->speed,
+                    'name' => $request->name,
+                    'brand' => $request->brand,
+                    'pattern' => $request->pattern,
+                    'tyre_type' => $request->type,
+                    'tyre_size' => $request->tyre_size,
+                    'origin' => $request->origin,
+                    'manufactory_year' => $request->myear,
+                    'warranty_year' => $request->wyear,
+                    'sku' => $request->sku,
                     'description' => $request->description,
+                    'cars' => $car_data_id,
+                    'image' => $request->image,
+                    'price' => '0.00',
                     'created_by' => Auth::guard('admin')->user()->id,
                     'created_at' => Carbon::now()
                 ];
                 try {
                     $res = $this->modelIns()::insert($data);
                 if($res){
-                    return redirect()->route($this->resourceUrl().'.index')->with('success','Tyre Size saved successfully...!!!');
+                    return redirect()->route($this->resourceUrl().'.index')->with('success','Tyre Product saved successfully...!!!');
                 }else{
-                    return redirect()->route($this->resourceUrl().'.index')->with('error','Error saving Tyre Size...!!!');
+                    return redirect()->route($this->resourceUrl().'.index')->with('error','Error saving Tyre Product...!!!');
                 }
                 } catch (Exception $th) {
-                    info('Tyre-Size-saving-error:'.$th->getMessage());
+                    info('Tyre-Product-saving-error:'.$th->getMessage());
                 }
             }else{
                 $data = [
-                    'height' => $request->height,
-                    'width' => $request->width,
-                    'rim_size' => $request->rimsize,
-                    'speed' => $request->speed,
+                    'name' => $request->name,
+                    'brand' => $request->brand,
+                    'pattern' => $request->pattern,
+                    'tyre_type' => $request->type,
+                    'tyre_size' => $request->tyre_size,
+                    'origin' => $request->origin,
+                    'manufactory_year' => $request->myear,
+                    'warranty_year' => $request->wyear,
+                    'sku' => $request->sku,
                     'description' => $request->description,
-                    'updated_by' => Auth::guard('admin')->user()->id,
-                    'updated_at' => Carbon::now()
+                    'image' => $request->image,
+                    'created_by' => Auth::guard('admin')->user()->id,
+                    'created_at' => Carbon::now()
                 ];
                 try {                    
                     $res = $this->modelIns()::whereId($request->id)->update($data);
+                    $model_data = [
+                        'maker' => $request->make,
+                        'model' => $request->model,
+                        'year' => $request->myear,
+                        'engine' => $request->engine_type,
+                        'fuel_type' => $request->fuel_type,
+                        'tyre_size' => $request->tyre_size,
+                        'Horsepower' => $request->other,
+                        'updated_by' => Auth::guard('admin')->user()->id,
+                        'updated_at' => Carbon::now()
+                    ];
+                    Cars_data::whereId($request->car_data_id)->update($model_data);
                     if($res){
-                        return redirect()->route($this->resourceUrl().'.index')->with('success','Tyre updated successfully...!!!');
+                        return redirect()->route($this->resourceUrl().'.index')->with('success','Tyre Product updated successfully...!!!');
                     }else{
-                        return redirect()->route($this->resourceUrl().'.index')->with('error','Error updating Tyre Size...!!!');
+                        return redirect()->route($this->resourceUrl().'.index')->with('error','Error updating Tyre Product...!!!');
                     }
                     } catch (Exception $th) {
-                        info('Tyre-update-error:'.$th->getMessage());
+                        info('Tyre-Product-update-error:'.$th->getMessage());
                     }
             }
         }

@@ -24,10 +24,10 @@ class CreateTyresTable extends Migration
             $table->string('manufactory_year');
             $table->integer('warranty_year')->nullable();
             $table->string('sku');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->string('cars');
             $table->string('price');
-            $table->string('set_price');
+            $table->text('image')->nullable();
             $table->integer('created_by');
             $table->integer('updated_by')->nullable();
             $table->softDeletes();
