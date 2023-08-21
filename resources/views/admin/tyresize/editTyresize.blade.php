@@ -70,7 +70,7 @@
                                     @endif
                                 </select>
                                 <div class="input-group-append">
-                                    <button id="addHeight" type="button" class="btn btn-primary"><i class="mdi mdi-plus-circle-outline"></i></button>
+                                    <button data-bs-toggle="modal" data-bs-target="#heightModal" type="button" class="btn btn-primary"><i class="mdi mdi-plus-circle-outline"></i></button>
                                 </div>
                             </div>
                             @error('height')
@@ -97,7 +97,7 @@
                                     @endif
                                 </select>
                                 <div class="input-group-append">
-                                    <button type="button" data-toggle="modal" id="addProfile" class="btn btn-primary"><i class="mdi mdi-plus-circle-outline"></i></button>
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#profileModal"  class="btn btn-primary"><i class="mdi mdi-plus-circle-outline"></i></button>
                                 </div>
                             </div>
                             @error('width')
@@ -127,7 +127,7 @@
                                     @endif
                                 </select>
                                 <div class="input-group-append">
-                                    <a id="addRimsize" class="btn btn-primary"><i class="mdi mdi-plus-circle-outline"></i></a>
+                                    <a data-bs-toggle="modal" data-bs-target="#rimsizeModal" class="btn btn-primary"><i class="mdi mdi-plus-circle-outline"></i></a>
                                 </div>
                             </div>
                             @error('rimsize')
@@ -165,7 +165,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Add Tyre Height</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -181,7 +181,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="submit" data-btn="submit" class="btn btn-primary">Save changes</button>
         </div>
         </form>
@@ -194,7 +194,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Add Tyre Profile</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -210,7 +210,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="submit" data-btn="submit" class="btn btn-primary">Save changes</button>
         </div>
         </form>
@@ -222,7 +222,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Add Tyre Profile</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -238,7 +238,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="submit" data-btn="submit" class="btn btn-primary">Save changes</button>
         </div>
         </form>
@@ -266,7 +266,14 @@
                     $('#heightModal').modal('toggle');
                 },
                 error: function(error) {
-                    $('#height_Error').html(error.responseJSON.errors.height[0])                
+                    var errors = error.responseJSON;                    
+                    $('#ErrorMsg').remove()       
+                        ErrorHtml = '<div id="ErrorMsg" class="alert alert-danger"><ul>';
+                        $.each(errors.errors,function (k,v) {
+                            ErrorHtml += '<li>'+ v + '</li>';
+                        });
+                        ErrorHtml += '</ul></di>';
+                        $('#height_Error').append(ErrorHtml);            
                 }
             });
         })
@@ -286,7 +293,14 @@
                     $('#profileModal').modal('toggle');
                 },
                 error: function(error) {
-                    $('#profile_Error').html(error.responseJSON.errors.height[0])                
+                    var errors = error.responseJSON;                    
+                        $('#ErrorMsg').remove()       
+                        ErrorHtml = '<div id="ErrorMsg" class="alert alert-danger"><ul>';
+                        $.each(errors.errors,function (k,v) {
+                            ErrorHtml += '<li>'+ v + '</li>';
+                        });
+                        ErrorHtml += '</ul></di>';
+                        $('#profile_Error').append(ErrorHtml);             
                 }
             });
         })
@@ -306,23 +320,18 @@
                     $('#rimsizeModal').modal('toggle');
                 },
                 error: function(error) {
-                    $('#profile_Error').html(error.responseJSON.errors.height[0])                
+                    var errors = error.responseJSON;
+                        $('#ErrorMsg').remove()       
+                        ErrorHtml = '<div id="ErrorMsg" class="alert alert-danger"><ul>';
+                        $.each(errors.errors,function (k,v) {
+                            ErrorHtml += '<li>'+ v + '</li>';
+                        });
+                        ErrorHtml += '</ul></di>';
+                        $('#frmRimsize').append(ErrorHtml);              
                 }
             });
         })
-        $('#addHeight').on('click',function(){
-            $('#heightModal').modal('show');
-        })
-        $('#addProfile').on('click',function(){
-            $('#profileModal').modal('show');
-        })
-        $('#addRimsize').on('click',function(){
-            $('#rimsizeModal').modal('show');
-        });
-        $('[data-dismiss="modal"]').on('click',function(e){
-            $('#'+e.target.parentNode.parentNode.parentNode.parentNode.parentNode.attributes['id'].value).modal('toggle');
-           // console.log();
-        })
+       
     })
 </script>
 @endsection

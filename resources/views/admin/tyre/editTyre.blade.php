@@ -210,8 +210,18 @@
                         </select>                      
                     </div>
                     <div class="col-md-6 col-sm-12">
+                        <label for="" class="mb-3">Images</label>
+                        <input type="file"name="file1" id="file1" 
+                        file-accept='<?php echo json_encode(array('jpg', 'png', 'gif', 'jpeg', 'svg')) ?>'
+                        data-fileuploader-files='<?php echo json_encode($preload) ?>'
+                        data-id="{{url('admin/delete-image?path=brand')}}" 
+                        data-attr-name="image-file-saver"
+                        data-url="{{url('admin/save-image?path=products/tyre')}}"
+                        class="form-control">
+                        <input type="hidden" name="image" class="image-file-saver" value="<?php echo $image; ?>">
+{{--                         
                         <label for="">Description</label>
-                        <textarea name="description" id="description" cols="30" rows="10" class="form-control"></textarea>
+                        <textarea name="description" id="description" cols="30" rows="10" class="form-control"></textarea> --}}
                     </div>
                 </div>
             </div>
@@ -423,7 +433,14 @@
                     modal.modal('toggle');
                 },
                 error: function(error) {
-                    $('#profile_Error').html(error.responseJSON.errors.height[0])                
+                        var errors = error.responseJSON;
+                        $('#ErrorMsg').remove()       
+                        ErrorHtml = '<div id="ErrorMsg" class="alert alert-danger"><ul>';
+                        $.each(errors.errors,function (k,v) {
+                            ErrorHtml += '<li>'+ v + '</li>';
+                        });
+                        ErrorHtml += '</ul></di>';
+                        $('#'+formid).append(ErrorHtml); 
                 }
             });
             console.log(e);
