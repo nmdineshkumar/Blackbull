@@ -39,7 +39,19 @@
             ( object )[ 'id' => 0, 'name' => 'Inactive', 'class'=>'danger' ]
         ];
     }
-    
+    function tyreType(): array {
+        return [
+            ( object )[ 'id' => 1, 'name' => 'TTF'],
+            ( object )[ 'id' => 2, 'name' => 'TL']
+        ];
+    }
+    function carFuelType(): array {
+        return [
+            ( object )[ 'id' => 1, 'name' => 'Petrol'],
+            ( object )[ 'id' => 2, 'name' => 'Diesel'],
+            ( object )[ 'id' => 3, 'name' => 'Gas']
+        ];
+    }
     function getStatus( $id ) {
         $name = '';
         foreach ( StatusOptions() as $s =>$value ) {

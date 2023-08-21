@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class HelperController extends Controller
@@ -94,5 +95,130 @@ class HelperController extends Controller
                 info('Tyre-Rim-size-saving-error:'.$th->getMessage());
             }
         }
+    }
+    public function saveBrand(Request $request){
+        $validate  = $request->validate([
+            'brandname' =>[ 'required'],
+            'image' => ['required'],
+        ]);
+        if($validate){
+            $data = [
+                'name' =>$request->brandname,
+                'path' =>$request->image,
+                'created_by' => Auth::guard('admin')->user()->id,
+                'created_at' => Carbon::now()
+            ];
+            try {
+                $res = DB::table('brand')->insert($data);
+            if($res){
+                return DB::table('brand')->get(['id','name']);
+            }else{
+                return response()->with('error','Error saving Tyre Brand...!!!');
+            }
+            } catch (Exception $th) {
+                info('Tyre-Brand-saving-error:'.$th->getMessage());
+            }
+        }
+    }
+    public function savePattern(Request $request){
+        $validate  = $request->validate([
+            'pattern' =>[ 'required']
+        ]);
+        if($validate){
+            $data = [
+                'name' =>$request->pattern,
+                'created_by' => Auth::guard('admin')->user()->id,
+                'created_at' => Carbon::now()
+            ];
+            try {
+                $res = DB::table('pattern')->insert($data);
+            if($res){
+                return DB::table('pattern')->get(['id','name']);
+            }else{
+                return response()->with('error','Error saving Tyre Pattern...!!!');
+            }
+            } catch (Exception $th) {
+                info('Tyre-Pattern-saving-error:'.$th->getMessage());
+            }
+        }
+    }
+    public function saveOrigin(Request $request){
+        $validate  = $request->validate([
+            'origin' =>[ 'required']
+        ]);
+        if($validate){
+            $data = [
+                'name' =>$request->origin,
+                'created_by' => Auth::guard('admin')->user()->id,
+                'created_at' => Carbon::now()
+            ];
+            try {
+                $res = DB::table('origin')->insert($data);
+            if($res){
+                return DB::table('origin')->get(['id','name']);
+            }else{
+                return response()->with('error','Error saving Tyre Origin...!!!');
+            }
+            } catch (Exception $th) {
+                info('Tyre-Origin-saving-error:'.$th->getMessage());
+            }
+        }
+    }
+    public function saveCar_model(Request $request){
+        $validate  = $request->validate([
+            'name' =>[ 'required'],
+            'make' =>[ 'required'],
+        ]);
+        if($validate){
+            $data = [
+                'make' => $request->make,
+                'name' =>$request->name,
+                'created_by' => Auth::guard('admin')->user()->id,
+                'created_at' => Carbon::now()
+            ];
+            try {
+                $res = DB::table('car_model')->insert($data);
+            if($res){
+                return DB::table('car_model')->where('make','=',$request->make)->get(['id','name']);
+            }else{
+                return response()->with('error','Error saving Tyre Origin...!!!');
+            }
+            } catch (Exception $th) {
+                info('Tyre-Origin-saving-error:'.$th->getMessage());
+            }
+        }
+    }
+    public function getCar_model($id){
+        return DB::table('car_model')->where('make','=',$id)->get(['id','name']);
+    }
+    public function saveCar_year(Request $request){
+        $validate  = $request->validate([
+            'model' =>[ 'required'],
+            'make' =>[ 'required'],
+            'year' =>[ 'required']
+        ]);
+        if($validate){
+            $data = [
+                'make' => $request->make,
+                'year' =>$request->year,
+                'model' => $request->model,
+                'created_by' => Auth::guard('admin')->user()->id,
+                'created_at' => Carbon::now()
+            ];
+            try {
+                $res = DB::table('car_model_year')->insert($data);
+            if($res){
+                return DB::table('car_model_year')->where(['make'=>$request->make,'model'=>$request->model])
+                                                    ->get(['id','year as name']);
+            }else{
+                return response()->with('error','Error saving Tyre Origin...!!!');
+            }
+            } catch (Exception $th) {
+                info('Tyre-Origin-saving-error:'.$th->getMessage());
+            }
+        }
+    }
+    public function getCar_year($id){
+        return DB::table('car_model_year')->where(['make'=>$id])->get(['id','year as name']);
     }
 }

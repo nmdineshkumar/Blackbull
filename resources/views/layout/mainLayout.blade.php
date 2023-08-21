@@ -24,7 +24,7 @@
     <!-- DataTables -->
     <link href="{{asset('/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{asset('/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-        <link href="{{asset('/assets/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('/assets/libs/datatables.net-select-bs4/css/select.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
     
     
 </head>
@@ -248,7 +248,8 @@
                             <li><a href="{{route('admin.supplier.index')}}"><i class="mdi mdi-account-switch"></i>Supplier</a></li>
                             <li><a href="{{route('admin.category.index')}}"><i class="mdi mdi-application-cog"></i>Category</a></li>
                             <li><a href="{{route('admin.manufacture.index')}}"><i class="mdi mdi-application-cog"></i>Manufacture</a></li>
-                            <li><a href="{{route('admin.tyresize.index')}}"><i class="mdi mdi-tire"></i>Tyre Size</a></li>
+                            <li><a href="{{route('admin.tyresize.index')}}"><i class="mdi mdi-move-resize"></i>Tyre Size</a></li>
+                            <li><a href="{{route('admin.tyre.index')}}"><i class="mdi mdi-tire"></i>Tyre</a></li>
                         </ul>
                     </li>
                 </ul>                
@@ -308,7 +309,6 @@
     <link rel="stylesheet" href="{{asset('assets/file-uploader/css/script.css')}}">
     <script src="{{asset('assets/file-uploader/js/file-uploader.js')}}"></script>
     <script src="{{asset('assets/file-uploader/js/file-custom.js')}}"></script> 
-
     @yield('add-js')
 
     @if(Session::has('success'))

@@ -60,6 +60,34 @@ $('#state').on('change',function(e){
         }
     })
 });
+$('#make').on('change',function(e){
+    var mySelection = $('#model');
+    mySelection.empty();
+    mySelection.append(new Option('---SELECT---',''));
+    $.ajax({
+        url:URL+'/get-car-model/'+e.currentTarget.value,
+        type:'GET',
+        success:function(data){
+            data.forEach(element => {
+                mySelection.append(new Option(element.name,element.id))
+            });
+        }
+    });
+});
+$('#model').on('change',function(e){
+    var mySelection = $('#year');
+    mySelection.empty();
+    mySelection.append(new Option('---SELECT---',''));
+    $.ajax({
+        url:URL+'/get-car-year/'+e.currentTarget.value,
+        type:'GET',
+        success:function(data){
+            data.forEach(element => {
+                mySelection.append(new Option(element.name,element.id))
+            });
+        }
+    });
+});
 function nullAsEmpty(val) {
     if (val) return val;
     return '';
