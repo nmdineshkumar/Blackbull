@@ -37,7 +37,7 @@ class TubeController extends Controller
                         return $this->getOrigin($row->origin);
                     })
                     ->addColumn('volve',function($row){
-                        return $row->getVolve($row->volve);
+                        return $this->getVolve($row->volve);
                     })
                     ->addColumn('action', function($row){
                         if($row->deleted_at=== NULL){
@@ -66,26 +66,30 @@ class TubeController extends Controller
     }
     public function create(){
         $brand_dataset = DB::table('brand')->get(['id','name']);
-        $pattern_dataset = DB::table('pattern')->get(['id','name']);
+        $volve_dataset = DB::table('tube_volve')->get(['id','name']);
         $origin_dataset = DB::table('origin')->get(['id','name']);
         $tyre_size_dataset = Tyresize::get(['id',"height","width","rim_size","speed"]); 
+        $tube_height = DB::table('tube_height')->get(['id','name']);
+        $tube_rim_size = DB::table('tube_rim_size')->get(['id','name']);
         //return $tyre_size_dataset; 
         return view('admin.tube.editTube',compact('brand_dataset'
-                                            ,'pattern_dataset','origin_dataset'
-                                            ,'tyre_size_dataset'))
+                                            ,'volve_dataset','origin_dataset'
+                                            ,'tyre_size_dataset','tube_height','tube_rim_size'))
                 ->with('pageName', 'Create Tube')
                 ->with('id','')
                 ->with('resourceUrl',$this->resourceUrl());
     }
     public function edit($id){
         $brand_dataset = DB::table('brand')->get(['id','name']);
-        $pattern_dataset = DB::table('pattern')->get(['id','name']);
         $origin_dataset = DB::table('origin')->get(['id','name']);
         $tyre_size_dataset = Tyresize::get(['id',"height","width","rim_size","speed"]); 
-        $tyre = $this->modelIns()::find($id);
-        return view('admin.tyre.editTyre',compact('tyre','brand_dataset'
-                                            ,'pattern_dataset','origin_dataset'
-                                            ,'tyre_size_dataset'))
+        $tube_height = DB::table('tube_height')->get(['id','name']);
+        $tube_rim_size = DB::table('tube_rim_size')->get(['id','name']);
+        $tube = $this->modelIns()::find($id);
+        $volve_dataset = DB::table('tube_volve')->get(['id','name']);
+        return view('admin.tube.editTube',compact('tube','brand_dataset'
+                                            ,'origin_dataset','volve_dataset'
+                                            ,'tyre_size_dataset','tube_height','tube_rim_size'))
         ->with('pageName', 'Edit Tube')
         ->with('id',$id)
         ->with('resourceUrl',$this->resourceUrl()); 
@@ -94,18 +98,12 @@ class TubeController extends Controller
         $validate = $request->validate([
             'name' => ['required','unique:tyres,name,'.$request->id.',id'],
             'brand' => ['required'],
-            'pattern' => ['required'],
-            'type' => ['required'],
             'origin' => ['required'],
             'myear' => ['required'],
             'sku' => ['required','unique:tyres,sku,'.$request->id.',id'],
-            'wyear' => ['required'],
-            'make' => ['required'],
-            'model' => ['required'],
-            'year'  => ['required'],
-            'fuel_type' => ['required'],
-            'engine_type' => ['required'],
-            'tyre_size' => ['required'],
+            'volve' => ['required'],
+            'height' => ['required'],
+            'rim_size' => ['required'],
             'image' => ['required'],
             'description' => ['required'],
         ]);
@@ -115,16 +113,14 @@ class TubeController extends Controller
                 $data = [
                     'name' => $request->name,
                     'brand' => $request->brand,
-                    'pattern' => $request->pattern,
-                    'tyre_type' => $request->type,
-                    'tyre_size' => $request->tyre_size,
                     'origin' => $request->origin,
-                    'manufactory_year' => $request->myear,
-                    'warranty_year' => $request->wyear,
+                    'manufacure_year' => $request->myear,
                     'sku' => $request->sku,
                     'description' => $request->description,
                     'image' => $request->image,
-                    'price' => '0.00',
+                    'height' =>  $request->height,
+                    'rim_size' =>  $request->rim_size,
+                    'volve' =>  $request->volve,
                     'created_by' => Auth::guard('admin')->user()->id,
                     'created_at' => Carbon::now()
                 ];
@@ -142,15 +138,14 @@ class TubeController extends Controller
                 $data = [
                     'name' => $request->name,
                     'brand' => $request->brand,
-                    'pattern' => $request->pattern,
-                    'tyre_type' => $request->type,
-                    'tyre_size' => $request->tyre_size,
                     'origin' => $request->origin,
-                    'manufactory_year' => $request->myear,
-                    'warranty_year' => $request->wyear,
+                    'manufacure_year' => $request->myear,
                     'sku' => $request->sku,
                     'description' => $request->description,
                     'image' => $request->image,
+                    'height' =>  $request->height,
+                    'rim_size' =>  $request->rim_size,
+                    'volve' =>  $request->volve,
                     'created_by' => Auth::guard('admin')->user()->id,
                     'created_at' => Carbon::now()
                 ];

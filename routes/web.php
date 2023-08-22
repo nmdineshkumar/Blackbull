@@ -54,6 +54,9 @@ Route::group(['prefix'=>$prefix,'middleware'=>'auth:admin'], function () use($pr
     Route::post('/save-tyre-origin', [HelperController::class, 'saveOrigin'])->name('save-tyre-origin');
     Route::post('/save-car-model', [HelperController::class, 'saveCar_model'])->name('save-car-model');
     Route::post('/save-car-year', [HelperController::class, 'saveCar_year'])->name('save-car-year');
+    Route::post('/save-tube-volve', [HelperController::class, 'saveVolve'])->name('save-tube-volve');
+    Route::post('/save-tube-height', [HelperController::class, 'saveTubeheight'])->name('save-tube-height');
+    Route::post('/save-tube-rim-size', [HelperController::class, 'saveTubeRimsize'])->name('save-tube-rim-size');
     Route::post('/save-image',[FileController::class,'saveImage']);
     Route::post('/delete-image',[FileController::class,'deleteImage']);
     Route::get('/dashboard',[DashboardController::class,'index'])->name($prefix.'.dashboard');

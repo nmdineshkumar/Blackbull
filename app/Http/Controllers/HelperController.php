@@ -221,4 +221,70 @@ class HelperController extends Controller
     public static function getCar_year($id){
         return DB::table('car_model_year')->where(['make'=>$id])->get(['id','year as name']);
     }
+    public function saveVolve(Request $request){
+        $validate  = $request->validate([
+            'volve' =>[ 'required','unique:tube_volve,name']
+        ]);
+        if($validate){
+            $data = [
+                'name' =>$request->volve,
+                'created_by' => Auth::guard('admin')->user()->id,
+                'created_at' => Carbon::now()
+            ];
+            try {
+                $res = DB::table('tube_volve')->insert($data);
+            if($res){
+                return DB::table('tube_volve')->get(['id','name']);
+            }else{
+                return response()->with('error','Error saving Tyre Tube Volve...!!!');
+            }
+            } catch (Exception $th) {
+                info('Tube-Volve-saving-error:'.$th->getMessage());
+            }
+        }
+    }
+    public function saveTubeheight(Request $request){
+        $validate  = $request->validate([
+            'height' =>[ 'required','unique:tube_volve,name']
+        ]);
+        if($validate){
+            $data = [
+                'name' =>$request->height,
+                'created_by' => Auth::guard('admin')->user()->id,
+                'created_at' => Carbon::now()
+            ];
+            try {
+                $res = DB::table('tube_height')->insert($data);
+            if($res){
+                return DB::table('tube_height')->get(['id','name']);
+            }else{
+                return response()->with('error','Error saving Tyre Tube Volve...!!!');
+            }
+            } catch (Exception $th) {
+                info('Tube-Volve-saving-error:'.$th->getMessage());
+            }
+        }
+    }
+    public function saveTubeRimsize(Request $request){
+        $validate  = $request->validate([
+            'rim_size' =>[ 'required','unique:tube_rim_size,name']
+        ]);
+        if($validate){
+            $data = [
+                'name' =>$request->rim_size,
+                'created_by' => Auth::guard('admin')->user()->id,
+                'created_at' => Carbon::now()
+            ];
+            try {
+                $res = DB::table('tube_rim_size')->insert($data);
+            if($res){
+                return DB::table('tube_rim_size')->get(['id','name']);
+            }else{
+                return response()->with('error','Error saving Tyre Tube Volve...!!!');
+            }
+            } catch (Exception $th) {
+                info('Tube-Volve-saving-error:'.$th->getMessage());
+            }
+        }
+    }
 }
