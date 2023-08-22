@@ -61,4 +61,18 @@
         }
         return $name;
     }
-    
+    function purchase_type():array{
+        return [
+            (object)['id'=>'1','name'=>'Regular'],
+            (object)['id'=>'2','name'=>'Third Party']
+        ];
+    }
+    function get_Puchase_type($id){
+        $type = "";
+        foreach(purchase_type() as $row){
+            if($row->id = $id){
+                $type = $row->name;
+            }
+        }
+        return $type;
+    }
