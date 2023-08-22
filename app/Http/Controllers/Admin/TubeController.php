@@ -70,7 +70,7 @@ class TubeController extends Controller
         $origin_dataset = DB::table('origin')->get(['id','name']);
         $tyre_size_dataset = Tyresize::get(['id',"height","width","rim_size","speed"]); 
         //return $tyre_size_dataset; 
-        return view('admin.tyre.editTyre',compact('brand_dataset'
+        return view('admin.tube.editTube',compact('brand_dataset'
                                             ,'pattern_dataset','origin_dataset'
                                             ,'tyre_size_dataset'))
                 ->with('pageName', 'Create Tube')
