@@ -249,10 +249,22 @@
                             <li><a href="{{route('admin.category.index')}}"><i class="mdi mdi-application-cog"></i>Category</a></li>
                             <li><a href="{{route('admin.manufacture.index')}}"><i class="mdi mdi-application-cog"></i>Manufacture</a></li>
                             <li><a href="{{route('admin.tyresize.index')}}"><i class="mdi mdi-move-resize"></i>Tyre Size</a></li>
-                            <li><a href="{{route('admin.tyre.index')}}"><i class="mdi mdi-tire"></i>Tyre</a></li>
-                            <li><a href="{{route('admin.tube.index')}}"><i class="mdi mdi-circle-double"></i>Tube</a></li>
                         </ul>
                     </li>
+                    <li><a href="#"  class="has-arrow wave-effect"><i class="mdi mdi-card-account-details-star"></i><span>Product</span></a>
+                        <ul class="sub-menu mm-collapse" aria-expanded="false">
+                            <li><a href="{{route('admin.tyre.index')}}"><i class="mdi mdi-tire"></i>Tyre</a></li>
+                            <li><a href="{{route('admin.tube.index')}}"><i class="mdi mdi-circle-double"></i>Tube</a></li>
+                            <li><a href="{{route('admin.battery.index')}}"><i class="mdi mdi-car-battery"></i>Battery</a></li>
+                        </ul>
+                    </li> 
+                    <li><a href="#"  class="has-arrow wave-effect"><i class="mdi mdi-wallet-plus"></i><span>Purchase</span></a>
+                        <ul class="sub-menu mm-collapse" aria-expanded="false">
+                            <li><a href="{{route('admin.tyre.index')}}"><i class="mdi mdi-tire"></i>Tyre</a></li>
+                            <li><a href="{{route('admin.tube.index')}}"><i class="mdi mdi-circle-double"></i>Tube</a></li>
+                            <li><a href="{{route('admin.battery.index')}}"><i class="mdi mdi-car-battery"></i>Battery</a></li>
+                        </ul>
+                    </li> 
                 </ul>                
                 
             </div>

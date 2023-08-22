@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BatteryController;
 use App\Http\Controllers\Admin\BranchController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -46,6 +47,7 @@ Route::get('/get-car-model/{id}', [HelperController::class,'getCar_model'])->nam
 Route::get('/get-car-year/{id}', [HelperController::class,'getCar_year'])->name('get-car-year');
 $prefix = 'admin';
 Route::group(['prefix'=>$prefix,'middleware'=>'auth:admin'], function () use($prefix) {
+    //Helper Process
     Route::post('/save-tyreheight', [HelperController::class, 'saveTyreheight'])->name('save-tyreheight');
     Route::post('/save-tyreprofile', [HelperController::class, 'saveTyreprofile'])->name('save-tyreprofile');
     Route::post('/save-tyrerimsize', [HelperController::class, 'saveTyrerimsize'])->name('save-tyrerimsize');
@@ -57,8 +59,11 @@ Route::group(['prefix'=>$prefix,'middleware'=>'auth:admin'], function () use($pr
     Route::post('/save-tube-volve', [HelperController::class, 'saveVolve'])->name('save-tube-volve');
     Route::post('/save-tube-height', [HelperController::class, 'saveTubeheight'])->name('save-tube-height');
     Route::post('/save-tube-rim-size', [HelperController::class, 'saveTubeRimsize'])->name('save-tube-rim-size');
+    //End helper process
+    //Images
     Route::post('/save-image',[FileController::class,'saveImage']);
     Route::post('/delete-image',[FileController::class,'deleteImage']);
+    //End Images
     Route::get('/dashboard',[DashboardController::class,'index'])->name($prefix.'.dashboard');
     Route::resource('branch', BranchController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.branch');
     Route::resource('supplier', SupplierController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.supplier');
@@ -68,4 +73,5 @@ Route::group(['prefix'=>$prefix,'middleware'=>'auth:admin'], function () use($pr
     Route::resource('tyresize', TyresizeController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.tyresize');
     Route::resource('tyre', TyreController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.tyre');
     Route::resource('tube', TubeController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.tube');
+    Route::resource('battery', BatteryController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.battery');
 });

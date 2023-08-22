@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class TubeController extends Controller
 {
-    //
+    
      //
      function resourceUrl():string{
         return "admin.tube";

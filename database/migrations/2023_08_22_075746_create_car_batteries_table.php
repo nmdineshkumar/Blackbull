@@ -23,6 +23,7 @@ class CreateCarBatteriesTable extends Migration
             $table->string('voltage')->nullable();
             $table->string('sku');
             $table->text('description');
+            $table->string('image');
             $table->integer('created_by');
             $table->integer('updated_by')->nullable();
             $table->softDeletes();
