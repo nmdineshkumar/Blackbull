@@ -41,7 +41,7 @@
         
      }
     if ($image != "") {
-    $path1 = "products/tyre" . $image;
+    $path1 = "products/tyre/" . $image;
     if (Storage::disk(getFileDisk())->exists($path1)) {
         $path = Storage::disk(getFileDisk())->url($path1);
         $mime = Storage::disk(getFileDisk())->mimeType($path1);
@@ -294,10 +294,10 @@
                                 <option value="">---SELECT---</option>  
                                 @if($id != '')
                                 @foreach ($year_dataset as $row)
-                                    @if($year == $row->id)                                    
-                                    <option value="{{$row->id}}" selected>{{$row->name}}</option>
+                                    @if($year == $row->name)                                    
+                                    <option value="{{$row->name}}" selected>{{$row->name}}</option>
                                     @else
-                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                    <option value="{{$row->name}}">{{$row->name}}</option>
                                     @endif
                                 @endforeach
                                 @endif                                                         
