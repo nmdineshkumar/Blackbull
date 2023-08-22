@@ -1,5 +1,4 @@
 @extends('layout.mainLayout')
-
 @section('page-breadcrumb')
 <div class="row">
     <div class="col-12">
@@ -9,7 +8,7 @@
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="javascript: void(0);">Master</a></li>
-                    <li class="breadcrumb-item active">Tyre</li>
+                    <li class="breadcrumb-item active">{{ $pageName }}</li>
                 </ol>
             </div>
         </div>
@@ -39,7 +38,7 @@
                         <th>Name</th>
                         <th>Brand</th>
                         <th>Origin</th>
-                        <th width="40">Year</th>
+                        <th width="40">Volve</th>
                         <th>Action</th>
                     </thead>
                     <tbody class="text-gray-600 fw-bold">

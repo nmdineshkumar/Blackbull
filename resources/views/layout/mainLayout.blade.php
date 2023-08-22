@@ -250,6 +250,7 @@
                             <li><a href="{{route('admin.manufacture.index')}}"><i class="mdi mdi-application-cog"></i>Manufacture</a></li>
                             <li><a href="{{route('admin.tyresize.index')}}"><i class="mdi mdi-move-resize"></i>Tyre Size</a></li>
                             <li><a href="{{route('admin.tyre.index')}}"><i class="mdi mdi-tire"></i>Tyre</a></li>
+                            <li><a href="{{route('admin.tube.index')}}"><i class="mdi mdi-circle-double"></i>Tube</a></li>
                         </ul>
                     </li>
                 </ul>                

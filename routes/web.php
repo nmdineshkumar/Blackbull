@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ManufacturersController;
 use App\Http\Controllers\Admin\SupplierController;
+use App\Http\Controllers\Admin\TubeController;
 use App\Http\Controllers\Admin\TyreController;
 use App\Http\Controllers\Admin\TyresizeController;
 use App\Http\Controllers\Auth\Logincontroller;
@@ -63,4 +64,5 @@ Route::group(['prefix'=>$prefix,'middleware'=>'auth:admin'], function () use($pr
     Route::resource('manufacture', ManufacturersController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.manufacture');
     Route::resource('tyresize', TyresizeController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.tyresize');
     Route::resource('tyre', TyreController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.tyre');
+    Route::resource('tube', TubeController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.tube');
 });
