@@ -261,8 +261,6 @@
                     <li><a href="#"  class="has-arrow wave-effect"><i class="mdi mdi-wallet-plus"></i><span>Purchase</span></a>
                         <ul class="sub-menu mm-collapse" aria-expanded="false">
                             <li><a href="{{route('admin.purchase.index')}}"><i class="mdi mdi-tire"></i>Purchase Order</a></li>
-                            <li><a href="{{route('admin.tube.index')}}"><i class="mdi mdi-circle-double"></i>Tube</a></li>
-                            <li><a href="{{route('admin.battery.index')}}"><i class="mdi mdi-car-battery"></i>Battery</a></li>
                         </ul>
                     </li> 
                 </ul>                
@@ -325,6 +323,9 @@
      <!-- include summernote css/js -->
      <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
      <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+     <!-- include Select2 css/js -->
+     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     @yield('add-js')
 
     @if(Session::has('success'))

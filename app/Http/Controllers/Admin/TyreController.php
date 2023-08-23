@@ -119,7 +119,7 @@ class TyreController extends Controller
                 $model_data = [
                     'maker' => $request->make,
                     'model' => $request->model,
-                    'year' => $request->myear,
+                    'year' => $request->year,
                     'engine' => $request->engine_type,
                     'fuel_type' => $request->fuel_type,
                     'Horsepower' => $request->other,

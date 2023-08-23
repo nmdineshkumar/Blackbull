@@ -180,7 +180,7 @@
                             @endforeach
                             @endif
                         </select>
-                        @error('brand')
+                        @error('type')
                             <div class="error">{{$message}}</div>
                         @enderror
                     </div>
@@ -232,7 +232,7 @@
                     <div class="col-md-6 col-sm-12">
                         <label for="">Warranty Year</label>
                         <input type="text" name="wyear" id="wyear" class="form-control" value="{{$wyear}}">
-                        @error('brand')
+                        @error('wyear')
                             <div class="error">{{$message}}</div>
                         @enderror
                     </div>

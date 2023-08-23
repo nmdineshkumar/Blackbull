@@ -92,6 +92,11 @@ function nullAsEmpty(val) {
     if (val) return val;
     return '';
 }
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+    }
+});
 
 BODY.on('click', '.delete-by-id', function (e) {
     e.preventDefault();

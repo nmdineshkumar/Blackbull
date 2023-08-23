@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\category;
 use App\Models\PurchaseOrder;
 use Carbon\Carbon;
 use Exception;
@@ -51,7 +52,8 @@ class PurchaseOrderController extends Controller
         }
     }
     public function create(){
-        return view('admin.purchseOrder.editPurchaseOrder')
+        $category_dataset = category::get(['id','name']);
+        return view('admin.purchseOrder.editPurchaseOrder',compact('category_dataset'))
                 ->with('pageName', 'Create Purchase Order')
                 ->with('id','')
                 ->with('resourceUrl',$this->resourceUrl());

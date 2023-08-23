@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Car_battery;
+use App\Models\Tube;
+use App\Models\Tyre;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -285,6 +288,19 @@ class HelperController extends Controller
             } catch (Exception $th) {
                 info('Tube-Volve-saving-error:'.$th->getMessage());
             }
+        }
+    }
+    public function get_Product($id){
+        if($id != ''){
+            if($id == '1'){
+                return Tyre::get(['id','name']);
+            }else if($id == '2'){
+                return Tube::get(['id','name']);
+            }else if($id == '3'){
+                return Car_battery::get(['id','name']);
+            }
+        }else{
+            return back()->withErrors('errors','Please choose a category');
         }
     }
 }

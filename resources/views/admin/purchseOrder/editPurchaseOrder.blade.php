@@ -83,13 +83,15 @@
                                 @enderror
                         </div>
                     </div>
-                    <h5>Add Item</h5>
-                    <hr>
-                    <div class="row mb-3">
+                    
+                    {{-- <div class="row mb-3">
                         <div class="col-sm-12 col-md-4">
                             <label for="">Category</label>
-                            <select name="category" id="category" class="form-select">
+                            <select name="category[]" id="category" class="form-select">
                                 <option value="">---SELECT---</option>
+                                @foreach ($category_dataset as $row)
+                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-sm-12 col-md-4">
@@ -102,14 +104,64 @@
                             <div class="row">
                                 <div class="col-md-6 col-sm-12">
                                     <label for="">Qty</label>
-                                    <input type="text" name="qty" id="qty" class="form-control">
+                                    <input type="text" name="qty" id="qty" class="form-control" placeholder="Quantity">
                                 </div>
                                 <div class="col-md-6 col-sm-12 align-text-bottom">
-                                    <div class="d-flex flex-row-reverse bd-highlight">
-                                    <a id="addItem" class="btn btn-primary"><i class="mdi mdi-plus-circle"></i> Add</a>
-                                </div>
+                                    <label for="">Price</label>
+                                    <input type="text" name="price" id="price" class="form-control" placeholder="Price">
                                 </div>
                             </div>
+                        </div>
+                    </div> --}}
+                    <div class="row">
+                        
+                        <div class="col-md-8 col-sm-6 text-right">
+                            <h5>Add Item</h5>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="d-flex flex-row-reverse bd-highlight">
+                                <a id="addItem" class="btn btn-primary"><i class="mdi mdi-plus-circle"></i> Add</a>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-12">
+                            <table id="itemTable" class="table">
+                                <thead>
+                                    <th width="20">SNo</th>
+                                    <th>Category</th>
+                                    <th>Product</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th width="30">Action</th>
+                                </thead>
+                                <tbody>
+                                    <tr>                                        
+                                        <td>0</td>
+                                        <td width="200">
+                                            <select name="category[]" id="category" class="form-select category">
+                                                <option value="">---SELECT---</option>
+                                                @foreach ($category_dataset as $row)
+                                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="product" id="product" class="form-select product">
+                                                <option value="">---SELECT---</option>
+                                            </select>
+                                        </td>
+                                        <td width="120">
+                                            <input type="number" name="qty[]" id="qty" class="form-control" placeholder="Quantity">
+                                        </td>
+                                        <td width="120"><input type="text" name="price[]" id="price" class="form-control" placeholder="Price"></td>
+                                        <td>
+                                            <a class="btn-reomve btn btn-icon"><span class="mdi mdi-close-circle"></span></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </form>
@@ -118,8 +170,48 @@
     </div>
 </div>
 @endsection
-
-
 @section('add-js')
-
+<script>
+    $(function() {
+        $('#addItem').on('click', function(e) {
+            var category, product,qty, price,displayPrice,table;
+            var newRow = $("#itemTable tr:last").clone(true).find(':input',':select').val('').end();
+            var row = $('#itemTable >tbody >tr');
+            $("#itemTable").append(newRow);
+            for (let index = 0; index < row.length; index++) {
+                $(row[index].children[2]).find('select').select2({});
+                row[index].children[0].innerHTML = "";
+                row[index].children[0].innerHTML = index + 1;                
+            }
+        });
+        $('.btn-reomve').on('click', function(e){
+            var row = e.currentTarget.parentNode.parentNode;
+            if($('#itemTable >tbody >tr').length > 1) {
+                $(e.currentTarget.parentNode.parentNode).remove();
+            }else{
+                alert('you unable to remove this item');
+            }
+        })
+            
+        $('.category').on('change', function(e){
+            console.log(e.currentTarget.parentNode.parentNode)
+            var id = $(this).val();
+            var mySelection = $(e.currentTarget.parentNode.parentNode).find('select.product');
+            console.log(mySelection)
+            var url = '{{route('get-products',":id")}}';
+            url = url.replace(':id',id);
+            $.ajax({
+                type:'GET',
+                url:url,
+                success: function(data){                    
+                    mySelection.empty();
+                    mySelection.append(new Option('---SELECT---',''));
+                    data.forEach(element => {
+                        mySelection.append(new Option(element.name,element.id));
+                    });
+                }
+            })
+        })
+    })
+</script>
 @endsection

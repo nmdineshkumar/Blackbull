@@ -46,6 +46,7 @@ Route::get('/admin/login', [Logincontroller::class,'showLoginForm'])->name('logi
 Route::post('/admin/login', [Logincontroller::class,'Auth_validateLogin'])->name('auth.login');
 Route::get('/get-car-model/{id}', [HelperController::class,'getCar_model'])->name('get-car-model');
 Route::get('/get-car-year/{id}', [HelperController::class,'getCar_year'])->name('get-car-year');
+Route::get('/get-products/{id}', [HelperController::class, 'get_Product'])->name('get-products');
 $prefix = 'admin';
 Route::group(['prefix'=>$prefix,'middleware'=>'auth:admin'], function () use($prefix) {
     //Helper Process
