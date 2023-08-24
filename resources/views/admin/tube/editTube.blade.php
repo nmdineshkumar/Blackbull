@@ -10,6 +10,8 @@
     $description = old('description');
     $sku = old('sku');
     $origin = old('origin');
+    $price = old('price');
+    $set_price = old('set_price');
     if($id != '')
     {
         $name = (old('name') != '') ? $name : $tube->name;
@@ -22,6 +24,8 @@
         $sku = (old('sku') != '') ? $sku : $tube->sku;
         $origin = (old('origin') != '') ? $origin : $tube->origin;
         $image = (old('image') != '') ? $image : $tube->image;
+        $price = (old('price') != '') ? $price : $tube->price;
+        $set_price = (old('set_price') != '') ? $set_price : $tube->set_price;
     }
     if ($image != "") {
     $path1 = "products/tube/" . $image;
@@ -249,6 +253,22 @@
                                         @enderror
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-12">
+                                <label for="">Price</label>
+                                <input type="text" name="price" id="price" class="form-control" value="{{ $price }}">
+                                @error('price')
+                                <div class="error">{{$message}}</div>
+                            @enderror
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label for="">Set Price</label>
+                                <input type="text" name="set_price" id="set_price" class="form-control" value="{{ $set_price }}">
+                                @error('set_price')
+                                <div class="error">{{$message}}</div>
+                            @enderror
                             </div>
                         </div>
                         <div class="row">

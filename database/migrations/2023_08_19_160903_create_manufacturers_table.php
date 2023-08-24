@@ -19,7 +19,7 @@ class CreateManufacturersTable extends Migration
             $table->string('path')->nullable();
             $table->integer('status')->default('1');
             $table->integer('created_by');
-            $table->integer('updated_by');
+            $table->integer('updated_by')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -1,7 +1,5 @@
 <?php
-    function appName(){
-        return env(APP_NAME, 'Black Bull Tyres');
-    }
+
     function getActionButtons( $id, $baseUrl, $types ) {
         $actionBtn = '';
         $actionBtn = '';
@@ -19,7 +17,7 @@
     function getRandomSting(): string {
         return time() . '-' . uniqid();
     }
-    
+
     function getRandomFileName( $extension ): string {
         return getRandomSting() . '.' . $extension;
     }
@@ -37,6 +35,12 @@
         return [
             ( object )[ 'id' => 1, 'name' => 'Active', 'class'=>'success' ],
             ( object )[ 'id' => 0, 'name' => 'Inactive', 'class'=>'danger' ]
+        ];
+    }
+    function SaleType(): array {
+        return [
+            ( object )[ 'id' => 1, 'name' => 'Online', 'class'=>'success' ],
+            ( object )[ 'id' => 2, 'name' => 'Offline', 'class'=>'danger' ]
         ];
     }
     function tyreType(): array {

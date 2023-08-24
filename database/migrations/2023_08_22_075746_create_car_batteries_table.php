@@ -24,6 +24,7 @@ class CreateCarBatteriesTable extends Migration
             $table->string('sku');
             $table->text('description');
             $table->string('image');
+            $table->string('price');
             $table->integer('created_by');
             $table->integer('updated_by')->nullable();
             $table->softDeletes();

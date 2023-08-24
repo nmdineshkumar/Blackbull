@@ -18,6 +18,7 @@
     $tyre_size = old('tyre_size');
     $description = old('description');
     $price = old('price');
+    $set_price = old('set_price');
     
     if($id != ''){
         $name = (old('name') != '') ? $name : $tyre->name;
@@ -38,7 +39,7 @@
         $engine_type = (old('engine_type') != '') ? $engine_type : $cars_data[0]->engine;
         $other = (old('other') != '') ? $other : $cars_data[0]->Horsepower;
         $tyre_size = (old('tyre_size') != '') ? $tyre_size : $cars_data[0]->tyre_size;
-        
+        $set_price = (old('set_price') != '') ? $set_price : $tyre->set_price;
      }
     if ($image != "") {
     $path1 = "products/tyre/" . $image;
@@ -238,6 +239,22 @@
                     </div>
                 </div>
                 <div class="row mb-2">
+                    <div class="col-md-6 col-sm-12">
+                        <label for="">Price</label>
+                        <input type="text" name="price" id="price" class="form-control" value="{{$price}}">
+                        @error('price')
+                            <div class="error">{{$message}}</div>
+                        @enderror                      
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label for="">Set Price</label>
+                        <input type="text" name="set_price" id="set_price" class="form-control" value="{{$set_price}}">
+                        @error('set_price')
+                            <div class="error">{{$message}}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="row mb-2">
                     <h5 class="card-title mt-2 text-uppercase">Car Model</h5>
                     <hr>
                     <div class="col-md-6 col-sm-12">
@@ -370,12 +387,18 @@
                         data-url="{{url('admin/save-image?path=products/tyre')}}"
                         class="form-control">
                         <input type="hidden" name="image" class="image-file-saver" value="<?php echo $image; ?>">
+                        @error('image')
+                        <div class="error">{{$message}}</div>
+                    @enderror
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-12">
                         <label for="">Description</label>
                         <textarea id="summernote" name="description">{{$description}}</textarea>
+                        @error('description')
+                        <div class="error">{{$message}}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="row mb-3">

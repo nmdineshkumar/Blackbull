@@ -70,7 +70,9 @@ class PurchaseOrderController extends Controller
     }
     public function edit($id){
         $purchase = $this->modelIns()::find($id);
-        return view('admin.purchseOrder.editPurchaseOrder',compact('purchase'))
+        $category_dataset = category::get(['id','name']);
+        $supplier_dataset = Supplier::get(['id','name']);
+        return view('admin.purchseOrder.editPurchaseOrder',compact('purchase','category_dataset','supplier_dataset'))
         ->with('pageName', 'Edit Manufacturer')
         ->with('id',$id)
         ->with('resourceUrl',$this->resourceUrl()); 
@@ -111,28 +113,37 @@ class PurchaseOrderController extends Controller
                         ];
                         $res = PurchaseItem::insert($product_items);
                         $result = Productstock::where(['product_id' => $request->product[$i],
-                                                        'category' => $request->category[$i]])->first();
-                        if($request){
+                                                        'category' => $request->category[$i]])->exists();
+                        if(!$result){
                             $product_stock =[
                                 'category' => $request->category[$i],
                                 'product_id' => $request->product[$i],
                                 'current_qty' => $request->qty[$i],
                                 'old_qty'=>'0',
-                                'overall_qty' => '0',
+                                'overall_qty' => $request->qty[$i],
                                 'online_purchases' => '0',
                                 'offline_purchases' => '0',
                                 'created_at' => Carbon::now()
                             ];
                             Productstock::insert($product_stock);
                         }else{
-                            DB::Table('productstocks')
+                          $stock_data = Productstock::where(['product_id' => $request->product[$i],
+                                        'category' => $request->category[$i]])->get('current_qty')->pluck('current_qty')->first();
+                          Productstock::where(['product_id' => $request->product[$i],
+                                                'category' => $request->category[$i]])
+                                        ->update([
+                                            'old_qty' => $stock_data
+                                        ]);
+                          DB::Table('productstocks')
                                 ->where(['product_id' => $request->product[$i],
-                                'category' => $request->category[$i]])
-                                ->update([
-                                    'old_qty' => 'current_qty',
-                                    'overall_qty' => 'overall_qty' + $request->qty[$i],
-                                    'current_qty' => 'current_qty' + $request->qty[$i]
-                                ]);
+                                        'category' => $request->category[$i]])
+                                ->increment('overall_qty' , $request->qty[$i]);
+                                DB::Table('productstocks')
+                                ->where(['product_id' => $request->product[$i],
+                                        'category' => $request->category[$i]])
+                                ->increment('current_qty' , $request->qty[$i]);
+                                
+                                
                         }
                         
                     }

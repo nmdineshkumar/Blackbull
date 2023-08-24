@@ -27,6 +27,7 @@ class CreateTyresTable extends Migration
             $table->text('description')->nullable();
             $table->string('cars');
             $table->string('price');
+            $table->string('set_price');
             $table->text('image')->nullable();
             $table->integer('created_by');
             $table->integer('updated_by')->nullable();

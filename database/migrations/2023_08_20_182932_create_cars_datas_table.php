@@ -18,7 +18,7 @@ class CreateCarsDatasTable extends Migration
             $table->string('maker');
             $table->string('model');
             $table->string('year');
-            $table->string('engine');
+            $table->string('engine')->nullable();
             $table->string('fuel_type')->nullable();
             $table->string('Horsepower')->nullable();
             $table->string('tyre_size')->nullable();

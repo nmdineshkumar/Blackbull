@@ -25,8 +25,8 @@
     <link href="{{asset('/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{asset('/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{asset('/assets/libs/datatables.net-select-bs4/css/select.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-   
-    
+
+
 </head>
 
 <!-- <body data-layout="horizontal" data-topbar="dark"> -->
@@ -38,12 +38,12 @@
             <div class="spinner">
                 <i class="ri-loader-line spin-icon"></i>
             </div>
-            
+
         </div>
     </div>
 
     <header id="page-topbar">
-       
+
         <div class="navbar-header">
             <div class="d-flex">
                 <!-- LOGO -->
@@ -100,9 +100,9 @@
                     </div>
                 </div>
 
-                
 
-                
+
+
 
                 <div class="dropdown d-none d-lg-inline-block ms-1">
                     <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
@@ -213,7 +213,7 @@
                     </div>
                 </div>
 
-                
+
 
             </div>
         </div>
@@ -256,15 +256,31 @@
                             <li><a href="{{route('admin.tyre.index')}}"><i class="mdi mdi-tire"></i>Tyre</a></li>
                             <li><a href="{{route('admin.tube.index')}}"><i class="mdi mdi-circle-double"></i>Tube</a></li>
                             <li><a href="{{route('admin.battery.index')}}"><i class="mdi mdi-car-battery"></i>Battery</a></li>
+                            <li><a href="{{route('admin.productstock.index')}}"><i class="mdi mdi-car-battery"></i>Stock</a></li>
                         </ul>
-                    </li> 
+                    </li>
                     <li><a href="#"  class="has-arrow wave-effect"><i class="mdi mdi-wallet-plus"></i><span>Purchase</span></a>
                         <ul class="sub-menu mm-collapse" aria-expanded="false">
-                            <li><a href="{{route('admin.purchase.index')}}"><i class="mdi mdi-tire"></i>Purchase Order</a></li>
+                            <li><a href="{{route('admin.purchase.index')}}"><i class="mdi mdi-database-arrow-left"></i>Purchase Order</a></li>
                         </ul>
-                    </li> 
-                </ul>                
-                
+                    </li>
+                    <li><a href="#"  class="has-arrow wave-effect"><i class="mdi mdi-sale"></i><span>Product Sales</span></a>
+                        <ul class="sub-menu mm-collapse" aria-expanded="false">
+                            <li><a href="{{route('admin.sales.index')}}"><i class="mdi mdi-database-arrow-right"></i>Sales</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#"  class="has-arrow wave-effect"><i class="mdi mdi-account-group"></i><span>Customers</span></a>
+                        <ul class="sub-menu mm-collapse" aria-expanded="false">
+                            <li><a href="{{route('admin.purchase.index')}}"><i class="mdi mdi-account-multiple-plus"></i>customer</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#"  class="has-arrow wave-effect"><i class="mdi mdi-wallet-bifold"></i><span>Expense</span></a>
+                        <ul class="sub-menu mm-collapse" aria-expanded="false">
+                            <li><a href="{{route('admin.purchase.index')}}"><i class="mdi mdi-calendar-account-outline"></i>Month</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
             </div>
             <!-- Sidebar -->
         </div>
@@ -297,7 +313,7 @@
                     </footer>
     <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>
-    
+
     <!-- JAVASCRIPT -->
     <script src="{{ asset('assets/libs/jquery/jquery.min.js')}}"></script>
     <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
@@ -309,7 +325,7 @@
     <script src="{{ asset('assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
     <!-- Buttons examples -->
     <script src="{{ asset('assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
-    <script src="{{ asset('assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js')}}"></script>    
+    <script src="{{ asset('assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js')}}"></script>
     <!-- Datatable init js -->
     <script src="{{ asset('assets/js/pages/datatables.init.js')}}"></script>
     <script src="{{ asset('assets/js/app.js')}}"></script>
@@ -319,14 +335,14 @@
     <link rel="stylesheet" href="{{asset('assets/file-uploader/css/font-fileuploader.css')}}">
     <link rel="stylesheet" href="{{asset('assets/file-uploader/css/script.css')}}">
     <script src="{{asset('assets/file-uploader/js/file-uploader.js')}}"></script>
-    <script src="{{asset('assets/file-uploader/js/file-custom.js')}}"></script> 
+    <script src="{{asset('assets/file-uploader/js/file-custom.js')}}"></script>
      <!-- include summernote css/js -->
      <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
      <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
      <!-- include Select2 css/js -->
      <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-     <!-- Calender Semantic date picker -->    
+     <!-- Calender Semantic date picker -->
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
      <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     @yield('add-js')
@@ -343,6 +359,5 @@
         </script>
     @endif
     </body>
-    
+
     </html>
-    

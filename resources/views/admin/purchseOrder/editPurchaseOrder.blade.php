@@ -245,6 +245,7 @@
             var row = e.currentTarget.parentNode.parentNode;
             if($('#itemTable >tbody >tr').length > 1) {
                 $(e.currentTarget.parentNode.parentNode).remove();
+                addTotalAmount();
             }else{
                 alert('you unable to remove this item');
             }

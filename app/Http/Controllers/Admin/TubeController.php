@@ -106,6 +106,8 @@ class TubeController extends Controller
             'rim_size' => ['required'],
             'image' => ['required'],
             'description' => ['required'],
+            'price' => ['required'],
+            'set_price' => ['required']
         ]);
         if($validate){
             if($request->id == '' || $request->id == null){
@@ -121,6 +123,8 @@ class TubeController extends Controller
                     'height' =>  $request->height,
                     'rim_size' =>  $request->rim_size,
                     'volve' =>  $request->volve,
+                    'price' => $request->price,
+                    'set_price' => $request->set_price,
                     'created_by' => Auth::guard('admin')->user()->id,
                     'created_at' => Carbon::now()
                 ];
@@ -146,6 +150,8 @@ class TubeController extends Controller
                     'height' =>  $request->height,
                     'rim_size' =>  $request->rim_size,
                     'volve' =>  $request->volve,
+                    'price' => $request->price,
+                    'set_price' => $request->set_price,
                     'created_by' => Auth::guard('admin')->user()->id,
                     'created_at' => Carbon::now()
                 ];

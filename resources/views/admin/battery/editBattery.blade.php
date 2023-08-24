@@ -9,6 +9,8 @@
     $voltage = old('voltage');
     $sku = old('sku');
     $model_number = old('model_number');
+    $price = old('price');
+
     if($id != ''){
         $name = (old('name') != '') ? $name : $battery->name;
         $brand = (old('brand') != '') ? $brand : $battery->brand;
@@ -19,6 +21,7 @@
         $voltage = (old('voltage') != '') ? $voltage : $battery->voltage;
         $sku = (old('sku') != '') ? $sku : $battery->sku;
         $model_number = (old('model_number') != '') ? $model_number : $battery->model_number;
+        $price = (old('price') != '') ? $price : $battery->price;
     }
     if ($image != "") {
     $path1 = "products/tube/" . $image;
@@ -162,11 +165,22 @@
                             @enderror
                         </div>
                         <div class="col-md-6 col-sm-12">
-                            <label for="">Model Number</label>
-                            <input type="text" name="model_number" id="model_number" class="form-control" value="{{ $model_number }}">
-                            @error('model_number')
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="">Model Number</label>
+                                    <input type="text" name="model_number" id="model_number" class="form-control" value="{{ $model_number }}">
+                                    @error('model_number')
+                                        <div class="error">{{$message}}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-6">
+                                    <label for="">Price</label>
+                            <input type="text" name="price" id="price" class="form-control" value="{{ $price }}">
+                            @error('price')
                                 <div class="error">{{$message}}</div>
                             @enderror
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row mb-3">

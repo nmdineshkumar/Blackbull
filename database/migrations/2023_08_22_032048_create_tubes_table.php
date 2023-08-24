@@ -26,7 +26,8 @@ class CreateTubesTable extends Migration
             $table->text('description')->nullable();
             $table->string('image');
             $table->string('height');
-            $table->string('rim_size');
+            $table->string('price');
+            $table->string('set_price');
             $table->integer('created_by');
             $table->integer('updated_by')->nullable();
             $table->softDeletes();
