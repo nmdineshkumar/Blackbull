@@ -39,13 +39,19 @@
                 <form action="{{route($resourceUrl.'.store')}}" method="post">
                     @csrf
                     <div class="row mb-3">
-                        <div class="col-md-6 col-sm-12">
+                        <div class="col-md-3 col-sm-12">
                             <label for="">Supplier</label>
                             <select name="supplier" id="supplier" class="form-select">
                                 <option value="">---SELECT---</option>
+                                @foreach ($supplier_dataset as $row )
+                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                @endforeach
                             </select>
+                            @error('supplier')
+                                    <div class="error">{{$message}}</div>
+                                @enderror
                         </div>
-                        <div class="col-md-6 col-sm-12">
+                        <div class="col-md-3 col-sm-12">
                             <label for="">Purchase Type</label>
                             <select name="purchasetype" id="purchasetype" class="form-select">
                                     <option value="">---SELECT---</option>
@@ -53,22 +59,28 @@
                                      <option value="{{ $row->id }}">{{ $row->name }}</option>
                                 @endforeach
                             </select>
+                            @error('purchasetype')
+                                    <div class="error">{{$message}}</div>
+                                @enderror
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <label for="">Invoice Number</label>
+                            <input type="text" name="invoiceno" id="invoiceno" class="form-control">
+                            @error('invoiceno')
+                                    <div class="error">{{$message}}</div>
+                                @enderror
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <label for="">Invoice Date</label>
+                            <input type="text" name="invoicedata" id="invoicedate" class="form-control">
+                            @error('invoicedata')
+                                    <div class="error">{{$message}}</div>
+                                @enderror
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-6 col-sm-12">
-                            <div class="row">
-                                <div class="col-md-6 col-sm-12">
-                                    <label for="">Total Amount</label>
-                                    <input type="text" name="total_amount" id="total_amount" class="form-control">
-                                </div>
-                                <div class="col-md-6 col-sm-12">
-                                    <label for="">Total Qty</label>
-                                    <input type="text" name="total_qty" id="total_qty" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-sm-12">
+                       
+                        <div class="col-md-8 col-sm-12">
                             <label for="" class="mb-3">Invoice</label>
                                     <input type="file"name="file1" id="file1" 
                                     file-accept='<?php echo json_encode(array('jpg', 'png', 'gif', 'jpeg', 'svg')) ?>'
@@ -82,39 +94,34 @@
                                     <div class="error">{{$message}}</div>
                                 @enderror
                         </div>
-                    </div>
-                    
-                    {{-- <div class="row mb-3">
-                        <div class="col-sm-12 col-md-4">
-                            <label for="">Category</label>
-                            <select name="category[]" id="category" class="form-select">
-                                <option value="">---SELECT---</option>
-                                @foreach ($category_dataset as $row)
-                                    <option value="{{$row->id}}">{{$row->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-sm-12 col-md-4">
-                            <label for="">Product</label>
-                            <select name="product" id="product" class="form-select">
-                                <option value="">---SELECT---</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-12 col-md-4">
-                            <div class="row">
-                                <div class="col-md-6 col-sm-12">
-                                    <label for="">Qty</label>
-                                    <input type="text" name="qty" id="qty" class="form-control" placeholder="Quantity">
+                         <div class="col-md-4 col-sm-12">
+                            <div class="row mb-2">
+                                <div class="col-md-6 col-sm-12 text-end">
+                                    <label for="">Sub Total Amount</label>                                
                                 </div>
-                                <div class="col-md-6 col-sm-12 align-text-bottom">
-                                    <label for="">Price</label>
-                                    <input type="text" name="price" id="price" class="form-control" placeholder="Price">
+                                <div class="col-md-6 col-sm-12">
+                                    <input type="text" name="SubTotalAmount" id="SubTotalAmount" class="form-control" value="0.00" readonly>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6 col-sm-12 text-end">
+                                    <label for="">Tax</label>                                
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <input type="text" name="tax" id="tax" placeholder="Tax" class="form-control" value="0">
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6 col-sm-12 text-end">
+                                    <label for="">Total Amount</label>                                
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <input type="text" name="TotalAmount" id="TotalAmount" class="form-control" value="0.00" readonly>
                                 </div>
                             </div>
                         </div>
-                    </div> --}}
-                    <div class="row">
-                        
+                    </div>
+                    <div class="row">                        
                         <div class="col-md-8 col-sm-6 text-right">
                             <h5>Add Item</h5>
                         </div>
@@ -129,18 +136,17 @@
                         <div class="col-12">
                             <table id="itemTable" class="table">
                                 <thead>
-                                    <th width="20">SNo</th>
                                     <th>Category</th>
                                     <th>Product</th>
                                     <th>Qty</th>
                                     <th>Price</th>
+                                    <th>Total</th>
                                     <th width="30">Action</th>
                                 </thead>
                                 <tbody>
-                                    <tr>                                        
-                                        <td>0</td>
+                                    <tr>    
                                         <td width="200">
-                                            <select name="category[]" id="category" class="form-select category">
+                                            <select name="category[]" id="category" class="form-select category" required>
                                                 <option value="">---SELECT---</option>
                                                 @foreach ($category_dataset as $row)
                                                     <option value="{{$row->id}}">{{$row->name}}</option>
@@ -148,20 +154,27 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <select name="product" id="product" class="form-select product">
+                                            <select name="product[]" id="product" class="form-select product" required>
                                                 <option value="">---SELECT---</option>
                                             </select>
                                         </td>
                                         <td width="120">
-                                            <input type="number" name="qty[]" id="qty" class="form-control" placeholder="Quantity">
+                                            <input min="0" type="number" name="qty[]" id="qty" class="form-control" placeholder="Quantity" required>
                                         </td>
-                                        <td width="120"><input type="text" name="price[]" id="price" class="form-control" placeholder="Price"></td>
+                                        <td width="120"><input type="text" name="price[]" id="price" class="form-control" placeholder="Price" required></td>
+                                        <td width="120"><input type="text" name="total[]" id="total" class="form-control" placeholder="Total" required></td>
                                         <td>
                                             <a class="btn-reomve btn btn-icon"><span class="mdi mdi-close-circle"></span></a>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-12 text-center">                            
+                            <a href="{{route($resourceUrl.'.index')}}" class="btn btn-primary">Close</a>
+                            <button type="submit" class="btn btn-primary">@if($id != '') Update @else Save @endif </button>
                         </div>
                     </div>
                 </form>
@@ -173,17 +186,61 @@
 @section('add-js')
 <script>
     $(function() {
+        $('#product').on('change', function(){
+            var table = $('#itemTable tbody tr');
+            var category = $(this)[0].parentNode.parentNode.children[0].children[0].value;
+            var rowIndex = $(this)[0].parentNode.parentNode.rowIndex;
+            var product = $(this).val()
+            for (let index = 0; index < table.length; index++) {
+                if(category == table[index].children[0].children[0].value && product == table[index].children[1].children[0].value && rowIndex != index+1) {
+                alert('This product has already been selected');
+                $(this).val('')
+                return false;
+            }
+        }
+        });
+        $('#invoicedate').flatpickr();
         $('#addItem').on('click', function(e) {
             var category, product,qty, price,displayPrice,table;
-            var newRow = $("#itemTable tr:last").clone(true).find(':input',':select').val('').end();
+            table= $("#itemTable");
+            var newRow = table.find("tr:last").clone(true).find(':input',':select').val('').end();
             var row = $('#itemTable >tbody >tr');
-            $("#itemTable").append(newRow);
-            for (let index = 0; index < row.length; index++) {
-                $(row[index].children[2]).find('select').select2({});
-                row[index].children[0].innerHTML = "";
-                row[index].children[0].innerHTML = index + 1;                
-            }
+            newRow[0].children[2].children[0].value = "0"
+            newRow[0].children[3].children[0].value = "0.00"
+            newRow[0].children[4].children[0].value = "0.00"
+            $("#itemTable").find('tr:last').after(newRow);
+            console.log(newRow);
         });
+        $('#tax').on('change paste keyup', function(){
+            addTotalAmount()
+        })
+        $('[id=price]').on('change paste keyup', function(){
+            var qty = $(this)[0].parentNode.parentNode.children[2].children[0].value;
+            var price = $(this).val() * qty;
+            addTotalAmount();
+            $(this)[0].parentNode.parentNode.children[4].children[0].value = Number(price).toFixed(2);
+        })
+        $('[id=qty]').on('change paste keyup', function(){
+            var amount = $(this)[0].parentNode.parentNode.children[3].children[0].value;
+            var price = $(this).val() * amount;
+            addTotalAmount();
+            $(this)[0].parentNode.parentNode.children[4].children[0].value = Number(price).toFixed(2);;
+        })
+        function addTotalAmount(){
+            var amountArray = document.querySelectorAll('input[id=total]');
+            var SubTotalAmount = document.getElementById('SubTotalAmount');
+            var TotalAmount = document.getElementById('TotalAmount');
+            var Tax = document.getElementById('tax');
+            var AddAmount = 0,TaxAmount = 0;
+            for (let index = 0; index < amountArray.length; index++) {
+                AddAmount = Number(AddAmount) + Number(amountArray[index].value);                
+            }
+            SubTotalAmount.value = Number(AddAmount).toFixed(2);
+            if(Number(Tax.value) > 0){
+                TaxAmount = AddAmount * Number(Tax.value) / 100;
+            }
+            TotalAmount.value = Number(AddAmount + TaxAmount).toFixed(2);
+        }
         $('.btn-reomve').on('click', function(e){
             var row = e.currentTarget.parentNode.parentNode;
             if($('#itemTable >tbody >tr').length > 1) {
@@ -194,10 +251,8 @@
         })
             
         $('.category').on('change', function(e){
-            console.log(e.currentTarget.parentNode.parentNode)
             var id = $(this).val();
             var mySelection = $(e.currentTarget.parentNode.parentNode).find('select.product');
-            console.log(mySelection)
             var url = '{{route('get-products',":id")}}';
             url = url.replace(':id',id);
             $.ajax({

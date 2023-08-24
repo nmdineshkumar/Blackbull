@@ -37,6 +37,7 @@
                         <th width="20">SNo</th>
                         <th>Supplier</th>
                         <th>Date</th>
+                        <th>InvoieNo</th>
                         <th>Amount</th>
                         <th>Action</th>
                     </thead>
@@ -55,10 +56,10 @@
     $(function () {
         const columns = [
               {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-              {data: 'name', name: 'Name'},
-              {data: 'brand', name: 'Supplier'},
-              {data: 'origin', name: 'Date'},
-              {data: 'volve', name: 'Amount'},
+              {data: 'name', name: 'Supplier'},
+              {data: 'date', name: 'Date'},
+              {data: 'invoice', name: 'InvoieNo'},
+              {data: 'amount', name: 'Amount'},
               {data: 'action', name: 'action'}
           ];
         initializeDataTable('Ajaxdatatable', '{{ route("$resourceUrl".'.index') }}', columns);

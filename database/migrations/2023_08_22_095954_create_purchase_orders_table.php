@@ -19,6 +19,10 @@ class CreatePurchaseOrdersTable extends Migration
             $table->string('total_amount');
             $table->string('total_qty');
             $table->string('purchase_type');
+            $table->timestamp('invoice_date');
+            $table->string('invoice_amount');
+            $table->string('invoice_no');
+            $table->string('invoice_tax')->default(0);
             $table->string('image')->nullable();
             $table->integer('created_by');
             $table->integer('updated_by')->nullable();

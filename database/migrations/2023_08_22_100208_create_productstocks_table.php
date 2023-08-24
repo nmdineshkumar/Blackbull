@@ -15,6 +15,13 @@ class CreateProductstocksTable extends Migration
     {
         Schema::create('productstocks', function (Blueprint $table) {
             $table->id();
+            $table->string('category');
+            $table->string('product_id');
+            $table->string('current_qty');
+            $table->string('old_qty')->default(0);
+            $table->string('overall_qty')->default(0);
+            $table->string('online_purchases')->default(0);
+            $table->string('offline_purchases')->default(0);
             $table->timestamps();
         });
     }
