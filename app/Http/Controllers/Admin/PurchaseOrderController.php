@@ -31,7 +31,7 @@ class PurchaseOrderController extends Controller
                     ->addIndexColumn()
                     ->addColumn('name', function($row){
                         return "<a href='" .route($this->resourceUrl().'.edit',$row->id) ."'>".$this->getSupplier($row->supplier)."</a>";
-                    })                    
+                    })
                     ->addColumn('date',function($row){
                         return Carbon::parse($row->invoice_date)->format('d-m-Y');
                     })
@@ -50,7 +50,7 @@ class PurchaseOrderController extends Controller
                     })
                     ->rawColumns(['name','action'])
                     ->make(true);
-    
+
         }else{
             return view('admin.purchseOrder.indexPurchaseOrder')
                     ->with('pageName','Manufacture')
@@ -75,7 +75,7 @@ class PurchaseOrderController extends Controller
         return view('admin.purchseOrder.editPurchaseOrder',compact('purchase','category_dataset','supplier_dataset'))
         ->with('pageName', 'Edit Manufacturer')
         ->with('id',$id)
-        ->with('resourceUrl',$this->resourceUrl()); 
+        ->with('resourceUrl',$this->resourceUrl());
     }
     public function store(Request $request){
         $validate = $request->validate([
@@ -128,7 +128,7 @@ class PurchaseOrderController extends Controller
                             Productstock::insert($product_stock);
                         }else{
                           $stock_data = Productstock::where(['product_id' => $request->product[$i],
-                                        'category' => $request->category[$i]])->get('current_qty')->pluck('current_qty')->first();
+                                            'category' => $request->category[$i]])->get('current_qty')->pluck('current_qty')->first();
                           Productstock::where(['product_id' => $request->product[$i],
                                                 'category' => $request->category[$i]])
                                         ->update([
@@ -142,10 +142,10 @@ class PurchaseOrderController extends Controller
                                 ->where(['product_id' => $request->product[$i],
                                         'category' => $request->category[$i]])
                                 ->increment('current_qty' , $request->qty[$i]);
-                                
-                                
+
+
                         }
-                        
+
                     }
                 if($res){
                     return redirect()->route($this->resourceUrl().'.index')->with('success','Purchase Order saved successfully...!!!');
@@ -163,7 +163,7 @@ class PurchaseOrderController extends Controller
                     'updated_by' => Auth::guard('admin')->user()->id,
                     'updated_at' => Carbon::now()
                 ];
-                try {                    
+                try {
                     $res = $this->modelIns()::whereId($request->id)->update($data);
                     if($res){
                         return redirect()->route($this->resourceUrl().'.index')->with('success','Manufacture updated successfully...!!!');
