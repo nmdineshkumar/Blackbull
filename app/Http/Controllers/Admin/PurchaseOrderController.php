@@ -111,8 +111,8 @@ class PurchaseOrderController extends Controller
                         ];
                         $res = PurchaseItem::insert($product_items);
                         $result = Productstock::where(['product_id' => $request->product[$i],
-                                                        'category' => $request->category[$i]])->first();
-                        if($request){
+                                                        'category' => $request->category[$i]])->exists();
+                        if(!$result){
                             $product_stock =[
                                 'category' => $request->category[$i],
                                 'product_id' => $request->product[$i],
@@ -125,14 +125,17 @@ class PurchaseOrderController extends Controller
                             ];
                             Productstock::insert($product_stock);
                         }else{
-                            DB::Table('productstocks')
+                          
+                          DB::Table('productstocks')
                                 ->where(['product_id' => $request->product[$i],
-                                'category' => $request->category[$i]])
-                                ->update([
-                                    'old_qty' => 'current_qty',
-                                    'overall_qty' => 'overall_qty' + $request->qty[$i],
-                                    'current_qty' => 'current_qty' + $request->qty[$i]
-                                ]);
+                                        'category' => $request->category[$i]])
+                                ->increment('overall_qty' , $request->qty[$i]);
+                                DB::Table('productstocks')
+                                ->where(['product_id' => $request->product[$i],
+                                        'category' => $request->category[$i]])
+                                ->increment('current_qty' , $request->qty[$i]);
+                                
+                                
                         }
                         
                     }
