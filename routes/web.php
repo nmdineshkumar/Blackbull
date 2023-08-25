@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BatteryController;
 use App\Http\Controllers\Admin\BranchController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ManufacturersController;
 use App\Http\Controllers\Admin\ProductStockController;
@@ -82,4 +83,8 @@ Route::group(['prefix'=>$prefix,'middleware'=>'auth:admin'], function () use($pr
     Route::resource('purchase', PurchaseOrderController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.purchase');
     Route::resource('productstock', ProductStockController::class)->only(['index'])->names($prefix .'.productstock');
     Route::resource('sales', SaleController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.sales');
+    //Customer
+    Route::resource('customer', CustomerController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.customer');
+    Route::get('/get-customer/{id}',[CustomerController::class,'getCustomer'])->name('get-customer');
+
 });

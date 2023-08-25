@@ -271,7 +271,7 @@
                     </li>
                     <li><a href="#"  class="has-arrow wave-effect"><i class="mdi mdi-account-group"></i><span>Customers</span></a>
                         <ul class="sub-menu mm-collapse" aria-expanded="false">
-                            <li><a href="{{route('admin.purchase.index')}}"><i class="mdi mdi-account-multiple-plus"></i>customer</a></li>
+                            <li><a href="{{route('admin.customer.index')}}"><i class="mdi mdi-account-multiple-plus"></i>customer</a></li>
                         </ul>
                     </li>
                     <li><a href="#"  class="has-arrow wave-effect"><i class="mdi mdi-wallet-bifold"></i><span>Expense</span></a>
@@ -345,7 +345,10 @@
      <!-- Calender Semantic date picker -->
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
      <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-     
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js"></script>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css">
+
+
     @yield('add-js')
 
     @if(Session::has('success'))

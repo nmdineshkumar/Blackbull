@@ -19,7 +19,7 @@
     $description = old('description');
     $price = old('price');
     $set_price = old('set_price');
-    
+
     if($id != ''){
         $name = (old('name') != '') ? $name : $tyre->name;
         $brand = (old('brand') != '') ? $brand : $tyre->brand;
@@ -107,14 +107,14 @@
                             <div class="error">{{$message}}</div>
                         @enderror
                     </div>
-                    <div class="col-md-6 col-sm-12">                        
+                    <div class="col-md-6 col-sm-12">
                         <label for="">Brand</label>
                         <div class="input-group">
                             <select name="brand" id="brand" class="form-select">
                                 <option value="">---SELECT---</option>
                                 @if($id != '')
                                 @foreach ($brand_dataset as $row)
-                                    @if($brand == $row->id)                                    
+                                    @if($brand == $row->id)
                                     <option value="{{$row->id}}" selected>{{$row->name}}</option>
                                     @else
                                     <option value="{{$row->id}}">{{$row->name}}</option>
@@ -143,7 +143,7 @@
                                 <option value="">---SELECT---</option>
                                 @if($id != '')
                                 @foreach ($pattern_dataset as $row)
-                                    @if($pattern == $row->id)                                    
+                                    @if($pattern == $row->id)
                                     <option value="{{$row->id}}" selected>{{$row->name}}</option>
                                     @else
                                     <option value="{{$row->id}}">{{$row->name}}</option>
@@ -169,7 +169,7 @@
                             <option value="">---SELECT---</option>
                             @if($id != '')
                                 @foreach (tyreType() as $row)
-                                    @if($tyre_type == $row->id)                                    
+                                    @if($tyre_type == $row->id)
                                     <option value="{{$row->id}}" selected>{{$row->name}}</option>
                                     @else
                                     <option value="{{$row->id}}">{{$row->name}}</option>
@@ -194,7 +194,7 @@
                                 <option value="">---SELECT---</option>
                                 @if($id != '')
                                 @foreach ($origin_dataset as $row)
-                                    @if($origin == $row->id)                                    
+                                    @if($origin == $row->id)
                                     <option value="{{$row->id}}" selected>{{$row->name}}</option>
                                     @else
                                     <option value="{{$row->id}}">{{$row->name}}</option>
@@ -228,7 +228,7 @@
                         <input type="text" name="sku" id="sku" class="form-control" value="{{$sku}}">
                         @error('sku')
                             <div class="error">{{$message}}</div>
-                        @enderror                      
+                        @enderror
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <label for="">Warranty Year</label>
@@ -244,7 +244,7 @@
                         <input type="text" name="price" id="price" class="form-control" value="{{$price}}">
                         @error('price')
                             <div class="error">{{$message}}</div>
-                        @enderror                      
+                        @enderror
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <label for="">Set Price</label>
@@ -263,7 +263,7 @@
                             <option value="">---SELECT---</option>
                             @if($id != '')
                                 @foreach ($make_dataset as $row)
-                                    @if($make == $row->id)                                    
+                                    @if($make == $row->id)
                                     <option value="{{$row->id}}" selected>{{$row->name}}</option>
                                     @else
                                     <option value="{{$row->id}}">{{$row->name}}</option>
@@ -273,7 +273,7 @@
                                 @foreach ($make_dataset as $row)
                                     <option value="{{$row->id}}">{{$row->name}}</option>
                                 @endforeach
-                            @endif                            
+                            @endif
                         </select>
                         @error('make')
                             <div class="error">{{$message}}</div>
@@ -286,7 +286,7 @@
                                 <option value="">---SELECT---</option>
                                 @if($id != '')
                                 @foreach ($model_dataset as $row)
-                                    @if($model == $row->id)                                    
+                                    @if($model == $row->id)
                                     <option value="{{$row->id}}" selected>{{$row->name}}</option>
                                     @else
                                     <option value="{{$row->id}}">{{$row->name}}</option>
@@ -297,7 +297,7 @@
                             <div class="input-group-append">
                                 <a data-bs-toggle="modal" data-bs-target="#carmodelModal" class="btn btn-primary"><i class="mdi mdi-plus-circle"></i></a>
                             </div>
-                        </div>                        
+                        </div>
                         @error('model')
                             <div class="error">{{$message}}</div>
                         @enderror
@@ -308,21 +308,21 @@
                         <label for="">Year</label>
                         <div class="input-group">
                             <select name="year" id="year" class="form-select">
-                                <option value="">---SELECT---</option>  
+                                <option value="">---SELECT---</option>
                                 @if($id != '')
                                 @foreach ($year_dataset as $row)
-                                    @if($year == $row->name)                                    
+                                    @if($year == $row->name)
                                     <option value="{{$row->name}}" selected>{{$row->name}}</option>
                                     @else
                                     <option value="{{$row->name}}">{{$row->name}}</option>
                                     @endif
                                 @endforeach
-                                @endif                                                         
+                                @endif
                             </select>
                             <div class="input-group-append">
                                 <a data-bs-toggle="modal" data-bs-target="#caryearModal" class="btn btn-primary"><i class="mdi mdi-plus-circle"></i></a>
                             </div>
-                        </div>                        
+                        </div>
                         @error('year')
                             <div class="error">{{$message}}</div>
                         @enderror
@@ -330,10 +330,10 @@
                     <div class="col-md-6 col-sm-12">
                         <label for="">Fuel Type</label>
                         <select name="fuel_type" id="fuel_type" class="form-select">
-                            <option value="">---SELECT---</option>   
+                            <option value="">---SELECT---</option>
                             @if($id != '')
                                 @foreach (carFuelType() as $row)
-                                    @if($fuel_type == $row->id)                                    
+                                    @if($fuel_type == $row->id)
                                     <option value="{{$row->id}}" selected>{{$row->name}}</option>
                                     @else
                                     <option value="{{$row->id}}">{{$row->name}}</option>
@@ -342,15 +342,15 @@
                                 @else
                             @foreach (carFuelType() as $row)
                                 <option value="{{$row->id}}">{{$row->name}}</option>
-                            @endforeach  
-                            @endif                                                      
+                            @endforeach
+                            @endif
                         </select>
                     </div>
                 </div>
                 <div class="row mb-2">
                     <div class="col-md-6 col-sm-12">
                         <label for="">Engine Type</label>
-                        <input type="text" name="engine_type" id="engine_type" class="form-control" value="{{$engine_type}}">                        
+                        <input type="text" name="engine_type" id="engine_type" class="form-control" value="{{$engine_type}}">
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <label for="">Speed/HP</label>
@@ -364,7 +364,7 @@
                             <option value="">---SELECT---</option>
                             @if($id != '')
                                 @foreach ($tyre_size_dataset as $row)
-                                    @if($tyre_size == $row->id)                                    
+                                    @if($tyre_size == $row->id)
                                     <option value="{{$row->id}}" selected>{{$row->height.'/'.$row->width.' R'.$row->rim_size.' '.$row->speed}}</option>
                                     @else
                                     <option value="{{$row->id}}">{{$row->height.'/'.$row->width.' R'.$row->rim_size.' '.$row->speed}}</option>
@@ -372,17 +372,17 @@
                                 @endforeach
                                 @else
                             @foreach ($tyre_size_dataset as $row)
-                                <option value="{{$row->id}}">{{$row->height.'/'.$row->width.' R'.$row->rim_size.' '.$row->speed}}</option>                                
+                                <option value="{{$row->id}}">{{$row->height.'/'.$row->width.' R'.$row->rim_size.' '.$row->speed}}</option>
                             @endforeach
                             @endif
-                        </select>                      
+                        </select>
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <label for="" class="mb-3">Images</label>
-                        <input type="file"name="file1" id="file1" 
+                        <input type="file"name="file1" id="file1"
                         file-accept='<?php echo json_encode(array('jpg', 'png', 'gif', 'jpeg', 'svg')) ?>'
                         data-fileuploader-files='<?php echo json_encode($preload) ?>'
-                        data-id="{{url('admin/delete-image?path=products/tyre')}}" 
+                        data-id="{{url('admin/delete-image?path=products/tyre')}}"
                         data-attr-name="image-file-saver"
                         data-url="{{url('admin/save-image?path=products/tyre')}}"
                         class="form-control">
@@ -436,10 +436,10 @@
                 </div>
                 <div class="col-12">
                     <label for="" class="mb-3">Images</label>
-                        <input type="file"name="file1" id="file1" 
+                        <input type="file"name="file1" id="file1"
                         file-accept='<?php echo json_encode(array('jpg', 'png', 'gif', 'jpeg', 'svg')) ?>'
                         data-fileuploader-files='<?php echo json_encode($preload) ?>'
-                        data-id="{{url('admin/delete-image?path=brand')}}" 
+                        data-id="{{url('admin/delete-image?path=brand')}}"
                         data-attr-name="image-file-saver"
                         data-url="{{url('admin/save-image?path=brand')}}"
                         class="form-control">
@@ -474,7 +474,7 @@
                     <label for="">Name</label>
                     <input type="text" name="pattern" id="pattern" class="form-control">
                 </div>
-                
+
             </div>
         </div>
         <div class="modal-footer">
@@ -504,7 +504,7 @@
                     <label for="">Name</label>
                     <input type="text" name="origin" id="origin" class="form-control">
                 </div>
-                
+
             </div>
         </div>
         <div class="modal-footer">
@@ -529,13 +529,13 @@
         <div class="modal-body">
           <form ajax-submit="true" id="addCaryear" action="{{route('save-car-year')}}" method="post">
             @csrf
-            <div class="row">                
+            <div class="row">
                 <input type="hidden" name="make" id="hiddenMake" value="">
                 <input type="hidden" name="model" id="hiddenModel" value="">
                 <div class="col-12">
                     <label for="">Year</label>
                         <input type="text" name="year" id="year" class="form-control">
-                </div>                
+                </div>
             </div>
         </div>
         <div class="modal-footer">
@@ -560,12 +560,12 @@
         <div class="modal-body">
           <form ajax-submit="true" id="addCarmodel" action="{{route('save-car-model')}}" method="post">
             @csrf
-            <div class="row">                
+            <div class="row">
                 <input type="hidden" name="make" id="modelMake" value="">
                 <div class="col-12">
                     <label for="">Model</label>
                         <input type="text" name="name" id="name" class="form-control">
-                </div>                
+                </div>
             </div>
         </div>
         <div class="modal-footer">
@@ -625,16 +625,15 @@
                 },
                 error: function(error) {
                         var errors = error.responseJSON;
-                        $('#ErrorMsg').remove()       
+                        $('#ErrorMsg').remove()
                         ErrorHtml = '<div id="ErrorMsg" class="alert alert-danger"><ul>';
                         $.each(errors.errors,function (k,v) {
                             ErrorHtml += '<li>'+ v + '</li>';
                         });
                         ErrorHtml += '</ul></di>';
-                        $('#'+formid).append(ErrorHtml); 
+                        $('#'+formid).append(ErrorHtml);
                 }
             });
-            console.log(e);
         })
     });
 </script>

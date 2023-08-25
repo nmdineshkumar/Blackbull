@@ -3,27 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Car_battery;
-use App\Models\category;
+use App\Http\Controllers\HelperController;
 use App\Models\customer;
-use App\Models\Sales;
-use App\Models\Supplier;
-use App\Models\Tube;
-use App\Models\Tyre;
 use Carbon\Carbon;
 use Exception;
 use DataTables;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class SaleController extends Controller
+class CustomerController extends Controller
 {
     //
     function resourceUrl():string{
-        return "admin.sales";
+        return "admin.customer";
     }
-    function modelIns(): Sales{
-        return new Sales;
+    function modelIns(): customer{
+        return new customer;
     }
 
     //
@@ -33,19 +27,16 @@ class SaleController extends Controller
             return DataTables::of($data)
                     ->addIndexColumn()
                     ->addColumn('name', function($row){
-                        return "<a href='" .route($this->resourceUrl().'.edit',$row->id) ."'>$row->invoice_no</a>";
+                        return "<a href='" .route($this->resourceUrl().'.edit',$row->id) ."'>$row->first_name $row->last_name </a>";
                     })
-                    ->addColumn('type',function($row){
-                        return purchase_type($row->type);
+                    ->addColumn('Country',function($row){
+                        return HelperController::getCountryName($row->country);
                     })
-                    ->addColumn('date',function($row){
-                        return Carbon::parse($row->invocie_date)->format('d-m-Y');
+                    ->addColumn('Email',function($row){
+                        return $row->email;
                     })
-                    ->addColumn('amount',function($row){
-                        return $row->total;
-                    })
-                    ->addColumn('customer',function($row){
-                        return $this->getCustomer($row->customer);
+                    ->addColumn('City',function($row){
+                        return HelperController::getCityName($row->city);
                     })
                     ->addColumn('action', function($row){
                         if($row->deleted_at=== NULL){
@@ -57,95 +48,94 @@ class SaleController extends Controller
                     ->rawColumns(['name','action'])
                     ->make(true);
         }else{
-            return view('admin.invoice.indexInvoice')
-                    ->with('pageName', 'Invoice')
+            return view('admin.customer.indexCustomer')
+                    ->with('pageName', 'Customer')
                     ->with('resourceUrl',$this->resourceUrl());
         }
     }
-    public function getCustomer($id){
-        return customer::where('id','=',$id)->get('name')->pluck('name')->first();
-    }
-    public function getPriceByProduct(Request $request){
-        if($request->category == '1'){
-            return Tyre::where(['id' => $request->id])->get('price')->first();
-        }else if($request->category == '2'){
-            return Tube::where(['id' => $request->id])->get('price')->first();
-        }else if($request->category == '3'){
-            return Car_battery::where(['id' => $request->id])->get('price')->first();
-        }
-    }
     public function create(){
-        $category_dataset = category::all();
-        $customer = customer::all();
-        $invoiceno = Sales::generateInvoiceNo();
-        return view('admin.invoice.editInvoice',compact('category_dataset','customer'))
-                ->with('pageName', 'Create Invoice')
-                ->with('invoiceno',$invoiceno)
+        return view('admin.customer.editCustomer')
+                ->with('pageName', 'Create Customer')
                 ->with('id','')
                 ->with('resourceUrl',$this->resourceUrl());
     }
     public function edit($id){
-        $sales = $this->modelIns()::find($id);
-        return view('admin.branch.editBranch',compact('sales'))
-        ->with('pageName', 'Edit Branch')
+        $customer = $this->modelIns()::find($id);
+        return view('admin.customer.editCustomer',compact('customer'))
+        ->with('pageName', 'Edit Customer')
         ->with('id',$id)
         ->with('resourceUrl',$this->resourceUrl());
     }
     public function store(Request $request){
-        $invoiceNo = Sales::generateInvoiceNo();
         $validate = $request->validate([
-            'name' => ['required','unique:branches,name,'.$request->id.',id'],
+            'first_name' => ['required',],
+            'phone' => ['required','unique:customers,phone,'.$request->id.',id'],
+            'email' => ['required','unique:customers,email,'.$request->id.',id'],
             'address1' => ['required'],
-            'address2' => ['required'],
             'country' => ['required'],
             'state' => ['required'],
             'city' => ['required'],
-            'pincode' => ['required'],]);
+            'zip' => ['required'],
+            'type' => ['required']]);
         if($validate){
 
             if($request->id != null){
                 $data = [
-                    'name' => $request->name,
+                    'first_name' => $request->first_name,
+                    'type' => $request->type,
+                    'last_name' => $request->last_name,
                     'address1' => $request->address1,
                     'address2' => $request->address2,
                     'country' => $request->country,
                     'state' => $request->state,
                     'city' => $request->city,
-                    'pincode' => $request->pincode,
-                    'comments' => $request->comments,
+                    'zip' => $request->zip,
+                    'phone' => $request->phone,
+                    'email' => $request->email,
                     'updated_at' => Carbon::now()
                 ];
                 try {
                 $res = $this->modelIns()::whereId($request->id)->update($data);
                 if($res){
-                    return redirect()->route($this->resourceUrl().'.index')->with('success','Invoice updated successfully...!!!');
+                    if($request->ajax()){
+                        $customer = customer::all(['id','name']);
+                        return back()
+                               ->with('success','Customer updated successfully...!!!')
+                               ->with('customer',$customer);
+                    }else{
+                        return redirect()->route($this->resourceUrl().'.index')->with('success','Customer updated successfully...!!!');
+
+                    }
                 }else{
-                    return redirect()->route($this->resourceUrl().'.index')->with('error','Error updating invoice...!!!');
+                    return redirect()->route($this->resourceUrl().'.index')->with('error','Error updating customer...!!!');
                 }
                 } catch (Exception $th) {
-                    info('Branch-update-error:'.$th->getMessage());
+                    info('Customer-update-error:'.$th->getMessage());
                 }
             }else if($request->id == null || $request->id == ''){
                 $data = [
-                    'name' => $request->name,
+                    'first_name' => $request->first_name,
+                    'last_name' => $request->last_name,
                     'address1' => $request->address1,
                     'address2' => $request->address2,
                     'country' => $request->country,
                     'state' => $request->state,
                     'city' => $request->city,
-                    'pincode' => $request->pincode,
-                    'comments'=>$request->comments,
+                    'zip' => $request->zip,
+                    'phone' => $request->phone,
+                    'email' => $request->email,
+                    'password' => bcrypt('Password'),
                     'created_at' => Carbon::now()
                 ];
                 try {
                     $res = $this->modelIns()::insert($data);
                 if($res){
-                    return redirect()->route($this->resourceUrl().'.index')->with('success','Invoice saved successfully...!!!');
+                    return redirect()->route($this->resourceUrl().'.index')->with('success','Customer saved successfully...!!!');
                 }else{
-                    return redirect()->route($this->resourceUrl().'.index')->with('error','Error saving invoice...!!!');
+                    return redirect()->route($this->resourceUrl().'.index')->with('error','Error saving customer...!!!');
                 }
                 } catch (Exception $th) {
-                    info('Branch-saving-error:'.$th->getMessage());
+                    info('Customer-saving-error:'.$th->getMessage());
                 }
             }
         }
@@ -162,5 +152,9 @@ class SaleController extends Controller
         } catch (Exception $th) {
             info('Branch-delete-error:'.$th->getMessage());
         }
+    }
+    public function GetCustomer($id){
+        $customer = customer::find($id)->get(['first_name','last_name','address1','address2']);
+        return $customer;
     }
 }

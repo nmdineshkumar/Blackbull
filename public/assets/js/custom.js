@@ -42,6 +42,7 @@ $('#country').on('change',function(e){
             data.forEach(element => {
                 $('#state').append(new Option(element.name,element.id))
             });
+            $('.selectpicker').selectpicker('refresh');
         }
     })
 });
@@ -57,6 +58,7 @@ $('#state').on('change',function(e){
             data.forEach(element => {
                 city.append(new Option(element.name,element.id))
             });
+            $('.selectpicker').selectpicker('refresh');
         }
     })
 });
