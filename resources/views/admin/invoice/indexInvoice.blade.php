@@ -1,4 +1,4 @@
-@extends('admin.invoice.indexInvoice')
+@extends('layout.mainLayout')
 @section('page-breadcrumb')
 <div class="row">
     <div class="col-12">
@@ -50,5 +50,20 @@
     </div>
 </div>
 @endsection
-
+@section('add-js')
+<script type="text/javascript">
+    $(function () {
+        const columns = [
+              {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+              {data: 'name', name: 'Invoiceno'},
+              {data: 'type', name: 'Type'},
+              {data: 'date', name: 'Date'},
+              {data: 'amount', name: 'Amount'},
+              {data: 'customer', name: 'Customer'},
+              {data: 'action', name: 'action'}
+          ];
+        initializeDataTable('Ajaxdatatable', '{{ route("$resourceUrl".'.index') }}', columns);
+    });
+  </script>
+@endsection
 

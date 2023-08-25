@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\category;
 use App\Models\customer;
 use App\Models\Sales;
 use App\Models\Supplier;
+use App\Models\Tyre;
 use Carbon\Carbon;
 use Exception;
 use DataTables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
 {
@@ -60,9 +63,17 @@ class SaleController extends Controller
     public function getCustomer($id){
         return customer::where('id','=',$id)->get('name')->pluck('name')->first();
     }
+    public function getPriceByProduct(Request $request){
+        if($request->category == '1'){
+            return Tyre::where(['id' => $request->id])->get('price')->first();
+        }
+    }
     public function create(){
-        return view('admin.invoice.editInvoice')
+        $category_dataset = category::all();
+        $invoiceno = Sales::generateInvoiceNo();
+        return view('admin.invoice.editInvoice',compact('category_dataset'))
                 ->with('pageName', 'Create Invoice')
+                ->with('invoiceno',$invoiceno)
                 ->with('id','')
                 ->with('resourceUrl',$this->resourceUrl());
     }
@@ -74,6 +85,7 @@ class SaleController extends Controller
         ->with('resourceUrl',$this->resourceUrl());
     }
     public function store(Request $request){
+        $invoiceNo = Sales::generateInvoiceNo();
         $validate = $request->validate([
             'name' => ['required','unique:branches,name,'.$request->id.',id'],
             'address1' => ['required'],
