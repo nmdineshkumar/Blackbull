@@ -22,7 +22,7 @@ class CreateBranchesTable extends Migration
             $table->integer('state');
             $table->integer('city');
             $table->integer('pincode');
-            $table->text('comments');
+            $table->text('comments')->nullable();
             $table->timestamps();
         });
     }

@@ -40,11 +40,9 @@ Route::get('/clear',function(){
     return "Cleared!";
 });
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
-Route::get('/invoice/{id}',function(){
-    return view('invoice.myInvoice');
-})->name('getInvoice');
+Route::get('/invoice/{id}',[SaleController::class, 'viewInvoice'])->name('getInvoice');
 Route::get('/state/{id}',[HelperController::class,'getState']);
 Route::get('/cities/{id}',[HelperController::class,'getCity']);
 Route::get('logout',[Logincontroller::class,'logoutForm'])->name('logout');

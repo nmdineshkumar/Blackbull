@@ -23,7 +23,7 @@ class HelperController extends Controller
         return DB::table('tbl_states')->where('id','=',$id)->get('name');
     }
     public function getCountry(){
-        return DB::table('tbl_countries')->get(['name','id']); 
+        return DB::table('tbl_countries')->get(['name','id']);
     }
     public function getState($id){
         return DB::table('tbl_states')->where('country_id','=',$id)->get(['id','name']);
@@ -303,4 +303,5 @@ class HelperController extends Controller
             return back()->withErrors('errors','Please choose a category');
         }
     }
+
 }

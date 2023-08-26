@@ -9,7 +9,7 @@
     <meta name="description" content="Black Bull Application">
     <title>:: Black Bull Admin ::</title>
     <!-- App favicon -->
-    <link rel="icon" href="{{asset('imgs/logo.ico')}}" sizes="32x32">
+    <link rel="icon" href="{{asset('assets/img/login-logo.jpeg')}}" sizes="32x32">
 
     <!-- Bootstrap Css -->
     <link href="{{asset('/assets/css/bootstrap.css')}}" id="bootstrap-style" rel="stylesheet" type="text/css" />
@@ -242,8 +242,7 @@
                     <li><a href="{{route('admin.dashboard')}}"  class="wave-effect"><i class="mdi mdi-desktop-mac-dashboard"></i><span>Dashboard</span></a></li>
                     <li><a href="#"  class="has-arrow wave-effect"><i class="mdi mdi-tools"></i><span>Master</span></a>
                         <ul class="sub-menu mm-collapse" aria-expanded="false">
-                            <li><a href="../master/menu.php"><i class="mdi mdi-book-account"></i> Customers</a></li>
-                            <li><a href="../master/department.php"><i class="mdi mdi-account-card"></i> Department</a></li>
+                            {{-- <li><a href="../master/department.php"><i class="mdi mdi-account-card"></i> Department</a></li> --}}
                             <li><a href="{{route('admin.branch.index')}}"><i class="mdi mdi-account-box-multiple-outline"></i>Branch</a></li>
                             <li><a href="{{route('admin.supplier.index')}}"><i class="mdi mdi-account-switch"></i>Supplier</a></li>
                             <li><a href="{{route('admin.category.index')}}"><i class="mdi mdi-application-cog"></i>Category</a></li>

@@ -84,7 +84,7 @@ class SaleController extends Controller
             return Car_battery::where(['id' => $request->id])->get('price')->first();
         }
     }
-    public function create(){        
+    public function create(){
         $category_dataset = category::all();
         $customer = customer::all();
         $branch_dataset = Branch::all();
@@ -103,7 +103,6 @@ class SaleController extends Controller
         ->with('resourceUrl',$this->resourceUrl());
     }
     public function store(Request $request){
-        $invoiceNo = Sales::generateInvoiceNo();
         $validate = $request->validate([
                 'branch' => ['required'],
                 'customer' => ['required'],
@@ -117,7 +116,7 @@ class SaleController extends Controller
                 'paidAmount' => ['required'],
             ]);
         if($validate){
-
+            $invoiceNo = Sales::generateInvoiceNo();
             if($request->id != null){
                 $invoice_data = [
                     'branch' => $request->branch,
@@ -213,7 +212,9 @@ class SaleController extends Controller
         } catch (Exception $th) {
             info('Branch-delete-error:'.$th->getMessage());
         }
+    
     }
+    
     public static function getTyres() {
         return Tyre::all(['id', 'name']);
     }
@@ -225,5 +226,41 @@ class SaleController extends Controller
     }
     public static function getCategory() {
         return Category::all(['id', 'name']);
+    }
+    public function viewInvoice($id){
+        $invoice = $this->modelIns()::find($id);
+        $invoiceNumber = $invoice->invoice_no;
+        $branch = Branch::join('tbl_countries','tbl_countries.id','=','branches.country')
+                            ->join('tbl_states','tbl_states.id','=','branches.state')
+                            ->join('tbl_cities','tbl_cities.id','=','branches.city')                    
+                            ->where('branches.id','=',$invoice->branch)
+                            ->get(['branches.name','branches.address1','branches.address2',
+                            'branches.pincode','tbl_countries.name as country','tbl_states.name as state',
+                            'tbl_cities.name as city']);
+        $customer = Customer::join('tbl_countries','tbl_countries.id','=','customers.country')
+                    ->join('tbl_states','tbl_states.id','=','customers.state')
+                    ->join('tbl_cities','tbl_cities.id','=','customers.city')
+                    ->where('customers.id','=',$invoice->customer)
+                    ->get(['customers.first_name','customers.last_name','customers.address1','customers.address2',
+                            'customers.zip','tbl_countries.name as country','tbl_states.name as state',
+                            'tbl_cities.name as city']);
+        
+        $invoiceItems = DB::select('SELECT
+                                    items.invoice_id,
+                                    categories.name as category,
+                                    case when items.category = 1 then tyres.name
+                                        when items.category = 2 then tubes.name
+                                        when items.category = 3 then car_batteries.name
+                                    end as Product,
+                                    items.qty,
+                                    items.price,
+                                    items.total
+                                FROM black_bull.invoice_items items
+                                inner join categories on categories.id = items.category
+                                left outer join tyres on tyres.id = items.product_id
+                                left outer join tubes on tubes.id = items.product_id
+                                left outer join car_batteries on car_batteries.id = items.product_id
+                                WHERE items.invoice_id=?', [$id]);
+        return view('invoice.myInvoice',compact('invoice','invoiceNumber','customer','branch','invoiceItems'));
     }
 }

@@ -4,14 +4,17 @@
     $category = old('category');
     $qty = old('qty');
     $price = old('price');
-    $total = old('total');
-    $SubTotalAmount = old('SubTotalAmount');
-    $TotalAmount = old('TotalAmount');
+    $total = old('total') == "" ? "0.00" : old('total');
+    $SubTotalAmount = old('SubTotalAmount') == "" ? "0.00" : old('SubTotalAmount');
+    $TotalAmount = old('TotalAmount') == "" ? "0.00" : old('TotalAmount');
     $paidAmount = old('paidAmount');
     $description = old('description');
-    $tax = old('tax');
+    $tax = old('tax') == "" ? "0" : old('tax');
     $branch = old('branch');
     $customer_data = old('customer');
+    if($id != ''){
+          
+    }
     $category_dataset = App\Http\Controllers\Admin\SaleController::getCategory();
     $tyre_dataset = App\Http\Controllers\Admin\SaleController::getTyres();
     $tube_dataset = App\Http\Controllers\Admin\SaleController::getTubes();
@@ -73,6 +76,9 @@
                                                         class="mdi mdi-plus-circle"></i></a>
                                             </div>
                                         </div>
+                                        @error('customer')
+                                        <div class="error">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="col-12 mb-2">
                                         <div class="px-3" id="customer_address">
@@ -89,6 +95,9 @@
                                         <option value="{{$row->id}}">{{$row->name}}</option>
                                     @endforeach
                                 </select>
+                                @error('branch')
+                                    <div class="error">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-4 col-sm-6">
                                 <table class="table">
@@ -103,7 +112,7 @@
                                         </tr>
                                         <tr>
                                             <td>Invoice Amount</td>
-                                            <td id="display_amount">0.00</td>
+                                            <td id="display_amount">{{ ($TotalAmount == "" ? "0.00" :  $TotalAmount ) }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -152,12 +161,12 @@
                                             </td>
                                         </tr>
                                         @elseif(sizeof($product) > 0)
-                                            @foreach ($category as $categoryrow)
+                                            @foreach ($category as $category_index => $categoryrow)
                                             <tr>
                                                 <td width="200">
                                                     <select name="category[]" id="category" class="form-select category"
                                                         required>
-                                                        <option value="">---SELECT---</option>                                                        
+                                                        <option value="">---SELECT---</option>
                                                         @foreach ($category_dataset as $index => $row)
                                                             @if($categoryrow == $row->id)
                                                             <option value="{{ $row->id }}" selected>{{ $row->name }}</option>
@@ -167,39 +176,42 @@
                                                         @endforeach
                                                     </select>
                                                 </td>
+                                                {{-- Get Product by category --}}
+                                                @php
+                                                    $dropdown_dataset = App\Http\Controllers\HelperController::get_Product($categoryrow);
+                                                @endphp
                                                 <td>
                                                     <select name="product[]" id="product" class="form-select product"
                                                         data-live-search="true" required>
-                                                        @foreach ($categoty as $cartegoryrow)
-                                                            @if ($categoryrow == "1")
-                                                                
-                                                            @elseif($categoryrow == "2")
-
-                                                            @elseif($categoryrow == "3")
-                                                                
+                                                        <option value="">---SELECT---</option>
+                                                        @foreach ($dropdown_dataset as $productrow)
+                                                            @if($product[$category_index] == $productrow->id)
+                                                            <option value="{{ $productrow->id }}" selected>{{ $productrow->name }}</option>
+                                                            @else
+                                                            <option value="{{ $productrow->id }}">{{ $productrow->name }}</option>
                                                             @endif
                                                         @endforeach
-                                                        <option value="">---SELECT---</option>
                                                     </select>
                                                 </td>
                                                 <td width="120">
                                                     <input min="0" type="number" name="qty[]" id="qty"
-                                                        class="form-control" placeholder="Quantity" required>
+                                                        class="form-control" placeholder="Quantity" required value="{{ $qty[$category_index] }}">
                                                 </td>
                                                 <td width="120"><input type="text" name="price[]" id="price"
-                                                        class="form-control" placeholder="Price" required readonly></td>
+                                                        class="form-control" placeholder="Price" required readonly value="{{ $price[$category_index] }}"></td>
                                                 <td width="120"><input type="text" name="total[]" id="total"
-                                                        class="form-control" placeholder="Total" required readonly></td>
+                                                        class="form-control" placeholder="Total" required readonly value="{{ $total[$category_index] }}"></td>
                                                 <td>
                                                     <a class="btn-reomve btn btn-icon text-red"><span
                                                             class="mdi mdi-close-circle"></span></a>
                                                 </td>
-                                            </tr> 
+                                            </tr>
                                             @endforeach
                                         @endif
                                     </tbody>
                                 </table>
                             </div>
+
                             <div class="col-12 text-start">
                                 <a id="addItem" class="btn bg-success text-white btn-sm"><i
                                         class="mdi mdi-plus-circle"></i> Add more</a>
@@ -217,7 +229,10 @@
                                     </div>
                                     <div class="col-md-6 col-sm-12">
                                         <input type="text" name="SubTotalAmount" id="SubTotalAmount"
-                                            class="form-control" value="0.00" readonly>
+                                            class="form-control" readonly value="{{ $SubTotalAmount }}">
+                                            @error('SubTotalAmount')
+                                            <div class="error">{{ $message }}</div>
+                                            @enderror
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -226,7 +241,7 @@
                                     </div>
                                     <div class="col-md-6 col-sm-12">
                                         <input type="text" name="tax" id="tax" placeholder="Tax"
-                                            class="form-control" value="0">
+                                            class="form-control"  value="{{ $tax }}">
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -235,7 +250,10 @@
                                     </div>
                                     <div class="col-md-6 col-sm-12">
                                         <input type="text" name="TotalAmount" id="TotalAmount" class="form-control"
-                                            value="0.00" readonly>
+                                           readonly value="{{ $TotalAmount }}">
+                                           @error('TotalAmount')
+                                            <div class="error">{{ $message }}</div>
+                                            @enderror
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -245,14 +263,14 @@
                                     <div class="col-md-6 col-sm-12">
                                         <input type="text" name="paidAmount" id="paidAmount" class="form-control"
                                             value="0.00" required>
+                                            @error('paidAmount')
+                                            <div class="error">{{ $message }}</div>
+                                            @enderror
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-3 ">
-                            @php
-                                print_r($product);
-                            @endphp
                             <input type="hidden" name="type" id="type" value="2">
                             <input type="hidden" name="id" value="{{ $id }}">
                             <div class="col-12 text-end">

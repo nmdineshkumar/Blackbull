@@ -8,7 +8,7 @@
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
 
-	<title>:: Honeycomb Login ::</title>
+	<title>:: Blackbull Login ::</title>
 	<link rel="shortcut icon" href="../assets/images/favicon.ico">
 
 	<!-- Bootstrap Css -->
