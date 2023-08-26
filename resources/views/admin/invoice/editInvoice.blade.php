@@ -1,5 +1,22 @@
 @extends('layout.mainLayout')
 @php
+    $product = old('product');
+    $category = old('category');
+    $qty = old('qty');
+    $price = old('price');
+    $total = old('total');
+    $SubTotalAmount = old('SubTotalAmount');
+    $TotalAmount = old('TotalAmount');
+    $paidAmount = old('paidAmount');
+    $description = old('description');
+    $tax = old('tax');
+    $branch = old('branch');
+    $customer_data = old('customer');
+    $category_dataset = App\Http\Controllers\Admin\SaleController::getCategory();
+    $tyre_dataset = App\Http\Controllers\Admin\SaleController::getTyres();
+    $tube_dataset = App\Http\Controllers\Admin\SaleController::getTubes();
+    $battery_dataset = App\Http\Controllers\Admin\SaleController::getBattery();
+
     $coutries = App\Http\Controllers\HelperController::getCountry();
 @endphp
 @section('page-breadcrumb')
@@ -58,19 +75,27 @@
                                         </div>
                                     </div>
                                     <div class="col-12 mb-2">
-                                        <div id="customer_address">
+                                        <div class="px-3" id="customer_address">
 
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-6"></div>
+                            <div class="col-md-4 col-sm-6">
+                                <label for="">Branch</label>
+                                <select name="branch" id="branch" class="form-select">
+                                    <option value="">---SELECT---</option>
+                                    @foreach ($branch_dataset as $row )
+                                        <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class="col-md-4 col-sm-6">
                                 <table class="table">
                                     <tbody>
                                         <tr>
                                             <td>Invoice No</td>
-                                            <td>-</td>
+                                            <td>{{$invoiceno}}</td>
                                         </tr>
                                         <tr>
                                             <td>Invoice Date</td>
@@ -90,12 +115,13 @@
                                     <thead>
                                         <th>Category</th>
                                         <th>Product</th>
-                                        <th>Quantity</th>
-                                        <th>Price</th>
-                                        <th>Total</th>
-                                        <th>Action</th>
+                                        <th width="80">Quantity</th>
+                                        <th width="80">Price</th>
+                                        <th width="80">Total</th>
+                                        <th width="40">Action</th>
                                     </thead>
                                     <tbody>
+                                        @if($product == '')
                                         <tr>
                                             <td width="200">
                                                 <select name="category[]" id="category" class="form-select category"
@@ -125,6 +151,52 @@
                                                         class="mdi mdi-close-circle"></span></a>
                                             </td>
                                         </tr>
+                                        @elseif(sizeof($product) > 0)
+                                            @foreach ($category as $categoryrow)
+                                            <tr>
+                                                <td width="200">
+                                                    <select name="category[]" id="category" class="form-select category"
+                                                        required>
+                                                        <option value="">---SELECT---</option>                                                        
+                                                        @foreach ($category_dataset as $index => $row)
+                                                            @if($categoryrow == $row->id)
+                                                            <option value="{{ $row->id }}" selected>{{ $row->name }}</option>
+                                                            @else
+                                                            <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="product[]" id="product" class="form-select product"
+                                                        data-live-search="true" required>
+                                                        @foreach ($categoty as $cartegoryrow)
+                                                            @if ($categoryrow == "1")
+                                                                
+                                                            @elseif($categoryrow == "2")
+
+                                                            @elseif($categoryrow == "3")
+                                                                
+                                                            @endif
+                                                        @endforeach
+                                                        <option value="">---SELECT---</option>
+                                                    </select>
+                                                </td>
+                                                <td width="120">
+                                                    <input min="0" type="number" name="qty[]" id="qty"
+                                                        class="form-control" placeholder="Quantity" required>
+                                                </td>
+                                                <td width="120"><input type="text" name="price[]" id="price"
+                                                        class="form-control" placeholder="Price" required readonly></td>
+                                                <td width="120"><input type="text" name="total[]" id="total"
+                                                        class="form-control" placeholder="Total" required readonly></td>
+                                                <td>
+                                                    <a class="btn-reomve btn btn-icon text-red"><span
+                                                            class="mdi mdi-close-circle"></span></a>
+                                                </td>
+                                            </tr> 
+                                            @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -166,9 +238,22 @@
                                             value="0.00" readonly>
                                     </div>
                                 </div>
+                                <div class="row mb-2">
+                                    <div class="col-md-6 col-sm-12 text-end">
+                                        <label for="">Paid Amount</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <input type="text" name="paidAmount" id="paidAmount" class="form-control"
+                                            value="0.00" required>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="row mb-3 ">
+                            @php
+                                print_r($product);
+                            @endphp
+                            <input type="hidden" name="type" id="type" value="2">
                             <input type="hidden" name="id" value="{{ $id }}">
                             <div class="col-12 text-end">
                                 <a href="{{ route($resourceUrl . '.index') }}" class="btn btn-primary btn-sm">Close</a>
@@ -432,14 +517,15 @@
                 if (id != '') {
                     var url = '{{ route('get-customer', ':id') }}';
                     url = url.replace(':id', id);
+                    customer_address[0].innerHTML = "";
                     $.ajax({
                         type: 'GET',
                         url: url,
                         success: function(data) {
-                            console.log(data);
                             $.each(data[0], function(k, v) {
-                                console.log(k);
-                                customer_address[0].innerHTML += v + '<br/>';
+                                console.log(v);
+                                if(v != '' || v != 'null' || v != 'undefined' || v != null) {
+                                customer_address[0].innerHTML += '<lalel>'+ v + '</label><br/>';}
                             });
                         }
                     });

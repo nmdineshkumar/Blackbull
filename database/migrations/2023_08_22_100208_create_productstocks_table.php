@@ -15,6 +15,7 @@ class CreateProductstocksTable extends Migration
     {
         Schema::create('productstocks', function (Blueprint $table) {
             $table->id();
+            $table->string('branch');
             $table->string('category');
             $table->string('product_id');
             $table->string('current_qty');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Branch;
 use App\Models\Car_battery;
 use App\Models\category;
 use App\Models\Productstock;
@@ -35,15 +36,17 @@ class ProductStockController extends Controller
                         return $row->current_qty;
                     })
                     ->addColumn('online',function($row){
-                        return $row->online_purchase == '' ? "0" : $row->online_purchase;
+                        return $row->online_purchases;
                     })
                     ->addColumn('offline',function($row){
-                        return $row->offline_purchase == '' ? "0" : $row->offline_purchase;
+                        return $row->offline_purchases;
                     })
                     ->addColumn('old_qty',function($row){
                         return $row->old_qty;
                     })
-                    
+                    ->addColumn('branch',function($row){
+                        return $this->getbranch($row->branch);
+                    })
                     ->rawColumns(['category',])
                     ->make(true);
     
@@ -52,6 +55,9 @@ class ProductStockController extends Controller
                     ->with('pageName','Product Stock')
                     ->with('resourceUrl',$this->resourceUrl());
         }
+    }
+    public function getbranch($id){
+        return Branch::where('id','=',$id)->get('name')->pluck('name')->first();
     }
     public function getCategory($id){
         return category::where('id','=',$id)->get('name')->pluck('name')->first();

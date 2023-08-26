@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Branch;
 use App\Models\Car_battery;
 use App\Models\category;
 use App\Models\customer;
+use App\Models\InvoiceItem;
 use App\Models\Sales;
 use App\Models\Supplier;
 use App\Models\Tube;
@@ -13,7 +15,9 @@ use App\Models\Tyre;
 use Carbon\Carbon;
 use Exception;
 use DataTables;
+use Faker\Core\Number;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
@@ -33,10 +37,13 @@ class SaleController extends Controller
             return DataTables::of($data)
                     ->addIndexColumn()
                     ->addColumn('name', function($row){
-                        return "<a href='" .route($this->resourceUrl().'.edit',$row->id) ."'>$row->invoice_no</a>";
+                        return "<a target='_blank' href='" .route('getInvoice',$row->id) ."'>$row->invoice_no</a>";
                     })
                     ->addColumn('type',function($row){
-                        return purchase_type($row->type);
+                        return SaleTypeGetById($row->type);
+                    })
+                    ->addColumn('branch',function($row){
+                        return $this->getbranch($row->branch);
                     })
                     ->addColumn('date',function($row){
                         return Carbon::parse($row->invocie_date)->format('d-m-Y');
@@ -62,8 +69,11 @@ class SaleController extends Controller
                     ->with('resourceUrl',$this->resourceUrl());
         }
     }
+    public function getbranch($id){
+        return Branch::where('id','=',$id)->get('name')->pluck('name')->first();
+    }
     public function getCustomer($id){
-        return customer::where('id','=',$id)->get('name')->pluck('name')->first();
+        return customer::where('id','=',$id)->get('first_name')->pluck('first_name')->first();
     }
     public function getPriceByProduct(Request $request){
         if($request->category == '1'){
@@ -74,11 +84,12 @@ class SaleController extends Controller
             return Car_battery::where(['id' => $request->id])->get('price')->first();
         }
     }
-    public function create(){
+    public function create(){        
         $category_dataset = category::all();
         $customer = customer::all();
-        $invoiceno = Sales::generateInvoiceNo();
-        return view('admin.invoice.editInvoice',compact('category_dataset','customer'))
+        $branch_dataset = Branch::all();
+        $invoiceno = '#';
+        return view('admin.invoice.editInvoice',compact('category_dataset','customer','branch_dataset'))
                 ->with('pageName', 'Create Invoice')
                 ->with('invoiceno',$invoiceno)
                 ->with('id','')
@@ -94,26 +105,32 @@ class SaleController extends Controller
     public function store(Request $request){
         $invoiceNo = Sales::generateInvoiceNo();
         $validate = $request->validate([
-            'name' => ['required','unique:branches,name,'.$request->id.',id'],
-            'address1' => ['required'],
-            'address2' => ['required'],
-            'country' => ['required'],
-            'state' => ['required'],
-            'city' => ['required'],
-            'pincode' => ['required'],]);
+                'branch' => ['required'],
+                'customer' => ['required'],
+                'TotalAmount' => ['required','numeric','min:10'],
+                'SubTotalAmount' => ['required','numeric','min:10'],
+                'category.*' => ['required'],
+                'product.*' => ['required'],
+                'qty.*' => ['required','numeric','min:1'],
+                'price.*' => ['required','numeric','min:10'],
+                'toa.*' => ['required','numeric','min:10'],
+                'paidAmount' => ['required'],
+            ]);
         if($validate){
 
             if($request->id != null){
-                $data = [
-                    'name' => $request->name,
-                    'address1' => $request->address1,
-                    'address2' => $request->address2,
-                    'country' => $request->country,
-                    'state' => $request->state,
-                    'city' => $request->city,
-                    'pincode' => $request->pincode,
-                    'comments' => $request->comments,
-                    'updated_at' => Carbon::now()
+                $invoice_data = [
+                    'branch' => $request->branch,
+                    'type' => $request->type,
+                    'customer' => $request->customer,
+                    'invoice_no' => $invoiceNo,
+                    'invocie_date' => Carbon::now(),
+                    'tax' => $request->tax,
+                    'total' => $request->TotalAmount,
+                    'paid_amount' => $request->paidAmount,
+                    'due_amount' => ($request->TotalAmount - $request->paidAmount),
+                    'created_by' => Auth::guard('admin')->user()->id,
+                    'created_at' => Carbon::now(),
                 ];
                 try {
                 $res = $this->modelIns()::whereId($request->id)->update($data);
@@ -123,29 +140,63 @@ class SaleController extends Controller
                     return redirect()->route($this->resourceUrl().'.index')->with('error','Error updating invoice...!!!');
                 }
                 } catch (Exception $th) {
-                    info('Branch-update-error:'.$th->getMessage());
+                    info('Invoice-update-error:'.$th->getMessage());
                 }
             }else if($request->id == null || $request->id == ''){
-                $data = [
-                    'name' => $request->name,
-                    'address1' => $request->address1,
-                    'address2' => $request->address2,
-                    'country' => $request->country,
-                    'state' => $request->state,
-                    'city' => $request->city,
-                    'pincode' => $request->pincode,
-                    'comments'=>$request->comments,
-                    'created_at' => Carbon::now()
+                $invoice_data = [
+                    'branch' => $request->branch,
+                    'type' => $request->type,
+                    'customer' => $request->customer,
+                    'invoice_no' => $invoiceNo,
+                    'invocie_date' => Carbon::now(),
+                    'tax' => $request->tax,
+                    'total' => $request->TotalAmount,
+                    'paid_amount' => $request->paidAmount,
+                    'due_amount' => ($request->TotalAmount - $request->paidAmount),
+                    'comment' => $request->description,
+                    'created_by' => Auth::guard('admin')->user()->id,
+                    'created_at' => Carbon::now(),
                 ];
                 try {
-                    $res = $this->modelIns()::insert($data);
+                    $invoice_id = $this->modelIns()::insertGetId($invoice_data);
+                    for($i = 0; $i<count($request->product); $i++){
+                        $product_items =[
+                            'category' => $request->category[$i],
+                            'invoice_id' => $invoice_id,
+                            'product_id' => $request->product[$i],
+                            'qty' => $request->qty[$i],
+                            'price' => $request->price[$i],
+                            'total' => $request->total[$i],
+                            'created_at' => Carbon::now()
+                        ];
+                        $res = InvoiceItem::insert($product_items);
+                        //Remove stock quantity
+                        DB::Table('productstocks')
+                                ->where(['product_id' => $request->product[$i],
+                                        'category' => $request->category[$i],
+                                        'branch' => $request->branch])
+                                ->decrement('current_qty' , $request->qty[$i]);
+                        if($request->type == "2"){
+                            DB::Table('productstocks')
+                                ->where(['product_id' => $request->product[$i],
+                                        'category' => $request->category[$i],
+                                        'branch' => $request->branch])
+                                ->increment('offline_purchases' , $request->qty[$i]);
+                        }elseif($request->type == "1"){
+                            DB::Table('productstocks')
+                                ->where(['product_id' => $request->product[$i],
+                                        'category' => $request->category[$i],
+                                        'branch' => $request->branch])
+                                ->increment('online_purchases' , $request->qty[$i]);
+                        }
+                    }
                 if($res){
                     return redirect()->route($this->resourceUrl().'.index')->with('success','Invoice saved successfully...!!!');
                 }else{
                     return redirect()->route($this->resourceUrl().'.index')->with('error','Error saving invoice...!!!');
                 }
                 } catch (Exception $th) {
-                    info('Branch-saving-error:'.$th->getMessage());
+                    info('Invoice-saving-error:'.$th->getMessage());
                 }
             }
         }
@@ -162,5 +213,17 @@ class SaleController extends Controller
         } catch (Exception $th) {
             info('Branch-delete-error:'.$th->getMessage());
         }
+    }
+    public static function getTyres() {
+        return Tyre::all(['id', 'name']);
+    }
+    public static function getTubes() {
+        return Tube::all(['id', 'name']);
+    }
+    public static function getBattery() {
+        return Car_battery::all(['id', 'name']);
+    }
+    public static function getCategory() {
+        return Category::all(['id', 'name']);
     }
 }

@@ -17,7 +17,7 @@ class Sales extends Model
         if($TempNo == ''){
             $InvoiceNo = Carbon::now()->format('Ymd').'0001';
         }else{
-            $InvoiceNo = Carbon::now()->format('Ymd').(substr($TempNo,4) + 1);
+            $InvoiceNo = $TempNo->invoice_no + 1;
         }
         return $InvoiceNo;
     }

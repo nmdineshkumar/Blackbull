@@ -169,7 +169,7 @@
                     </div>
                 </div>
                 <div class="col-12 mb-3 text-center">
-                    <input type="hidden" name="type" value="{{ $type }}">
+                    <input type="hidden" name="type" value="{{ ($type == "" ? "2" : $type) }}">
                     <input type="hidden" name="id" id="id" value="{{ $id }}">
                     <a href="{{route($resourceUrl.'.index')}}" class="btn btn-secondary">Close</a>
                     <button type="submit" class="btn btn-primary">Save changes</button>

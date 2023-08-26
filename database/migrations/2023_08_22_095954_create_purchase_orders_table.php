@@ -15,6 +15,7 @@ class CreatePurchaseOrdersTable extends Migration
     {
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->id();
+            $table->integer('branch');
             $table->integer('supplier');
             $table->string('total_amount');
             $table->string('total_qty');

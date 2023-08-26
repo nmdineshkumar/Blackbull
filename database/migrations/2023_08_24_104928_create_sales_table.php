@@ -15,6 +15,7 @@ class CreateSalesTable extends Migration
     {
         Schema::create('invoice', function (Blueprint $table) {
             $table->id();
+            $table->integer('branch');
             $table->integer('type');
             $table->string('customer');
             $table->string('invoice_no');
@@ -22,6 +23,8 @@ class CreateSalesTable extends Migration
             $table->string('qty')->nullable()->default(0);
             $table->string('tax')->nullable();
             $table->string('total');
+            $table->integer('paidAmount');
+            $table->integer('due_amount');
             $table->string('created_by');
             $table->string('updated_by')->nullable()->default();
             $table->timestamps();

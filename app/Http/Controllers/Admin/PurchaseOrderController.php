@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Branch;
 use App\Models\category;
 use App\Models\Productstock;
 use App\Models\PurchaseItem;
@@ -35,6 +36,9 @@ class PurchaseOrderController extends Controller
                     ->addColumn('date',function($row){
                         return Carbon::parse($row->invoice_date)->format('d-m-Y');
                     })
+                    ->addColumn('branch',function($row){
+                        return $this->getbranch($row->branch);
+                    })
                     ->addColumn('amount',function($row){
                         return $row->invoice_amount;
                     })
@@ -57,13 +61,18 @@ class PurchaseOrderController extends Controller
                     ->with('resourceUrl',$this->resourceUrl());
         }
     }
+    public function getbranch($id){
+        return Branch::where('id','=',$id)->get('name')->pluck('name')->first();
+    }
     public function getSupplier($id){
         return Supplier::where('id',$id)->get('name')->pluck('name')->first();
     }
     public function create(){
         $category_dataset = category::get(['id','name']);
         $supplier_dataset = Supplier::get(['id','name']);
-        return view('admin.purchseOrder.editPurchaseOrder',compact('category_dataset','supplier_dataset'))
+        $branch_dataset = Branch::all();
+        return view('admin.purchseOrder.editPurchaseOrder',
+                compact('category_dataset','supplier_dataset','branch_dataset'))
                 ->with('pageName', 'Create Purchase Order')
                 ->with('id','')
                 ->with('resourceUrl',$this->resourceUrl());
@@ -79,6 +88,7 @@ class PurchaseOrderController extends Controller
     }
     public function store(Request $request){
         $validate = $request->validate([
+            'branch' => ['required'],
             'supplier' => ['required',],
             'purchasetype' => ['required',],
             'invoiceno' => ['required','unique:purchase_orders,invoice_no,'.$request->id.',id'],
@@ -88,6 +98,7 @@ class PurchaseOrderController extends Controller
         if($validate){
             if($request->id == '' || $request->id == null){
                 $purchase_order = [
+                    'branch' => $request->branch,
                     'supplier' => $request->supplier,
                     'purchase_type'=>$request->purchasetype,
                     'total_amount' => $request->SubTotalAmount,
@@ -113,9 +124,11 @@ class PurchaseOrderController extends Controller
                         ];
                         $res = PurchaseItem::insert($product_items);
                         $result = Productstock::where(['product_id' => $request->product[$i],
-                                                        'category' => $request->category[$i]])->exists();
+                                                        'category' => $request->category[$i],
+                                                        'branch' => $request->branch])->exists();
                         if(!$result){
                             $product_stock =[
+                                'branch' => $request->branch,
                                 'category' => $request->category[$i],
                                 'product_id' => $request->product[$i],
                                 'current_qty' => $request->qty[$i],
@@ -128,24 +141,26 @@ class PurchaseOrderController extends Controller
                             Productstock::insert($product_stock);
                         }else{
                           $stock_data = Productstock::where(['product_id' => $request->product[$i],
-                                            'category' => $request->category[$i]])->get('current_qty')->pluck('current_qty')->first();
+                                            'category' => $request->category[$i],
+                                            'branch' => $request->branch])
+                                            ->get('current_qty')->pluck('current_qty')->first();
                           Productstock::where(['product_id' => $request->product[$i],
-                                                'category' => $request->category[$i]])
+                                                'category' => $request->category[$i],
+                                                'branch' => $request->branch])
                                         ->update([
                                             'old_qty' => $stock_data
                                         ]);
                           DB::Table('productstocks')
                                 ->where(['product_id' => $request->product[$i],
-                                        'category' => $request->category[$i]])
+                                        'category' => $request->category[$i],
+                                        'branch' => $request->branch])
                                 ->increment('overall_qty' , $request->qty[$i]);
                                 DB::Table('productstocks')
                                 ->where(['product_id' => $request->product[$i],
-                                        'category' => $request->category[$i]])
+                                        'category' => $request->category[$i],
+                                        'branch' => $request->branch])
                                 ->increment('current_qty' , $request->qty[$i]);
-
-
                         }
-
                     }
                 if($res){
                     return redirect()->route($this->resourceUrl().'.index')->with('success','Purchase Order saved successfully...!!!');

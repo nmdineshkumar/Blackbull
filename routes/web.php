@@ -42,6 +42,9 @@ Route::get('/clear',function(){
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/invoice/{id}',function(){
+    return view('invoice.myInvoice');
+})->name('getInvoice');
 Route::get('/state/{id}',[HelperController::class,'getState']);
 Route::get('/cities/{id}',[HelperController::class,'getCity']);
 Route::get('logout',[Logincontroller::class,'logoutForm'])->name('logout');

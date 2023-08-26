@@ -43,6 +43,15 @@
             ( object )[ 'id' => 2, 'name' => 'Offline', 'class'=>'danger' ]
         ];
     }
+    function SaleTypeGetById($id): string{
+        $name = '';
+        foreach ( SaleType() as $s =>$value ) {
+            if ( intval($value->id) === intval($id) ) {
+                $name = $value->name;
+            }
+        }
+        return $name;
+    }
     function tyreType(): array {
         return [
             ( object )[ 'id' => 1, 'name' => 'TTF'],

@@ -39,6 +39,20 @@
                 <form action="{{route($resourceUrl.'.store')}}" method="post">
                     @csrf
                     <div class="row mb-3">
+                        <div class="col-md-4 col-sm-12">
+                            <label for="">Branch</label>
+                            <select name="branch" id="branch" class="form-select">
+                                <option value="">---SELECT---</option>
+                                @foreach ($branch_dataset as $row )
+                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                @endforeach
+                            </select>
+                            @error('branch')
+                                    <div class="error">{{$message}}</div>
+                                @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-3">
                         <div class="col-md-3 col-sm-12">
                             <label for="">Supplier</label>
                             <select name="supplier" id="supplier" class="form-select">

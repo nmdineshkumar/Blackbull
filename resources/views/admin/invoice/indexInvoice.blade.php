@@ -35,6 +35,7 @@
                 <table id="Ajaxdatatable" class="table table-striped table-row-bordered gy-5 gs-7 border rounded w-100 margin-t">
                     <thead>
                         <th width="20">SNo</th>
+                        <th>Branch</th>
                         <th>InvoiceNo</th>
                         <th>Type</th>
                         <th>Customer</th>
@@ -55,11 +56,12 @@
     $(function () {
         const columns = [
               {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+              {data: 'branch', name: 'Branch'},
               {data: 'name', name: 'Invoiceno'},
               {data: 'type', name: 'Type'},
+              {data: 'customer', name: 'Customer'},
               {data: 'date', name: 'Date'},
               {data: 'amount', name: 'Amount'},
-              {data: 'customer', name: 'Customer'},
               {data: 'action', name: 'action'}
           ];
         initializeDataTable('Ajaxdatatable', '{{ route("$resourceUrl".'.index') }}', columns);

@@ -35,6 +35,7 @@
                 <table id="Ajaxdatatable" class="table table-striped table-row-bordered gy-5 gs-7 border rounded w-100 margin-t">
                     <thead>
                         <th width="20">SNo</th>
+                        <th>Branch</th>
                         <th>Supplier</th>
                         <th>Date</th>
                         <th>InvoieNo</th>
@@ -56,6 +57,7 @@
     $(function () {
         const columns = [
               {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+              {data: 'branch', name: 'Branch'},
               {data: 'name', name: 'Supplier'},
               {data: 'date', name: 'Date'},
               {data: 'invoice', name: 'InvoieNo'},

@@ -57,6 +57,7 @@ class CustomerController extends Controller
         return view('admin.customer.editCustomer')
                 ->with('pageName', 'Create Customer')
                 ->with('id','')
+                ->with('type','')
                 ->with('resourceUrl',$this->resourceUrl());
     }
     public function edit($id){
@@ -77,8 +78,7 @@ class CustomerController extends Controller
             'city' => ['required'],
             'zip' => ['required'],
             'type' => ['required']]);
-        if($validate){
-
+        if($validate){ 
             if($request->id != null){
                 $data = [
                     'first_name' => $request->first_name,
@@ -115,6 +115,7 @@ class CustomerController extends Controller
             }else if($request->id == null || $request->id == ''){
                 $data = [
                     'first_name' => $request->first_name,
+                    'type' => $request->type,
                     'last_name' => $request->last_name,
                     'address1' => $request->address1,
                     'address2' => $request->address2,
@@ -154,7 +155,7 @@ class CustomerController extends Controller
         }
     }
     public function GetCustomer($id){
-        $customer = customer::find($id)->get(['first_name','last_name','address1','address2']);
+        $customer = customer::where('id','=',$id)->get(['first_name','last_name','address1','address2']);
         return $customer;
     }
 }
