@@ -12,6 +12,9 @@
         if ( in_array( 'retrieve', $types ) ) {
             $actionBtn .= "<a href='javascript:;'  data-action-type='retrieve' data-url='" . route( $baseUrl. '.destroy', [$id,'retrieve'=>1] ) ."' title='Retrieve the data' class='btn btn-icon btn-color-success delete-by-id'><i class='fas fa-trash-restore-alt'></i></a>";
         }
+        if ( in_array( 'payment', $types ) ) {
+            $actionBtn .= "<a href='" . route( $baseUrl. '.addPayment', $id ) ."' title='Add Payment' class='btn btn-icon btn-color-success'><i class='fas fa-money-bill-alt'></i></i></a>";
+        }
         return $actionBtn;
     }
     function getRandomSting(): string {

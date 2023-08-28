@@ -47,7 +47,7 @@ class PurchaseOrderController extends Controller
                     })
                     ->addColumn('action', function($row){
                         if($row->deleted_at=== NULL){
-                            return getActionButtons($row->id, $this->resourceUrl(),['edit','delete']);
+                            return getActionButtons($row->id, $this->resourceUrl(),['edit','delete','payment']);
                         }else{
                             return getActionButtons($row->id, $this->resourceUrl(),['retrieve']);
                         }
@@ -82,10 +82,11 @@ class PurchaseOrderController extends Controller
         $category_dataset = category::get(['id','name']);
         $supplier_dataset = Supplier::get(['id','name']);
         $branch_dataset = Branch::all();
+        $purchase_items = PurchaseItem::where('purchase_id','=',$purchase->id)->get();
         return view('admin.purchseOrder.editPurchaseOrder',compact('purchase',
                                                 'category_dataset',
                                                 'supplier_dataset',
-                                                'branch_dataset'))
+                                                'branch_dataset','purchase_items'))
         ->with('pageName', 'Edit Manufacturer')
         ->with('id',$id)
         ->with('resourceUrl',$this->resourceUrl());
@@ -206,5 +207,11 @@ class PurchaseOrderController extends Controller
         } catch (Exception $th) {
             info('Manufacture-delete-error:'.$th->getMessage());
         }
+    }
+    public function addPayment($id){
+        return view('admin.purchseOrder.addPayment')
+                ->with('pageName', 'Add Payment')
+                ->with('id',$id)
+                ->with('resourceUrl', $this->resourceUrl());
     }
 }

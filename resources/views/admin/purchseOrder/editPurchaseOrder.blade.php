@@ -6,6 +6,9 @@
     $purchasetype = old('purchasetype');
     $invoiceno = old('invoiceno');
     $invoicedata = old('invoicedata');
+    $SubTotalAmount = (old('SubTotalAmount') == '') ? '0.00' : old('SubTotalAmount');
+    $tax = old('tax');
+    $TotalAmount = (old('TotalAmount') == '') ? '0.00' : old('SubTotalAmount');
     if ($id != '') {
         # assign the Edit purchase orider information
         $branch = (old('branch') != '') ? $branch : $purchase->branch;
@@ -13,6 +16,10 @@
         $purchasetype = (old('purchasetype') != '') ? $purchasetype : $purchase->purchase_type;
         $invoiceno = (old('invoiceno') != '') ? $invoiceno : $purchase->invoice_no;
         $invoicedata = (old('invoicedata') != '') ? $invoicedata : $purchase->invoice_date;
+        $tax = (old('tax') != '') ? $tax : $purchase->invoice_tax;
+        $TotalAmount = (old('TotalAmount')!= '') ? $TotalAmount : $purchase->invoice_amount;
+        //(Number($purchase->invoice_amount) – (Number($purchase->invoice_amount) * (100 / (100 + Number($purchase->invoice_tax)% ) ) ))
+        $SubTotalAmount = (old('SubTotalAmount')!= '') ? $SubTotalAmount :  ($purchase->invoice_tax == '0' ? $purchase->invoice_amount : ($purchase->invoice_amount -($purchase->invoice_amount * (100/100 + $purchase->invoice_tax )) ) ) ;
     }
 @endphp
 @extends('layout.mainLayout')
@@ -189,7 +196,7 @@
                                     <label for="">Sub Total Amount</label>                                
                                 </div>
                                 <div class="col-md-6 col-sm-12">
-                                    <input type="text" name="SubTotalAmount" id="SubTotalAmount" class="form-control" value="0.00" readonly>
+                                    <input type="text" name="SubTotalAmount" id="SubTotalAmount" class="form-control" value="{{ $SubTotalAmount }}" readonly>
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -197,7 +204,7 @@
                                     <label for="">Tax</label>                                
                                 </div>
                                 <div class="col-md-6 col-sm-12">
-                                    <input type="text" name="tax" id="tax" placeholder="Tax" class="form-control" value="0">
+                                    <input type="text" name="tax" id="tax" placeholder="Tax" class="form-control" value="{{ $tax }}">
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -205,7 +212,7 @@
                                     <label for="">Total Amount</label>                                
                                 </div>
                                 <div class="col-md-6 col-sm-12">
-                                    <input type="text" name="TotalAmount" id="TotalAmount" class="form-control" value="0.00" readonly>
+                                    <input type="text" name="TotalAmount" id="TotalAmount" class="form-control" value="{{ $TotalAmount }}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -232,6 +239,7 @@
                                     <th>Total</th>
                                     <th width="30">Action</th>
                                 </thead>
+                                @if($id == '')
                                 <tbody>
                                     <tr>    
                                         <td width="200">
@@ -257,6 +265,46 @@
                                         </td>
                                     </tr>
                                 </tbody>
+                                @elseif ($id != "")
+                                @foreach ($purchase_items as $Tablerow)
+                                <tr>    
+                                    <td width="200">
+                                        <select name="category[]" id="category" class="form-select category" required>
+                                            <option value="">---SELECT---</option>
+                                            @foreach ($category_dataset as $row)
+                                                @if($Tablerow->category_id == $row->id)
+                                                <option value="{{$row->id}}" selected>{{$row->name}}</option>
+                                                @else
+                                                <option value="{{$row->id}}">{{$row->name}}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        @php
+                                        $dropdown_dataset = App\Http\Controllers\HelperController::get_Product($Tablerow->category_id);
+                                        @endphp
+                                        <select name="product[]" id="product" class="form-select product" required>
+                                            @foreach ($dropdown_dataset as $row)
+                                            @if($Tablerow->product_id == $row->id)
+                                            <option value="{{$row->id}}" selected>{{$row->name}}</option>
+                                            @else
+                                            <option value="{{$row->id}}">{{$row->name}}</option>
+                                            @endif
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td width="120">
+                                        <input min="0" type="number" name="qty[]" id="qty" class="form-control" placeholder="Quantity" value="{{ $Tablerow->quantity }}" required>
+                                    </td>
+                                    <td width="120"><input type="text" name="price[]" id="price" class="form-control" placeholder="Price" required value="{{ $Tablerow->amount }}"></td>
+                                    <td width="120"><input type="text" name="total[]" id="total" class="form-control" placeholder="Total" required value="{{ $Tablerow->total_amount }}"></td>
+                                    <td>
+                                        <a class="btn-reomve btn btn-icon"><span class="mdi mdi-close-circle"></span></a>
+                                    </td>
+                                </tr>
+                                @endforeach                               
+                                @endif
                             </table>
                         </div>
                     </div>

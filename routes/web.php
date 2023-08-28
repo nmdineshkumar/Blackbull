@@ -87,5 +87,7 @@ Route::group(['prefix'=>$prefix,'middleware'=>'auth:admin'], function () use($pr
     //Customer
     Route::resource('customer', CustomerController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.customer');
     Route::get('/get-customer/{id}',[CustomerController::class,'getCustomer'])->name('get-customer');
+    //Purchase order payment
+    Route::get('purchase/payment/{id}', [PurchaseOrderController::class, 'addPayment'])->name($prefix.'.purchase.addPayment');
 
 });
