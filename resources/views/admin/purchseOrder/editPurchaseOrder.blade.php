@@ -9,6 +9,11 @@
     $SubTotalAmount = (old('SubTotalAmount') == '') ? '0.00' : old('SubTotalAmount');
     $tax = old('tax');
     $TotalAmount = (old('TotalAmount') == '') ? '0.00' : old('SubTotalAmount');
+    $product = old('product');
+    $category = old('category');
+    $qty = old('qty');
+    $price = old('price');
+    $total = old('total') == "" ? "0.00" : old('total');
     if ($id != '') {
         # assign the Edit purchase orider information
         $branch = (old('branch') != '') ? $branch : $purchase->branch;
@@ -19,7 +24,7 @@
         $tax = (old('tax') != '') ? $tax : $purchase->invoice_tax;
         $TotalAmount = (old('TotalAmount')!= '') ? $TotalAmount : $purchase->invoice_amount;
         //(Number($purchase->invoice_amount) – (Number($purchase->invoice_amount) * (100 / (100 + Number($purchase->invoice_tax)% ) ) ))
-        $SubTotalAmount = (old('SubTotalAmount')!= '') ? $SubTotalAmount :  ($purchase->invoice_tax == '0' ? $purchase->invoice_amount : ($purchase->invoice_amount -($purchase->invoice_amount * (100/100 + $purchase->invoice_tax )) ) ) ;
+        $SubTotalAmount = (old('SubTotalAmount')!= '') ? $SubTotalAmount :  ($purchase->invoice_tax == '0' ? $purchase->invoice_amount : ($purchase->invoice_amount - ($purchase->invoice_amount * 100 /(100 + $purchase->invoice_tax )) ) ) ;
     }
 @endphp
 @extends('layout.mainLayout')
@@ -239,8 +244,56 @@
                                     <th>Total</th>
                                     <th width="30">Action</th>
                                 </thead>
-                                @if($id == '')
                                 <tbody>
+                            @if($id == '')
+                                @if($product != '')
+                                        @foreach ($category as $category_index => $categoryrow)
+                                            <tr>
+                                                <td width="200">
+                                                    <select name="category[]" id="category" class="form-select category"
+                                                        required>
+                                                        <option value="">---SELECT---</option>
+                                                        @foreach ($category_dataset as $index => $row)
+                                                            @if($categoryrow == $row->id)
+                                                            <option value="{{ $row->id }}" selected>{{ $row->name }}</option>
+                                                            @else
+                                                            <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                {{-- Get Product by category --}}
+                                                @php
+                                                    $dropdown_dataset = App\Http\Controllers\HelperController::get_Product($categoryrow);
+                                                @endphp
+                                                <td>
+                                                    <select name="product[]" id="product" class="form-select product"
+                                                        data-live-search="true" required>
+                                                        <option value="">---SELECT---</option>
+                                                        @foreach ($dropdown_dataset as $productrow)
+                                                            @if($product[$category_index] == $productrow->id)
+                                                            <option value="{{ $productrow->id }}" selected>{{ $productrow->name }}</option>
+                                                            @else
+                                                            <option value="{{ $productrow->id }}">{{ $productrow->name }}</option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td width="120">
+                                                    <input min="0" type="number" name="qty[]" id="qty"
+                                                        class="form-control" placeholder="Quantity" required value="{{ $qty[$category_index] }}">
+                                                </td>
+                                                <td width="120"><input type="text" name="price[]" id="price"
+                                                        class="form-control" placeholder="Price" required value="{{ $price[$category_index] }}"></td>
+                                                <td width="120"><input type="text" name="total[]" id="total"
+                                                        class="form-control" placeholder="Total" required readonly value="{{ $total[$category_index] }}"></td>
+                                                <td>
+                                                    <a class="btn-reomve btn btn-icon text-red"><span
+                                                            class="mdi mdi-close-circle"></span></a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                @else
                                     <tr>    
                                         <td width="200">
                                             <select name="category[]" id="category" class="form-select category" required>
@@ -264,7 +317,7 @@
                                             <a class="btn-reomve btn btn-icon"><span class="mdi mdi-close-circle"></span></a>
                                         </td>
                                     </tr>
-                                </tbody>
+                                    @endif
                                 @elseif ($id != "")
                                 @foreach ($purchase_items as $Tablerow)
                                 <tr>    
@@ -305,6 +358,7 @@
                                 </tr>
                                 @endforeach                               
                                 @endif
+                            </tbody>
                             </table>
                         </div>
                     </div>
