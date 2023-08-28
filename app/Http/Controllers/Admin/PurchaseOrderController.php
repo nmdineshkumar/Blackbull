@@ -8,6 +8,7 @@ use App\Models\category;
 use App\Models\Productstock;
 use App\Models\PurchaseItem;
 use App\Models\PurchaseOrder;
+use App\Models\PurchaseTransaction;
 use App\Models\Supplier;
 use Carbon\Carbon;
 use Exception;
@@ -208,10 +209,90 @@ class PurchaseOrderController extends Controller
             info('Manufacture-delete-error:'.$th->getMessage());
         }
     }
-    public function addPayment($id){
-        return view('admin.purchseOrder.addPayment')
-                ->with('pageName', 'Add Payment')
-                ->with('id',$id)
-                ->with('resourceUrl', $this->resourceUrl());
+    public function addPayment(Request $request,$id){
+        if($request->ajax()){
+            $data = PurchaseTransaction::where('purchase_id','=',$id);
+            return DataTables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('name', function($row){
+                        return get_PaymentTypes($row->payment_mode);
+                    })
+                    ->addColumn('date',function($row){
+                        return $row->payment_date;
+                    })
+                    ->addColumn('reference',function($row){
+                        return $row->transaction_reference;
+                    })
+                    ->addColumn('amount',function($row){
+                        return $row->amount;
+                    })
+                    ->addColumn('action', function($row){
+                        if($row->deleted_at === NULL){
+                            return getActionButtons($row->id, $this->resourceUrl(),['delete']);
+                        }else{
+                            return getActionButtons($row->id, $this->resourceUrl(),['retrieve']);
+                        }
+                    })
+                    ->rawColumns(['name','action'])
+                    ->make(true);
+        }else{
+            return view('admin.purchseOrder.addPayment')
+            ->with('pageName', 'Add Payment')
+            ->with('id',$id)
+            ->with('transaction_id','')
+            ->with('resourceUrl', $this->resourceUrl());
+        }       
+    }
+    public function savePayment(Request $request){
+        $validate = $request->validate([
+            'Payment_mode' => 'required',
+            'Payment_date' => 'required',
+            'Reference_number' => 'required',
+            'amount' => 'required',
+        ]);
+        if($validate){
+            $payment = new PurchaseTransaction();            
+            if($request->transaction_id != ''){
+                $data =[
+                    'purchase_id' => $request->id,
+                    'payment_mode' => $request->Payment_mode,
+                    'payment_date' => $request->Payment_date,
+                    'transaction_reference' => $request->Reference_number,
+                    'amount' => $request->amount,
+                    'updated_by' => Auth::guard('admin')->user()->id,
+                    'updated_at' => Carbon::now()
+                ];
+                try{
+                $res = $payment::whereId($request->transaction_id)->update($data);
+                if($res){
+                    return back()->with('success','Purchase Payment Updated successfully...!!!');
+                }else{
+                    return back()->with('error','Error Updating Purchase Payment...!!!');
+                }
+                } catch (Exception $th) {
+                    info('Purchase-Payment-update-error:'.$th->getMessage());
+                }
+            }else{
+            try {
+                $data =[
+                    'purchase_id' => $request->id,
+                    'payment_mode' => $request->Payment_mode,
+                    'payment_date' => $request->Payment_date,
+                    'transaction_reference' => $request->Reference_number,
+                    'amount' => $request->amount,
+                    'created_by' => Auth:: guard('admin')->user()->id,
+                    'created_at' => Carbon::now()
+                ];
+                $res = $payment::insert($data);
+                if($res){
+                    return back()->json('success','Purchase Payment Saved successfully...!!!');
+                }else{
+                    return back()->json('error','Error Saved Purchase Payment...!!!');
+                }
+                } catch (Exception $th) {
+                    info('Purchase-Payment-saved-error:'.$th->getMessage());
+                }
+            }
+        }
     }
 }

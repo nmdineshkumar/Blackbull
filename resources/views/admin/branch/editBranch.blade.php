@@ -171,6 +171,6 @@
 @endsection
 
 
-@push('js')
+@section('js')
 
-@endpush
+@endsection

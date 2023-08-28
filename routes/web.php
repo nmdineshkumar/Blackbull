@@ -89,5 +89,5 @@ Route::group(['prefix'=>$prefix,'middleware'=>'auth:admin'], function () use($pr
     Route::get('/get-customer/{id}',[CustomerController::class,'getCustomer'])->name('get-customer');
     //Purchase order payment
     Route::get('purchase/payment/{id}', [PurchaseOrderController::class, 'addPayment'])->name($prefix.'.purchase.addPayment');
-
+    Route::post('purchase/payment',[PurchaseOrderController::class,'savePayment'])->name($prefix.'.purchase.savePayment');
 });

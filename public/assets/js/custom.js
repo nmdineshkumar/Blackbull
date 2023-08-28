@@ -31,6 +31,23 @@ function initializeDataTable(id, url, columns) {
         //   order: [[0, 'desc']]
     });
 }
+function reInitializeDataTable(id, url, columns) {
+    $('#' + id).DataTable({
+        processing: true,
+        serverSide: true,
+        stateSave: true,
+        destroy: true,
+        // ajax: url,
+        ajax: {
+            url: url,
+            data: function (d) {
+                d.category = $('.search-category :selected').val()
+            }
+        },
+        columns: columns,
+        //   order: [[0, 'desc']]
+    });
+}
 $('#country').on('change',function(e){
     var state = $('#state');
     state.empty();

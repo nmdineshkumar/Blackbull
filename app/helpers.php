@@ -34,6 +34,23 @@
             return s3BaseUrl() . ( string )$relativePath;
         }
     }
+    function paymentTypes(): array {
+        return [
+            ( object )[ 'id' => 1, 'name' =>'Cheque'], 
+            ( object )[ 'id' => 2, 'name' =>'Online'], 
+            ( object )[ 'id' => 3, 'name' =>'Cash' ], 
+            ( object )[ 'id' => 4, 'name' =>'Credit Card']
+        ];
+    }
+    function get_PaymentTypes($id):string{
+        $name = "";
+        foreach(paymentTypes() as $row){
+            if($id == $row->id){
+                $name = $row->name;
+            }
+        }
+        return $name;
+    }
     function statusOptions(): array {
         return [
             ( object )[ 'id' => 1, 'name' => 'Active', 'class'=>'success' ],
