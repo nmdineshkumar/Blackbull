@@ -1,6 +1,19 @@
 @php
     $preload = [];
     $image = old('image');
+    $branch = old('branch');
+    $supplier = old('supplier');
+    $purchasetype = old('purchasetype');
+    $invoiceno = old('invoiceno');
+    $invoicedata = old('invoicedata');
+    if ($id != '') {
+        # assign the Edit purchase orider information
+        $branch = (old('branch') != '') ? $branch : $purchase->branch;
+        $supplier = (old('supplier') != '') ? $supplier : $purchase->supplier;
+        $purchasetype = (old('purchasetype') != '') ? $purchasetype : $purchase->purchase_type;
+        $invoiceno = (old('invoiceno') != '') ? $invoiceno : $purchase->invoice_no;
+        $invoicedata = (old('invoicedata') != '') ? $invoicedata : $purchase->invoice_date;
+    }
 @endphp
 @extends('layout.mainLayout')
 @section('page-breadcrumb')
@@ -43,13 +56,33 @@
                             <label for="">Branch</label>
                             <select name="branch" id="branch" class="form-select">
                                 <option value="">---SELECT---</option>
+                                @if ($id != '')
+                                    @foreach ($branch_dataset as $row )
+                                        @if($branch == $row->id)
+                                        <option value="{{$row->id}}" selected>{{$row->name}}</option>
+                                        @else
+                                        <option value="{{$row->id}}">{{$row->name}}</option>
+                                        @endif
+                                    @endforeach
+                                @else
+                                @if ($branch != '')
                                 @foreach ($branch_dataset as $row )
+                                    @if($branch == $row->id)
+                                    <option value="{{$row->id}}" selected>{{$row->name}}</option>
+                                    @else
                                     <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endif
                                 @endforeach
+                                @else
+                                    @foreach ($branch_dataset as $row )
+                                        <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endforeach
+                                @endif
+                                @endif
                             </select>
                             @error('branch')
                                     <div class="error">{{$message}}</div>
-                                @enderror
+                            @enderror
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -57,9 +90,30 @@
                             <label for="">Supplier</label>
                             <select name="supplier" id="supplier" class="form-select">
                                 <option value="">---SELECT---</option>
+                                @if ($id != '')
+                                    @foreach ($supplier_dataset as $row )
+                                        @if($supplier == $row->id)
+                                        <option value="{{$row->id}}" selected>{{$row->name}}</option>
+                                        @else
+                                        <option value="{{$row->id}}">{{$row->name}}</option>
+                                        @endif
+                                    @endforeach
+                                @else
+                                @if ($branch != '')
                                 @foreach ($supplier_dataset as $row )
+                                    @if($supplier == $row->id)
+                                    <option value="{{$row->id}}" selected>{{$row->name}}</option>
+                                    @else
                                     <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endif
                                 @endforeach
+                                @else
+                                    @foreach ($supplier_dataset as $row )
+                                        <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endforeach
+                                @endif
+                                @endif
+                              
                             </select>
                             @error('supplier')
                                     <div class="error">{{$message}}</div>
@@ -69,9 +123,30 @@
                             <label for="">Purchase Type</label>
                             <select name="purchasetype" id="purchasetype" class="form-select">
                                     <option value="">---SELECT---</option>
-                                @foreach (purchase_type() as $row)
-                                     <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                    @if ($id != '')
+                                    @foreach (purchase_type() as $row )
+                                        @if($purchasetype == $row->id)
+                                        <option value="{{$row->id}}" selected>{{$row->name}}</option>
+                                        @else
+                                        <option value="{{$row->id}}">{{$row->name}}</option>
+                                        @endif
+                                    @endforeach
+                                @else
+                                @if ($branch != '')
+                                @foreach (purchase_type() as $row )
+                                    @if($purchasetype == $row->id)
+                                    <option value="{{$row->id}}" selected>{{$row->name}}</option>
+                                    @else
+                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endif
                                 @endforeach
+                                @else
+                                    @foreach (purchase_type() as $row )
+                                        <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endforeach
+                                @endif
+                                @endif
+                               
                             </select>
                             @error('purchasetype')
                                     <div class="error">{{$message}}</div>
@@ -79,14 +154,14 @@
                         </div>
                         <div class="col-md-3 col-sm-12">
                             <label for="">Invoice Number</label>
-                            <input type="text" name="invoiceno" id="invoiceno" class="form-control">
+                            <input type="text" name="invoiceno" id="invoiceno" class="form-control" value="{{$invoiceno}}">
                             @error('invoiceno')
                                     <div class="error">{{$message}}</div>
                                 @enderror
                         </div>
                         <div class="col-md-3 col-sm-12">
                             <label for="">Invoice Date</label>
-                            <input type="text" name="invoicedata" id="invoicedate" class="form-control">
+                            <input type="text" name="invoicedata" id="invoicedate" class="form-control" value="{{$invoicedata}}">
                             @error('invoicedata')
                                     <div class="error">{{$message}}</div>
                                 @enderror

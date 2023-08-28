@@ -81,7 +81,11 @@ class PurchaseOrderController extends Controller
         $purchase = $this->modelIns()::find($id);
         $category_dataset = category::get(['id','name']);
         $supplier_dataset = Supplier::get(['id','name']);
-        return view('admin.purchseOrder.editPurchaseOrder',compact('purchase','category_dataset','supplier_dataset'))
+        $branch_dataset = Branch::all();
+        return view('admin.purchseOrder.editPurchaseOrder',compact('purchase',
+                                                'category_dataset',
+                                                'supplier_dataset',
+                                                'branch_dataset'))
         ->with('pageName', 'Edit Manufacturer')
         ->with('id',$id)
         ->with('resourceUrl',$this->resourceUrl());
