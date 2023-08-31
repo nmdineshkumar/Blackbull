@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\TubeController;
 use App\Http\Controllers\Admin\TyreController;
 use App\Http\Controllers\Admin\TyresizeController;
+use App\Http\Controllers\Admin\ExpenseController;
 use App\Http\Controllers\Auth\Logincontroller;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\HelperController;
@@ -90,4 +91,6 @@ Route::group(['prefix'=>$prefix,'middleware'=>'auth:admin'], function () use($pr
     //Purchase order payment
     Route::get('purchase/payment/{id}', [PurchaseOrderController::class, 'addPayment'])->name($prefix.'.purchase.addPayment');
     Route::post('purchase/payment',[PurchaseOrderController::class,'savePayment'])->name($prefix.'.purchase.savePayment');
+    //Monthly Expense
+    Route::resource('expense', ExpenseController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.expense');
 });
