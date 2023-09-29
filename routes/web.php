@@ -40,7 +40,7 @@ Route::get('/clear',function(){
     return "Cleared!";
 });
 Route::get('/', function () {
-    return redirect()->route('login');
+    return view('website.home');
 });
 Route::get('/invoice/{id}',[SaleController::class, 'viewInvoice'])->name('getInvoice');
 Route::get('/state/{id}',[HelperController::class,'getState']);
