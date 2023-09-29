@@ -135,6 +135,73 @@
             z-index: 1;
         }
 
+        .top_section,
+        .sc_call_to_action_title,
+        .sc_call_to_action_descr,
+        .sc_intro_content {
+            color: #ddd !important;
+        }
+
+        .sc_testimonial_author {
+            display: block;
+            vertical-align: middle;
+        }
+
+        .sc_testimonial_content:before {
+            font-size: 1em;
+            content: '\e820\e820\e820\e820\e820';
+            font-family: Fontello, sans-serif;
+            position: absolute;
+            letter-spacing: 3px;
+            left: 50%;
+            top: 10px;
+            -webkit-transform: translateX(-50%);
+            -moz-transform: translateX(-50%);
+            transform: translateX(-50%);
+        }
+
+        .sc_testimonial_content:before {
+            color: #bf2d0d;
+        }
+
+        .item_title {
+            margin-top: 0em;
+            margin-bottom: 1.2em;
+            padding: 0 1em;
+            overflow: hidden;
+            font-family: Montserrat, sans-serif;
+            font-size: 1em;
+            font-weight: 700;
+            line-height: 1.15em;
+        }
+
+        .item_title a {
+            color: #393939;
+            text-transform: uppercase;
+        }
+
+        .item_price {
+            color: #bf2d0d;
+        }
+
+        .price {
+            margin-top: 0.6em;
+            margin-bottom: 0;
+            font-family: Montserrat, sans-serif;
+            font-size: 1.6em;
+            font-weight: 700;
+            line-height: 1.333em;
+        }
+
+        .sc_call_to_action_descr {
+            font-style: normal;
+            font-size: 1.333em;
+            font-weight: 400;
+            line-height: 1.45em;
+            margin-bottom: 0;
+            max-width: 400px;
+        }
+
         .vc_service {
             background-color: #f2f3f3 !important;
         }
@@ -173,11 +240,13 @@
         .sc_icon {
             border: 2px solid #ddd;
         }
-        .service_item_right{
+
+        .service_item_right {
             margin-right: 0px !important;
             margin-left: 20%;
         }
-        .service_item_right .sc_icon{
+
+        .service_item_right .sc_icon {
             float: right;
             margin-left: 1.6em;
             margin-right: 0;
@@ -300,8 +369,84 @@
     <div class="content">
         @yield('content')
     </div>
-    <footer>
-
+    <footer class="footer_wrap widget_area scheme_original">
+        <div class="footer_wrap_inner widget_area_inner">
+            <div class="content_wrap">
+                <div class="row ">
+                    <div class="col-3">
+                        <div class="widget_inner me-3">
+                            <div class="logo">
+                                <a href="/"><img src="{{ asset('imgs/bbt_text_logo.png') }}" alt=""
+                                        srcset=""></a>
+                            </div>
+                            <div class="logo_descr">
+                                You get to enjoy a super fast and hassle free delivery. Additionaly,
+                                upon delivering the wheels & tires, we offer free installation.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <h4 class="widget_title">
+                            Links
+                        </h4>
+                        <div class="menu-footer-menu-container">
+                            <ul id="menu-footer-menu" class="menu">
+                                <li id="menu-item-744"
+                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-744">
+                                    <a href="https://reisen.themerex.net/">Home</a></li>
+                                <li id="menu-item-349"
+                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-349"><a
+                                        href="https://reisen.themerex.net/tires/">Tires</a></li>
+                                <li id="menu-item-353"
+                                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-353"><a
+                                        href="https://reisen.themerex.net/our-services/">Features</a></li>
+                                <li id="menu-item-350"
+                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-350"><a
+                                        href="https://reisen.themerex.net/shop/">Shop</a></li>
+                                <li id="menu-item-352"
+                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-352"><a
+                                        href="https://reisen.themerex.net/wheels/">Wheels</a></li>
+                                <li id="menu-item-351"
+                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-351"><a
+                                        href="https://reisen.themerex.net/contacts/">Contacts</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <h4 class="widget_title">
+                            Contact Us
+                        </h4>
+                        <div class="textwidget">Call Us On <a href="tel:2345678900">(234) 567 89 00</a><br>
+                            775 Avenue, Brooklyn, NY<br>
+                            <a href="mailto:info@site.com">info@site.com</a></div>
+                    </div>
+                    <div class="col-3">
+                        <h4 class="widget_title">
+                            Get Our Newsletter
+                        </h4>
+                        <div class="textwidget"><script>(function() {
+                            window.mc4wp = window.mc4wp || {
+                                listeners: [],
+                                forms: {
+                                    on: function(evt, cb) {
+                                        window.mc4wp.listeners.push(
+                                            {
+                                                event   : evt,
+                                                callback: cb
+                                            }
+                                        );
+                                    }
+                                }
+                            }
+                        })();
+                        </script><!-- Mailchimp for WordPress v4.9.3 - https://wordpress.org/plugins/mailchimp-for-wp/ --><form id="mc4wp-form-1" class="mc4wp-form mc4wp-form-364" method="post" data-id="364" data-name=""><div class="mc4wp-form-fields"><div class="emailer">    
+                            <input type="email" name="EMAIL" placeholder="email" required="" autocomplete="off">
+                            <button type="submit" class="icon-icon_5"></button>
+                        </div></div><label style="display: none !important;">Leave this field empty if you're human: <input type="text" name="_mc4wp_honeypot" value="" tabindex="-1" autocomplete="off"></label><input type="hidden" name="_mc4wp_timestamp" value="1695980981"><input type="hidden" name="_mc4wp_form_id" value="364"><input type="hidden" name="_mc4wp_form_element_id" value="mc4wp-form-1"><div class="mc4wp-response"></div></form><!-- / Mailchimp for WordPress Plugin --></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
