@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/front/responsive.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/front/animation/core.animations.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/front/fontello/css/fontello.css') }}">
-    <link rel="stylesheet" href="{{asset('assets/css/front/select2.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/css/front/select2.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel='stylesheet' id='reisen-font-google-fonts-style-css'
@@ -47,13 +47,15 @@
             width: auto;
         }
 
-        a.sc_button,button {
+        a.sc_button,
+        button {
             background-color: #393939 !important;
             color: #ffffff;
             border-color: #393939 !important;
         }
 
-        a.sc_button.sc_button_style_filled,.woof_submit_search_form {
+        a.sc_button.sc_button_style_filled,
+        .woof_submit_search_form {
             background-color: #bf2d0d !important;
             border-color: #bf2d0d !important;
             color: inherit;
@@ -132,7 +134,54 @@
             position: relative;
             z-index: 1;
         }
-        
+
+        .vc_service {
+            background-color: #f2f3f3 !important;
+        }
+
+        .sc_services_image {
+            position: absolute;
+            width: 30%;
+            left: 50%;
+            top: 50%;
+            transform: translateY(-50%) translateX(-50%);
+            text-align: center;
+        }
+
+        .service_item {
+            margin-right: 33%;
+        }
+
+        .service_item .sc_icon {
+            display: block;
+            width: 3.87em;
+            height: 3.87em;
+            line-height: 3.87em;
+            margin: 0 auto;
+            text-align: center;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+        }
+
+        .service_item .sc_icon {
+            margin-bottom: 2.2857em;
+            margin-top: 1em;
+            background: #ddd;
+        }
+
+        .sc_icon {
+            border: 2px solid #ddd;
+        }
+        .service_item_right{
+            margin-right: 0px !important;
+            margin-left: 20%;
+        }
+        .service_item_right .sc_icon{
+            float: right;
+            margin-left: 1.6em;
+            margin-right: 0;
+        }
     </style>
     <script>
         function setREVStartSize(e) {
@@ -203,7 +252,8 @@
                             <div class="contact_logo">
                                 <div class="logo">
                                     <a href="javascript:void()"><img class="logo_main"
-                                            src="{{ asset('imgs/logo.jpeg') }}" alt="" srcset=""></a>
+                                            src="{{ asset('imgs/logo_with_text.png') }}" alt=""
+                                            srcset=""></a>
                                 </div>
                             </div>
                             <div class="menu_main_wrap">

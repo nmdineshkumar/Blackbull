@@ -9275,7 +9275,13 @@ body .woof_sid_auto_shortcode .woof_container.woof_container_select_hierarchy .s
 	top: 50%;
 	transform: translateY(-50%);
 }
-
+h4.sc_services_item_title a{
+		font-family: "Montserrat", sans-serif;
+		margin: 0 0 0;
+    	font-size: 0.9em;
+    	font-weight: 700;
+		color: #393939;
+}
 body .woof_sid_auto_shortcode .woof_container.woof_container_select_hierarchy .woof_contain + .woof_contain,
 body .woof_sid_auto_shortcode .woof_container + .woof_container {
 	margin-left: 2.6%;
