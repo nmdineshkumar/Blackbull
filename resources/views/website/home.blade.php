@@ -1,5 +1,6 @@
 @extends('website.mainLayout')
 @section('content')
+@include('website.banner_Layout')
     <div class="container-fluid">
         <div class="row p-0 scheme_original">
             <div class="col-md-4  p-0 sc_section animated fadeInLeft normal">

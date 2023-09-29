@@ -40,9 +40,9 @@ Route::get('/clear',function(){
     Artisan::call('optimize');
     return "Cleared!";
 });
-Route::get('/', function () {
-    return view('website.home');
-});
+Route::get('/', [\App\Http\Controllers\HomeController::class,'index'])->name('home');
+Route::get('/about-us', [\App\Http\Controllers\AboutController::class,'index'])->name('about-us');
+Route::get('/contact-us', [\App\Http\Controllers\ContactController::class,'index'])->name('contact-us');
 Route::get('/invoice/{id}',[SaleController::class, 'viewInvoice'])->name('getInvoice');
 Route::get('/state/{id}',[HelperController::class,'getState']);
 Route::get('/cities/{id}',[HelperController::class,'getCity']);

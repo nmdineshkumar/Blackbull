@@ -109,7 +109,9 @@
         .sc_section_subtitle::before {
             color: rgba(57, 57, 57, 0.1);
         }
-
+        a{
+            color: #bf2d0d;
+        }
         .sc_section_subtitle {
             color: #bf2d0d;
             margin: 4.25em 0 0.05em;
@@ -122,12 +124,20 @@
             text-align: center;
             position: relative;
         }
-
-        .vc_column-inner .sc_section_title {
+        input[type="text"],input[type="email"],textarea{
+            background-color: #f2f3f3;
+        }
+        input[type="text"]:hover,input[type="email"]:hover,textarea:hover{
+            background-color: #ddd;
+        }
+        .vc_column-inner .sc_section_title,.sc_title {
             font-family: "Montserrat", sans-serif;
             font-size: 2.4em;
             line-height: 1.3em;
             font-weight: 700;
+        }
+        .sc_title{
+            font-size: 1.2em;
         }
 
         .vc_parallax>* {
@@ -328,12 +338,12 @@
                             <div class="menu_main_wrap">
                                 <nav class="menu_main_nav_area menu_hover_fade">
                                     <ul id="main-menu" class="menu_main_nav inited sf-js-enabled sf-arrows">
-                                        <li><a href=""><span>Home</span></a></li>
+                                        <li><a href="{{route('home')}}"><span>Home</span></a></li>
                                         <li><a href=""><span>FEATURE</span></a></li>
                                         <li><a href=""><span>WHEELS</span></a></li>
                                         <li><a href=""><span>TYRES</span></a></li>
-                                        <li><a href=""><span>ABOUT</span></a></li>
-                                        <li><a href=""><span>CONTACT</span></a></li>
+                                        <li><a href="{{route('about-us')}}"><span>ABOUT</span></a></li>
+                                        <li><a href="{{route('contact-us')}}"><span>CONTACT</span></a></li>
                                     </ul>
                                 </nav>
                                 <div class="menu_main_cart top_panel_icon">
@@ -363,7 +373,6 @@
                     </div>
                 </div>
             </header>
-            @include('website.banner_Layout')
         </div>
     </div>
     <div class="content">
