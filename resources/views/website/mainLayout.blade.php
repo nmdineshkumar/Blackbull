@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/front/themes-short-code.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/front/responsive.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/front/animation/core.animations.css') }}">
-    <link rel="stylesheet" href="{{asset('assets/css/front/fontello/css/fontello.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/css/front/fontello/css/fontello.css') }}">
+    <link rel="stylesheet" href="{{asset('assets/css/front/select2.css')}}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel='stylesheet' id='reisen-font-google-fonts-style-css'
@@ -46,10 +47,16 @@
             width: auto;
         }
 
-        a.sc_button {
+        a.sc_button,button {
             background-color: #393939 !important;
             color: #ffffff;
             border-color: #393939 !important;
+        }
+
+        a.sc_button.sc_button_style_filled,.woof_submit_search_form {
+            background-color: #bf2d0d !important;
+            border-color: #bf2d0d !important;
+            color: inherit;
         }
 
         a:link,
@@ -96,10 +103,12 @@
             padding-right: 15px;
             width: 100%;
         }
-        .sc_section_subtitle::before{
+
+        .sc_section_subtitle::before {
             color: rgba(57, 57, 57, 0.1);
         }
-        .sc_section_subtitle{
+
+        .sc_section_subtitle {
             color: #bf2d0d;
             margin: 4.25em 0 0.05em;
             padding-top: 1.7em;
@@ -111,6 +120,19 @@
             text-align: center;
             position: relative;
         }
+
+        .vc_column-inner .sc_section_title {
+            font-family: "Montserrat", sans-serif;
+            font-size: 2.4em;
+            line-height: 1.3em;
+            font-weight: 700;
+        }
+
+        .vc_parallax>* {
+            position: relative;
+            z-index: 1;
+        }
+        
     </style>
     <script>
         function setREVStartSize(e) {
