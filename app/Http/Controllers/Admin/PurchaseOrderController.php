@@ -236,7 +236,8 @@ class PurchaseOrderController extends Controller
                     ->rawColumns(['name','action'])
                     ->make(true);
         }else{
-            return view('admin.purchseOrder.addPayment')
+           $purchaseOrder = PurchaseOrder::find($id);
+            return view('admin.purchseOrder.addPayment',compact('purchaseOrder'))
             ->with('pageName', 'Add Payment')
             ->with('id',$id)
             ->with('transaction_id','')

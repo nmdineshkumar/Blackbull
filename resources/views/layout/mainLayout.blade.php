@@ -275,7 +275,7 @@
                     </li>
                     <li><a href="#"  class="has-arrow wave-effect"><i class="mdi mdi-wallet-bifold"></i><span>Expense</span></a>
                         <ul class="sub-menu mm-collapse" aria-expanded="false">
-                            <li><a href="{{route('admin.purchase.index')}}"><i class="mdi mdi-calendar-account-outline"></i>Month</a></li>
+                            <li><a href="{{route('admin.expense.index')}}"><i class="mdi mdi-calendar-account-outline"></i>Month</a></li>
                         </ul>
                     </li>
                 </ul>

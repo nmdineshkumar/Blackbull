@@ -31,6 +31,24 @@
                 </div>
             </div>
             <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-3">
+                    <label for="">Name</label>
+                    <input type="text" name="Supplier" id="Supplier" disabled class="form-control" value="{{ \App\Http\Controllers\Admin\PurchaseOrderController::getSupplier($purchaseOrder->supplier) }}">
+                </div>
+                <div class="col-3">
+                    <label for="">Invocie Date</label>
+                    <input type="text" name="invoiceDate" id="invoiceDate" disabled value="{{ \Carbon\Carbon::parse($purchaseOrder->invoice_date)->format('d-m-Y') }}" class="form-control">
+                </div>
+                <div class="col-3">
+                    <label for="">Invoice Amount</label>
+                    <input type="text" name="invocieAmount" disabled id="invoiceAmount" value="{{ $purchaseOrder->invoice_amount }}" class="form-control">
+                </div>
+                <div class="col-3">
+                    <label for="">Invoice Number</label>
+                    <input type="text" name="invoiceNo" id="invoiceNo" value="{{ $purchaseOrder->invoice_no }}" disabled class="form-control">
+                </div>
+            </div>
             <form id="FrmPayment" ajax-submit="true" action="{{route('admin.purchase.savePayment')}}" method="post">
                 <div class="row mb-3">
                     <div class="col-md-3 col-sm-6">
