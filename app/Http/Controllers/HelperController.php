@@ -303,5 +303,46 @@ class HelperController extends Controller
             return back()->withErrors('errors','Please choose a category');
         }
     }
+    public static function FilterMaker(){
+        $data = DB::select('SELECT m.id,m.name,count(C.id) as countNo FROM `cars_datas` C
+                            inner join manufacturers m on m.id = C.maker
+                            GROUP BY(m.id);');
+        $return_data = array();
+        foreach($data as $key => $row){
+            $return_data[$key]['id'] = $row->id;
+            $return_data[$key]['name'] = $row->name.'('.$row->countNo.')';
+        }
+        return response()->json($return_data);
+    }
+    public function FilterCarModel($id){
+        $data['model'] = DB::select('SELECT cm.id,cm.name,count(C.model) as countNo FROM `cars_datas` C
+                            inner join manufacturers m on m.id = C.maker
+                            inner join car_model cm on m.id = cm.make and C.model = cm.id
+                            where c.maker = '.$id.'
+                                GROUP BY(cm.id);');
+        $data['target'] = 'year';
+        $data['url'] = route('frontend.filter.year',':id');
+        return $data;
+    }
+    public function FilterCarYear($id){
+        $data['model'] = DB::select('SELECT C.year as id,C.year as name,count(C.year) as countNo FROM `cars_datas` C
+                            inner join manufacturers m on m.id = C.maker
+                            inner join car_model cm on m.id = cm.make and C.model = cm.id
+                                GROUP BY(C.year);');
+        $data['target'] = 'size';
+        $data['url'] = route('frontend.filter.size',':id');
+        return $data;
+    }
+    public function FilterCarSize($id,Request $request){
+        $data['model'] = DB::select("SELECT ts.id,concat(ts.height,'X',ts.width,' R',ts.rim_size,' ',ts.speed) as name, '' as countNo FROM `cars_datas` C
+                                    inner join manufacturers m on m.id = C.maker
+                                    inner join car_model cm on m.id = cm.make and C.model = cm.id
+                                    inner join tyresizes ts on ts.id = c.tyre_size
+                                    where c.maker = '$request->make' and m.id = '$request->model'
+                                        and C.year = '$id';");
+        $data['target'] = '';
+        $data['url'] = '';
+        return $data;
+    }
 
 }

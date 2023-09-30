@@ -40,9 +40,17 @@ Route::get('/clear',function(){
     Artisan::call('optimize');
     return "Cleared!";
 });
+Route::get('/filter-by-maker',[HelperController::class,'FilterMaker'])->name('frontend.filter.maker');
+Route::get('/filter-by-make/{id}',[HelperController::class,'FilterCarModel'])->name('frontend.filter.model');
+Route::get('/filter-by-model/{id}',[HelperController::class,'FilterCarYear'])->name('frontend.filter.year');
+Route::get('/filter-by-year/{id}',[HelperController::class,'FilterCarSize'])->name('frontend.filter.size');
 Route::get('/', [\App\Http\Controllers\HomeController::class,'index'])->name('home');
 Route::get('/about-us', [\App\Http\Controllers\AboutController::class,'index'])->name('about-us');
 Route::get('/contact-us', [\App\Http\Controllers\ContactController::class,'index'])->name('contact-us');
+Route::get('/shop', [\App\Http\Controllers\ShopController::class,'index'])->name('shop');
+Route::get('/tyre', [\App\Http\Controllers\TyreController::class,'index'])->name('tyre');
+Route::get('/wheel', [\App\Http\Controllers\WheelController::class,'index'])->name('wheel');
+Route::get('/tube', [\App\Http\Controllers\TubeController::class,'index'])->name('tube');
 Route::get('/invoice/{id}',[SaleController::class, 'viewInvoice'])->name('getInvoice');
 Route::get('/state/{id}',[HelperController::class,'getState']);
 Route::get('/cities/{id}',[HelperController::class,'getCity']);

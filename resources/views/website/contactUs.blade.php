@@ -12,7 +12,7 @@
                             CONTACT INFORMATION</h3>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-12 ps-5">
+                <div class="col-md-4 col-sm-12 ps-5">
                     <div class="contact-left">
                         <h5 class="sc_title sc_title_regular sc_align_left margin_top_null" style="text-align:left;">Our
                             Location
@@ -44,7 +44,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-12">
+                <div class="col-md-8 col-sm-12">
                     <div class="contact-right" style="text-align:left;">
                         <div class="wpcf7 js alert_inited" id="wpcf7-f681-p253-o1" lang="en-US" dir="ltr">
                             <div class="screen-reader-response">

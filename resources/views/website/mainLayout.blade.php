@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/front/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/front/theme.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/front/rs6.css') }}">
@@ -339,9 +340,9 @@
                                 <nav class="menu_main_nav_area menu_hover_fade">
                                     <ul id="main-menu" class="menu_main_nav inited sf-js-enabled sf-arrows">
                                         <li><a href="{{route('home')}}"><span>Home</span></a></li>
-                                        <li><a href=""><span>FEATURE</span></a></li>
-                                        <li><a href=""><span>WHEELS</span></a></li>
-                                        <li><a href=""><span>TYRES</span></a></li>
+                                        <li><a href="{{route('shop')}}"><span>SHOP</span></a></li>
+                                        <li><a href="{{route('tube')}}"><span>TUBE</span></a></li>
+                                        <li><a href="{{route('tyre')}}"><span>TYRES</span></a></li>
                                         <li><a href="{{route('about-us')}}"><span>ABOUT</span></a></li>
                                         <li><a href="{{route('contact-us')}}"><span>CONTACT</span></a></li>
                                     </ul>
@@ -463,7 +464,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="{{ asset('assets/css/front/js/rbtools.min.js') }}"></script>
     <script src="{{ asset('assets/css/front/js/rs6.min.js') }}"></script>
-
+    @yield('css')
 </body>
-
+@yield('add-js')
 </html>
