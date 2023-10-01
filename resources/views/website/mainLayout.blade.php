@@ -273,8 +273,9 @@
             margin-left: 1.6em;
             margin-right: 0;
         }
-        .widget_area .footer_wrap_inner ul li:before{
-            top:3px;
+
+        .widget_area .footer_wrap_inner ul li:before {
+            top: 3px;
         }
     </style>
     <script>
@@ -354,7 +355,7 @@
                                 <nav class="menu_main_nav_area menu_hover_fade">
                                     <ul id="main-menu" class="menu_main_nav inited sf-js-enabled sf-arrows">
                                         <li><a href="{{ route('home') }}"><span>Home</span></a></li>
-                                        <li><a href="{{ route('shop') }}"><span>SHOP</span></a></li>
+                                        <li><a href="{{ route('battery') }}"><span>BATTERY</span></a></li>
                                         <li><a href="{{ route('tube') }}"><span>TUBE</span></a></li>
                                         <li><a href="{{ route('tyre') }}"><span>TYRES</span></a></li>
                                         <li><a href="{{ route('about-us') }}"><span>ABOUT</span></a></li>
@@ -387,6 +388,7 @@
                         </div>
                     </div>
                 </div>
+
             </header>
         </div>
     </div>
@@ -489,7 +491,7 @@
             </div>
         </div>
         <a href="#" class="scroll_to_top icon-up show" title="Scroll to top"></a>
-        
+
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">

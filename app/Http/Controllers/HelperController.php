@@ -417,4 +417,11 @@ class HelperController extends Controller
         $name = DB::table('tube_volve')->where('id',$id)->first()->name;
         return $name;
     }
+    public static function BatteryFilterByBrand($id){
+        $data['model'] = DB::select('select `capacity` as id,`capacity` as name,count(`capacity`) as countNo 
+                                from `car_batteries` where `brand` = '.$id.' group by `capacity`');
+        $data['target'] = 'capacity';
+        $data['url'] = '';
+        return $data;
+    }
 }

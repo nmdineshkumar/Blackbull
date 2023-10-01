@@ -54,13 +54,18 @@ Route::get('/tube/filter-by-origin/{id}',[\App\Http\Controllers\HelperController
 Route::get('/tube/product-detail/{id}',[\App\Http\Controllers\TubeController::class,'ProductDetail'])->name('frontend.tube.product-detail');
 Route::get('/tube/product-search',[\App\Http\Controllers\TubeController::class,'ProductSearch'])->name('frontend.tube.product-search');
 
+//Battries
+Route::get('/battery/product-detail/{id}',[\App\Http\Controllers\BatteryController::class,'ProductDetail'])->name('frontend.battery.product-detail');
+Route::get('/battery/product-search',[\App\Http\Controllers\BatteryController::class,'ProductSearch'])->name('frontend.battery.product-search');
+Route::get('/battery/filter-by-brand/{id}',[\App\Http\Controllers\HelperController::class,'BatteryFilterByBrand'])->name('frontend.battery.filter.brand');
+
 Route::get('add-to-cart/{id}/{name}', [CartController::class, 'addToCart'])->name('add_to_cart');
 Route::delete('remove-from-cart', [CartController::class, 'remove'])->name('remove_from_cart');
 
 Route::get('/', [\App\Http\Controllers\HomeController::class,'index'])->name('home');
 Route::get('/about-us', [\App\Http\Controllers\AboutController::class,'index'])->name('about-us');
 Route::get('/contact-us', [\App\Http\Controllers\ContactController::class,'index'])->name('contact-us');
-Route::get('/shop', [\App\Http\Controllers\ShopController::class,'index'])->name('shop');
+Route::get('/battery', [\App\Http\Controllers\BatteryController::class,'index'])->name('battery');
 Route::get('/tyre', [\App\Http\Controllers\TyreController::class,'index'])->name('tyre');
 Route::get('/wheel', [\App\Http\Controllers\WheelController::class,'index'])->name('wheel');
 Route::get('/tube', [\App\Http\Controllers\TubeController::class,'index'])->name('tube');
