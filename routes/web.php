@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\TyreController;
 use App\Http\Controllers\Admin\TyresizeController;
 use App\Http\Controllers\Admin\ExpenseController;
 use App\Http\Controllers\Auth\Logincontroller;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\HelperController;
 use Illuminate\Support\Facades\Artisan;
@@ -44,6 +45,18 @@ Route::get('/filter-by-maker',[HelperController::class,'FilterMaker'])->name('fr
 Route::get('/filter-by-make/{id}',[HelperController::class,'FilterCarModel'])->name('frontend.filter.model');
 Route::get('/filter-by-model/{id}',[HelperController::class,'FilterCarYear'])->name('frontend.filter.year');
 Route::get('/filter-by-year/{id}',[HelperController::class,'FilterCarSize'])->name('frontend.filter.size');
+Route::get('/tyre/product-detail/{id}',[\App\Http\Controllers\TyreController::class,'ProductDetail'])->name('frontend.tyre.product-detail');
+Route::get('/tyre/product-search',[\App\Http\Controllers\TyreController::class,'ProductSearch'])->name('frontend.tyre.product-search');
+
+//Tubes Filter 
+Route::get('/tube/filter-by-brand/{id}',[\App\Http\Controllers\HelperController::class,'TubeFilterByBrand'])->name('frontend.tube.filter.brand');
+Route::get('/tube/filter-by-origin/{id}',[\App\Http\Controllers\HelperController::class,'TubeFilterByOrigin'])->name('frontend.tube.filter.origin');
+Route::get('/tube/product-detail/{id}',[\App\Http\Controllers\TubeController::class,'ProductDetail'])->name('frontend.tube.product-detail');
+Route::get('/tube/product-search',[\App\Http\Controllers\TubeController::class,'ProductSearch'])->name('frontend.tube.product-search');
+
+Route::get('add-to-cart/{id}/{name}', [CartController::class, 'addToCart'])->name('add_to_cart');
+Route::delete('remove-from-cart', [CartController::class, 'remove'])->name('remove_from_cart');
+
 Route::get('/', [\App\Http\Controllers\HomeController::class,'index'])->name('home');
 Route::get('/about-us', [\App\Http\Controllers\AboutController::class,'index'])->name('about-us');
 Route::get('/contact-us', [\App\Http\Controllers\ContactController::class,'index'])->name('contact-us');

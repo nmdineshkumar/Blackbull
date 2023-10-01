@@ -1,6 +1,6 @@
 @extends('website.mainLayout')
 @section('content')
-@include('website.banner_Layout')
+    @include('website.banner_Layout')
     <div class="container-fluid">
         <div class="row p-0 scheme_original">
             <div class="col-md-4  p-0 sc_section animated fadeInLeft normal">
@@ -26,9 +26,9 @@
                     <div class="col-7 p-0 sc_section_inner"></div>
                     <div class="col-5 p-0">
                         <div class="sc_section padding_on">
-                            <h3 class="sc_section_title">Wheels</h3>
+                            <h3 class="sc_section_title">Tubes</h3>
                             <div class="sc_section_descr sc_item_descr">The most amazing and wide range of alloy and
-                                aftermarket/factory wheels
+                                aftermarket/factory tubes
                             </div>
                             <div class="sc_section_button sc_item_button"><a href="/our-services/"
                                     class="sc_button sc_button_square sc_button_style_filled sc_button_size_large">view
@@ -409,90 +409,38 @@
                             </div>
                             <div class="col-12">
                                 <div class="row p-0">
-                                    <div class="col-3">
-                                        <div class="card rounded-0">
-                                            <a class="hover_icon hover_icon_link mb-3"
-                                                href="https://reisen.themerex.net/services/multiple-options/"><img
-                                                    class="card-img-top" alt="Multiple Options"
-                                                    src="{{ asset('assets/css/front/imgs/products/i1-300x300.jpg') }}"></a>
-                                            <div class="card-body text-center">
-                                                <div class="sc_services_item_content">
-                                                    <h4 class="item_title"><a
-                                                            href="https://reisen.themerex.net/services/multiple-options/">VP02
-                                                            3PC 18/20/24 black and gun metal</a></h4>
-                                                    <div class="item_price">
-                                                        <p>$1,890 – $2,335</p><a
-                                                            href="https://reisen.themerex.net/services/multiple-options/"
-                                                            class="sc_button sc_button_square sc_button_style_filled_dark sc_button_size_small">Details</a>
+                                    @foreach ($tyre as $row)
+                                        <div class="col-md-3 col-sm-12">
+                                            <div class="card rounded-0">
+                                                <a class="hover_icon hover_icon_link mb-3"
+                                                    href="{{ route('frontend.tyre.product-detail', base64_encode($row->id)) }}"><img
+                                                        class="card-img-top" alt="Multiple Options"
+                                                        src="{{ asset('storage/products/tyre/' . $row->image) }}"></a>
+                                                <div class="card-body text-center">
+                                                    <div class="sc_services_item_content">
+                                                        <h4 class="item_title"><a
+                                                                href="{{ route('frontend.tyre.product-detail', base64_encode($row->id)) }}">{{ $row->name }}<br>{{ \App\Http\Controllers\HelperController::getTyreSize($row->tyre_size) }}</a>
+                                                        </h4>
+                                                        <div class="item_price">
+                                                            <p>AED {{ $row->price }}</p>
+                                                        </div>
+                                                        <div class="product-link">
+                                                            {{-- <a class="sc_button sc_button_square sc_button_style_filled_dark sc_button_size_small"
+                                        href="https://1.envato.market/4ey0Wr" target="_blank" aria-label="Buy theme"
+                                        data-type="link" style="color:#ffffff;background-color:#bf2d0d;display:inline-block"><i
+                                            class="icon-wallet-light"></i></a> --}}
+                                                            <a href="{{ route('frontend.tyre.product-detail', base64_encode($row->id)) }}"
+                                                                class="sc_button sc_button_square sc_button_style_filled_dark sc_button_size_small">Details</a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <div class="card rounded-0">
-                                            <a class="hover_icon hover_icon_link mb-3"
-                                                href="https://reisen.themerex.net/services/multiple-options/"><img
-                                                    class="card-img-top" alt="Multiple Options"
-                                                    src="{{ asset('assets/css/front/imgs/products/i1-300x300.jpg') }}"></a>
-                                            <div class="card-body text-center">
-                                                <div class="sc_services_item_content">
-                                                    <h4 class="item_title"><a
-                                                            href="https://reisen.themerex.net/services/multiple-options/">VP02
-                                                            3PC 18/20/24 black and gun metal</a></h4>
-                                                    <div class="item_price">
-                                                        <p>$1,890 – $2,335</p><a
-                                                            href="https://reisen.themerex.net/services/multiple-options/"
-                                                            class="sc_button sc_button_square sc_button_style_filled_dark sc_button_size_small">Details</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <div class="card rounded-0">
-                                            <a class="hover_icon hover_icon_link mb-3"
-                                                href="https://reisen.themerex.net/services/multiple-options/"><img
-                                                    class="card-img-top" alt="Multiple Options"
-                                                    src="{{ asset('assets/css/front/imgs/products/i1-300x300.jpg') }}"></a>
-                                            <div class="card-body text-center">
-                                                <div class="sc_services_item_content">
-                                                    <h4 class="item_title"><a
-                                                            href="https://reisen.themerex.net/services/multiple-options/">VP02
-                                                            3PC 18/20/24 black and gun metal</a></h4>
-                                                    <div class="item_price">
-                                                        <p>$1,890 – $2,335</p><a
-                                                            href="https://reisen.themerex.net/services/multiple-options/"
-                                                            class="sc_button sc_button_square sc_button_style_filled_dark sc_button_size_small">Details</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <div class="card rounded-0">
-                                            <a class="hover_icon hover_icon_link mb-3"
-                                                href="https://reisen.themerex.net/services/multiple-options/"><img
-                                                    class="card-img-top" alt="Multiple Options"
-                                                    src="{{ asset('assets/css/front/imgs/products/i1-300x300.jpg') }}"></a>
-                                            <div class="card-body text-center">
-                                                <div class="sc_services_item_content">
-                                                    <h4 class="item_title"><a
-                                                            href="https://reisen.themerex.net/services/multiple-options/">VP02
-                                                            3PC 18/20/24 black and gun metal</a></h4>
-                                                    <div class="item_price">
-                                                        <p>$1,890 – $2,335</p><a
-                                                            href="https://reisen.themerex.net/services/multiple-options/"
-                                                            class="sc_button sc_button_square sc_button_style_filled_dark sc_button_size_small">Details</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                                 <div class="row p-0">
                                     <div class="col-12 my-5">
-                                        <div class="sc_section_button sc_item_button"><a href="/shop/"
+                                        <div class="sc_section_button sc_item_button"><a href="/tyre"
                                                 class="sc_button sc_call_to_action_title sc_button_square sc_button_style_filled sc_button_size_large">view
                                                 all</a></div>
                                     </div>
@@ -553,29 +501,8 @@
                             </div>
                             <div class="col-12 ">
                                 <div class="row p-0">
-                                    <div class="col-4 py-3 bg-white">
-                                        <div id="sc_testimonials_2107773228_1" class="sc_testimonial_item">
-                                            <div class="sc_testimonial_items">
-                                                <div class="sc_testimonial_image"><img class="wp-post-image"
-                                                        width="370" height="240" alt="John Smith"
-                                                        src="https://reisen.themerex.net/wp-content/uploads/2016/09/post-5-370x240.jpg">
-                                                </div>
-
-                                                <div class="sc_testimonial_content"><div class="row my-5">
-                                                    <div class="col-12">
-                                                        All I needed for my car was a set of
-                                                    nice rims with good quality tires. I found everything here, in one
-                                                    place. Thanks
-                                                    </div></div>
-                                                    <div class="sc_testimonial_author"><span
-                                                            class="sc_testimonial_author_name">John Smith</span></div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-4 py-3  bg-white">
-                                        <div id="sc_testimonials_2107773228_1" class="sc_testimonial_item">
+                                    <div class="col-4 py-3">
+                                        <div id="sc_testimonials_2107773228_1" class="sc_testimonial_item bg-white">
                                             <div class="sc_testimonial_items">
                                                 <div class="sc_testimonial_image"><img class="wp-post-image"
                                                         width="370" height="240" alt="John Smith"
@@ -586,8 +513,9 @@
                                                     <div class="row my-5">
                                                         <div class="col-12">
                                                             All I needed for my car was a set of
-                                                            nice rims with good quality tires. I found everything here, in one
-                                                            place. Thanks        
+                                                            nice rims with good quality tires. I found everything here, in
+                                                            one
+                                                            place. Thanks
                                                         </div>
                                                     </div>
                                                     <div class="sc_testimonial_author"><span
@@ -597,21 +525,47 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-4 py-3 bg-white">
-                                        <div id="sc_testimonials_2107773228_1" class="sc_testimonial_item">
+                                    <div class="col-4 py-3">
+                                        <div id="sc_testimonials_2107773228_1" class="sc_testimonial_item  bg-white">
                                             <div class="sc_testimonial_items">
                                                 <div class="sc_testimonial_image"><img class="wp-post-image"
                                                         width="370" height="240" alt="John Smith"
                                                         src="https://reisen.themerex.net/wp-content/uploads/2016/09/post-5-370x240.jpg">
                                                 </div>
 
-                                                <div class="sc_testimonial_content"><div class="row my-5">
-                                                    <div class="col-12">
-                                                        All I needed for my car was a set of
-                                                    nice rims with good quality tires. I found everything here, in one
-                                                    place. Thanks
+                                                <div class="sc_testimonial_content">
+                                                    <div class="row my-5">
+                                                        <div class="col-12">
+                                                            All I needed for my car was a set of
+                                                            nice rims with good quality tires. I found everything here, in
+                                                            one
+                                                            place. Thanks
+                                                        </div>
                                                     </div>
+                                                    <div class="sc_testimonial_author"><span
+                                                            class="sc_testimonial_author_name">John Smith</span></div>
                                                 </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-4 py-3">
+                                        <div id="sc_testimonials_2107773228_1" class="sc_testimonial_item bg-white">
+                                            <div class="sc_testimonial_items">
+                                                <div class="sc_testimonial_image"><img class="wp-post-image"
+                                                        width="370" height="240" alt="John Smith"
+                                                        src="https://reisen.themerex.net/wp-content/uploads/2016/09/post-5-370x240.jpg">
+                                                </div>
+
+                                                <div class="sc_testimonial_content">
+                                                    <div class="row my-5">
+                                                        <div class="col-12">
+                                                            All I needed for my car was a set of
+                                                            nice rims with good quality tires. I found everything here, in
+                                                            one
+                                                            place. Thanks
+                                                        </div>
+                                                    </div>
 
                                                     <div class="sc_testimonial_author"><span
                                                             class="sc_testimonial_author_name">John Smith</span></div>

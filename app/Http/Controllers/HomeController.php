@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tyre;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     //
     public function index(){
-        return view('website.home');
+        $tyre = Tyre::take(4)->get();
+        return view('website.home',compact('tyre'));
     }
 }

@@ -1,3 +1,10 @@
+@php
+    $maker =  Request::get('maker') ;
+    $model =  Request::get('model') ;
+    $year =  Request::get('year') ;
+    $size =  Request::get('size') ;
+    
+@endphp
 @extends('website.mainLayout')
 
 @section('css')
@@ -158,6 +165,7 @@
         }
     </style>
 @endsection
+
 @section('content')
     @include('layout.sencondBanner')
     <div class="page_content_wrap page_paddings_no">
@@ -172,12 +180,19 @@
                             <div class="woof_container_inner woof_container_inner_makemodelyearsize">
                                 <div class="filter-select select2-selection">
                                     <select data-filter="true" data-target="model"
-                                        data-url="{{ route('frontend.tube.filter.brand',':id') }}" id="brand"
+                                        data-url="{{ route('frontend.filter.model', ':id') }}" id="make"
                                         class="selectpicker" data-live-search="true" data-container="body">
-                                        <option value="">BRAND</option>
+                                        <option value="">MAKE</option>
                                         @foreach ($make as $row)
-                                            <option value="{{ $row->id }}">{{ $row->name . '(' . $row->countNo . ')' }}
-                                            </option>
+                                            @if ($maker == $row->id)
+                                                <option selected value="{{ $row->id }}">
+                                                    {{ $row->name . '(' . $row->countNo . ')' }}
+                                                </option>
+                                            @else
+                                                <option value="{{ $row->id }}">
+                                                    {{ $row->name . '(' . $row->countNo . ')' }}
+                                                </option>
+                                            @endif
                                         @endforeach
                                     </select>
                                     <span class="select2-selection__arrow" role="presentation"><b
@@ -185,140 +200,137 @@
                                 </div>
                             </div>
                             <div class="woof_submit_search_form_container">
-                                <button id="btn_search" class="button woof_submit_search_form">Filter</button>
+                                <button class="button woof_submit_search_form">Filter</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     <div class="content_wrap">
-        <div class="content_wrap">
-            <div class="row my-5">
-                <div class="col-12">
-                    <div class="row p-0">
-                        @foreach ($tube as $row)
-                            <div class="col-3">
-                                <div class="card rounded-0">
-                                    <a class="hover_icon hover_icon_link mb-3"
-                                        href="{{ route('frontend.tube.product-detail', base64_encode($row->id)) }}"><img
-                                            class="card-img-top" alt="Multiple Options"
-                                            src="{{ asset('storage/products/tube/' . $row->image) }}"></a>
-                                    <div class="card-body text-center">
-                                        <div class="sc_services_item_content">
-                                            <h4 class="item_title"><a
-                                                    href="{{ route('frontend.tube.product-detail', base64_encode($row->id)) }}">{{ $row->name }}<br></a>
-                                            </h4>
-                                            <div class="item_price">
-                                                <p>AED {{ $row->price }}</p>
-                                            </div>
-                                            <div class="product-link">
-                                                {{-- <a class="sc_button sc_button_square sc_button_style_filled_dark sc_button_size_small"
+        <div class="row my-5">
+            <div class="col-12">
+                <div class="row p-0">
+                    @foreach ($tyre as $row)
+                        <div class="col-3">
+                            <div class="card rounded-0">
+                                <a class="hover_icon hover_icon_link mb-3"
+                                    href="{{ route('frontend.tyre.product-detail', base64_encode($row->id)) }}"><img class="card-img-top"
+                                        alt="Multiple Options"
+                                        src="{{ asset('storage/products/tyre/' . $row->image) }}"></a>
+                                <div class="card-body text-center">
+                                    <div class="sc_services_item_content">
+                                        <h4 class="item_title"><a
+                                                href="{{ route('frontend.tyre.product-detail', base64_encode($row->id)) }}">{{ $row->name }}<br>{{ \App\Http\Controllers\HelperController::get_TyreSize($row->tyre_size) }}</a>
+                                        </h4>
+                                        <div class="item_price">
+                                            <p>AED {{ $row->price }}</p>
+                                        </div>
+                                        <div class="product-link">
+                                            {{-- <a class="sc_button sc_button_square sc_button_style_filled_dark sc_button_size_small"
                                                 href="https://1.envato.market/4ey0Wr" target="_blank" aria-label="Buy theme"
                                                 data-type="link" style="color:#ffffff;background-color:#bf2d0d;display:inline-block"><i
                                                     class="icon-wallet-light"></i></a> --}}
-                                                <a href="{{ route('frontend.tube.product-detail', base64_encode($row->id)) }}"
-                                                    class="sc_button sc_button_square sc_button_style_filled_dark sc_button_size_small">Details</a>
-                                            </div>
+                                            <a href="{{ route('frontend.tyre.product-detail', base64_encode($row->id)) }}"
+                                                class="sc_button sc_button_square sc_button_style_filled_dark sc_button_size_small">Details</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
+                        </div>
+                    @endforeach
                 </div>
-                <div class="col-12 my-5 text-center">
-                    {!! $tube->links() !!}
-                </div>
+            </div>
+            <div class="col-12 my-5 text-center">
+                {!! $tyre->links() !!}
             </div>
         </div>
     </div>
 @endsection
 
+
 @section('add-js')
 <script>
-    $('select[data-filter=true]').on('change', function(e) {
-        console.log(this.value);
-        if (this.value != '') {
-            LoadFilter(e);
-        }
-    });
-
-    function LoadFilter(e) {
-        var id = e.currentTarget.id;
-        let targetElement = $(e.currentTarget).attr('data-target');
-        let url = $(e.currentTarget).attr('data-url');
-        url = url.replace(':id', e.currentTarget.value);
-        if (id == 'year') {
-            url = url + '?make=' + $('#make').val() + '&model=' + $('#model').val();
-        }
-        $.ajax({
-            url: url,
-            dataType: 'json',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function(data) {
-                getCarModel(data, targetElement);
-            },
-            error: function(data) {
-
-            }
-        })
-    }
-
-    function getCarModel(data, id) {
-        $('#' + id).parent().remove();
-        let divElement = document.createElement('div');
-        let selectElement = document.createElement('select');
-        let selecterElement = document.getElementsByClassName('woof_container_inner');
-        let spanElement = document.createElement('span');
-        let bElement = document.createElement('b');
-        bElement.setAttribute('role', 'presentation')
-        spanElement.className = "select2-selection__arrow";
-        spanElement.append(bElement);
-        divElement.className = "filter-select select2-selection";
-        selectElement.id = id;
-        selectElement.name = 'car-' + id;
-        if (data['url'] != '') {
-            selectElement.setAttribute('data-target', data['target']);
-            selectElement.setAttribute('data-url', data['url']);
-            selectElement.setAttribute('data-filter', 'true');
-        }
-        selectElement.className = "selectpicker";
-        selectElement.append(new Option(id.toUpperCase(), ''))
-        data['model'].forEach(element => {
-            if (data['url'] != '') {
-                selectElement.append(new Option(element.name + '(' + element.countNo + ')', element.id));
-            } else {
-                selectElement.append(new Option(element.name, element.id));
-            }
-        });
-        selectElement.addEventListener('change', function(e) {
+     $('select[data-filter=true]').on('change', function(e) {
             if (this.value != '') {
                 LoadFilter(e);
             }
         });
-        divElement.append(selectElement);
-        divElement.append(spanElement)
-        $(selecterElement).append(divElement)
-    }
-    $('#btn_search').on('click', function(e) {
-        let url = '';
-        let maker = model = year = size = '';
-        maker = $('#brand').val();
-        model = $('#model').val() == undefined ? '' : $('#model').val();
-        year = $('#year').val() == undefined ? '' : $('#year').val();
-        size = $('#size').val() == undefined ? '' : $('#size').val();
-        url = '{{route('frontend.tube.product-search')}}'
-        url += '?maker=' + maker + '&size=' + size+'&model=' + model+'&year=' + year;
-        if(maker == '' || maker == undefined) {
-            alert('Please choose any one of the following options');
-            return false;
+
+        function LoadFilter(e) {
+            var id = e.currentTarget.id;
+            let targetElement = $(e.currentTarget).attr('data-target');
+            let url = $(e.currentTarget).attr('data-url');
+            url = url.replace(':id', e.currentTarget.value);
+            if (id == 'year') {
+                url = url + '?make=' + $('#make').val() + '&model=' + $('#model').val();
+            }
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(data) {
+                    getCarModel(data, targetElement);
+                },
+                error: function(data) {
+
+                }
+            })
         }
-        window.location.href = url;
-    })
+
+        function getCarModel(data, id) {
+            $('#' + id).parent().remove();
+            let divElement = document.createElement('div');
+            let selectElement = document.createElement('select');
+            let selecterElement = document.getElementsByClassName('woof_container_inner');
+            let spanElement = document.createElement('span');
+            let bElement = document.createElement('b');
+            bElement.setAttribute('role', 'presentation')
+            spanElement.className = "select2-selection__arrow";
+            spanElement.append(bElement);
+            divElement.className = "filter-select select2-selection";
+            selectElement.id = id;
+            selectElement.name = 'car-' + id;
+            if (data['url'] != '') {
+                selectElement.setAttribute('data-target', data['target']);
+                selectElement.setAttribute('data-url', data['url']);
+                selectElement.setAttribute('data-filter', 'true');
+            }
+            selectElement.className = "selectpicker";
+            selectElement.append(new Option(id.toUpperCase(), ''))
+            data['model'].forEach(element => {
+                if (data['url'] != '') {
+                    selectElement.append(new Option(element.name + '(' + element.countNo + ')', element.id));
+                } else {
+                    selectElement.append(new Option(element.name, element.id));
+                }
+            });
+            selectElement.addEventListener('change', function(e) {
+                if (this.value != '') {
+                    LoadFilter(e);
+                }
+            });
+            divElement.append(selectElement);
+            divElement.append(spanElement)
+            $(selecterElement).append(divElement)
+        }
+        $('#btn_search').on('click', function(e) {
+            let url = '';
+            let maker = model = year = size = '';
+            maker = $('#make').val();
+            model = $('#model').val() == undefined ? '' : $('#model').val();
+            year = $('#year').val() == undefined ? '' : $('#year').val();
+            size = $('#size').val() == undefined ? '' : $('#size').val();
+            url = '{{route('frontend.tyre.product-search')}}'
+            url += '?maker=' + maker + '&size=' + size+'&model=' + model+'&year=' + year;
+            if(maker == '' || maker == undefined) {
+                alert('Please choose any one of the following options');
+                return false;
+            }
+            window.location.href = url;
+        })
 </script>
 @endsection

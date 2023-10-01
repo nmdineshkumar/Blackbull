@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car_battery;
+use App\Models\manufacturers;
 use App\Models\Tube;
 use App\Models\Tyre;
+use App\Models\Tyresize;
 use Carbon\Carbon;
+use CarModel;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -232,7 +235,8 @@ class HelperController extends Controller
             $data = [
                 'name' =>$request->volve,
                 'created_by' => Auth::guard('admin')->user()->id,
-                'created_at' => Carbon::now()
+                'created_at' => Carbon::now(),
+                'updated_by' => '0'
             ];
             try {
                 $res = DB::table('tube_volve')->insert($data);
@@ -344,5 +348,73 @@ class HelperController extends Controller
         $data['url'] = '';
         return $data;
     }
-
+    public static function getTyreSize($id){
+        $name = '';
+        $tyreRecord = Tyresize::where('id', $id)->first();
+        $name = $tyreRecord->height.'X'.$tyreRecord->width.' R'.$tyreRecord->rim_size.' '.$tyreRecord->speed;
+        return $name;
+    }
+    public static function get_makerName($id){
+        $product = manufacturers::join('cars_datas', 'manufacturers.id','cars_datas.maker')
+                ->where('cars_datas.id', $id)->get('manufacturers.name')->first();
+        return $product->name;
+    }
+    public static function get_modelName($id){        
+        $product = DB::table('car_model')->join('cars_datas', 'car_model.id','cars_datas.model')
+                ->where('cars_datas.id', $id)->get('car_model.name')->first();
+        return $product->name;
+    }
+    public static function get_TyreYear($id){        
+        $product = DB::table('car_model')->join('cars_datas', 'car_model.id','cars_datas.model')
+                ->where('cars_datas.id', $id)->get('cars_datas.year')->first();
+        return $product->year;
+    }
+    public static function get_TyreSize($id){        
+        $product = DB::table('tyresizes')->join('cars_datas', 'tyresizes.id','cars_datas.tyre_size')
+                ->where('cars_datas.id', $id)->get(['tyresizes.height','tyresizes.width','tyresizes.rim_size','tyresizes.speed'])->first();
+        return $product->height.' X '.$product->width.' R'.$product->rim_size.' '.$product->speed;
+    }
+    public static function get_TyreOrigin($id){
+        $product = DB::table('origin')->join('cars_datas', 'origin.id','cars_datas.model')
+                ->where('cars_datas.id', $id)->get('origin.name')->first();
+        return $product->name;
+    }
+    public static function TubeFilterByBrand($id){
+        $data['model'] = DB::select('select `origin`.`name`, `origin`.`id`,count(tubes.origin) as countNo from `origin` 
+                        inner join `tubes` on `origin`.`id` = `tubes`.`origin` where `tubes`.`id` = '.$id.'
+                        GROUP BY(tubes.origin)');
+        $data['target'] = 'origin';
+        $data['url'] = route('frontend.tube.filter.origin',':id');
+        return $data;
+    }
+    public static function TubeFilterByOrigin($id){
+        //manufacure_year
+        $data['model'] = DB::select('select `tubes`.`manufacure_year` as `id`, `tubes`.`manufacure_year` as `name`,count(tubes.manufacure_year) as countNo from `tubes` where `origin` = '.$id.' and `tubes`.`deleted_at` is null
+                        GROUP BY(tubes.manufacure_year)');
+        $data['target'] = 'year';
+        $data['url'] = '';
+        return $data;
+    }
+    //Tube data
+    public static function get_BrandName($id){
+        $name = '';
+        $name = DB::table('brand')->where('id',$id)->first()->name;
+        return $name;
+    }
+    public static function get_OriginName($id){
+        $name = '';
+        $name = DB::table('origin')->where('id',$id)->first()->name;
+        return $name;
+    }
+    public static function get_RimSize($id){
+        $name = '';
+        $name = DB::table('tube_rim_size')->where('id',$id)->first()->name;
+        return $name;
+    }
+    public static function get_TubeVolve($id){
+        //tube_volve
+        $name = '';
+        $name = DB::table('tube_volve')->where('id',$id)->first()->name;
+        return $name;
+    }
 }

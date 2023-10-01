@@ -110,9 +110,11 @@
         .sc_section_subtitle::before {
             color: rgba(57, 57, 57, 0.1);
         }
-        a{
+
+        a {
             color: #bf2d0d;
         }
+
         .sc_section_subtitle {
             color: #bf2d0d;
             margin: 4.25em 0 0.05em;
@@ -125,19 +127,28 @@
             text-align: center;
             position: relative;
         }
-        input[type="text"],input[type="email"],textarea{
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
             background-color: #f2f3f3;
         }
-        input[type="text"]:hover,input[type="email"]:hover,textarea:hover{
+
+        input[type="text"]:hover,
+        input[type="email"]:hover,
+        textarea:hover {
             background-color: #ddd;
         }
-        .vc_column-inner .sc_section_title,.sc_title {
+
+        .vc_column-inner .sc_section_title,
+        .sc_title {
             font-family: "Montserrat", sans-serif;
             font-size: 2.4em;
             line-height: 1.3em;
             font-weight: 700;
         }
-        .sc_title{
+
+        .sc_title {
             font-size: 1.2em;
         }
 
@@ -262,6 +273,9 @@
             margin-left: 1.6em;
             margin-right: 0;
         }
+        .widget_area .footer_wrap_inner ul li:before{
+            top:3px;
+        }
     </style>
     <script>
         function setREVStartSize(e) {
@@ -339,12 +353,12 @@
                             <div class="menu_main_wrap">
                                 <nav class="menu_main_nav_area menu_hover_fade">
                                     <ul id="main-menu" class="menu_main_nav inited sf-js-enabled sf-arrows">
-                                        <li><a href="{{route('home')}}"><span>Home</span></a></li>
-                                        <li><a href="{{route('shop')}}"><span>SHOP</span></a></li>
-                                        <li><a href="{{route('tube')}}"><span>TUBE</span></a></li>
-                                        <li><a href="{{route('tyre')}}"><span>TYRES</span></a></li>
-                                        <li><a href="{{route('about-us')}}"><span>ABOUT</span></a></li>
-                                        <li><a href="{{route('contact-us')}}"><span>CONTACT</span></a></li>
+                                        <li><a href="{{ route('home') }}"><span>Home</span></a></li>
+                                        <li><a href="{{ route('shop') }}"><span>SHOP</span></a></li>
+                                        <li><a href="{{ route('tube') }}"><span>TUBE</span></a></li>
+                                        <li><a href="{{ route('tyre') }}"><span>TYRES</span></a></li>
+                                        <li><a href="{{ route('about-us') }}"><span>ABOUT</span></a></li>
+                                        <li><a href="{{ route('contact-us') }}"><span>CONTACT</span></a></li>
                                     </ul>
                                 </nav>
                                 <div class="menu_main_cart top_panel_icon">
@@ -403,7 +417,8 @@
                             <ul id="menu-footer-menu" class="menu">
                                 <li id="menu-item-744"
                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-744">
-                                    <a href="https://reisen.themerex.net/">Home</a></li>
+                                    <a href="https://reisen.themerex.net/">Home</a>
+                                </li>
                                 <li id="menu-item-349"
                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-349"><a
                                         href="https://reisen.themerex.net/tires/">Tires</a></li>
@@ -428,35 +443,53 @@
                         </h4>
                         <div class="textwidget">Call Us On <a href="tel:2345678900">(234) 567 89 00</a><br>
                             775 Avenue, Brooklyn, NY<br>
-                            <a href="mailto:info@site.com">info@site.com</a></div>
+                            <a href="mailto:info@site.com">info@site.com</a>
+                        </div>
                     </div>
                     <div class="col-3">
                         <h4 class="widget_title">
                             Get Our Newsletter
                         </h4>
-                        <div class="textwidget"><script>(function() {
-                            window.mc4wp = window.mc4wp || {
-                                listeners: [],
-                                forms: {
-                                    on: function(evt, cb) {
-                                        window.mc4wp.listeners.push(
-                                            {
-                                                event   : evt,
-                                                callback: cb
+                        <div class="textwidget">
+                            <script>
+                                (function() {
+                                    window.mc4wp = window.mc4wp || {
+                                        listeners: [],
+                                        forms: {
+                                            on: function(evt, cb) {
+                                                window.mc4wp.listeners.push({
+                                                    event: evt,
+                                                    callback: cb
+                                                });
                                             }
-                                        );
+                                        }
                                     }
-                                }
-                            }
-                        })();
-                        </script><!-- Mailchimp for WordPress v4.9.3 - https://wordpress.org/plugins/mailchimp-for-wp/ --><form id="mc4wp-form-1" class="mc4wp-form mc4wp-form-364" method="post" data-id="364" data-name=""><div class="mc4wp-form-fields"><div class="emailer">    
-                            <input type="email" name="EMAIL" placeholder="email" required="" autocomplete="off">
-                            <button type="submit" class="icon-icon_5"></button>
-                        </div></div><label style="display: none !important;">Leave this field empty if you're human: <input type="text" name="_mc4wp_honeypot" value="" tabindex="-1" autocomplete="off"></label><input type="hidden" name="_mc4wp_timestamp" value="1695980981"><input type="hidden" name="_mc4wp_form_id" value="364"><input type="hidden" name="_mc4wp_form_element_id" value="mc4wp-form-1"><div class="mc4wp-response"></div></form><!-- / Mailchimp for WordPress Plugin --></div>
+                                })();
+                            </script>
+                            <!-- Mailchimp for WordPress v4.9.3 - https://wordpress.org/plugins/mailchimp-for-wp/ -->
+                            <form id="mc4wp-form-1" class="mc4wp-form mc4wp-form-364" method="post" data-id="364"
+                                data-name="">
+                                <div class="mc4wp-form-fields">
+                                    <div class="emailer">
+                                        <input type="email" name="EMAIL" placeholder="email" required=""
+                                            autocomplete="off">
+                                        <button type="submit" class="icon-icon_5"></button>
+                                    </div>
+                                </div><label style="display: none !important;">Leave this field empty if you're human:
+                                    <input type="text" name="_mc4wp_honeypot" value="" tabindex="-1"
+                                        autocomplete="off"></label><input type="hidden" name="_mc4wp_timestamp"
+                                    value="1695980981"><input type="hidden" name="_mc4wp_form_id"
+                                    value="364"><input type="hidden" name="_mc4wp_form_element_id"
+                                    value="mc4wp-form-1">
+                                <div class="mc4wp-response"></div>
+                            </form><!-- / Mailchimp for WordPress Plugin -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <a href="#" class="scroll_to_top icon-up show" title="Scroll to top"></a>
+        
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
@@ -467,4 +500,5 @@
     @yield('css')
 </body>
 @yield('add-js')
+
 </html>
