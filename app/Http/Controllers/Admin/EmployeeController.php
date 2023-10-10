@@ -86,9 +86,9 @@ class EmployeeController extends Controller
             'last_name' => 'required',
             'mobile' => 'required',
             'email' => 'required',
-            'branch' => 'required',
+            'branch_id' => 'required',
             'password' => 'required',
-            'department' => 'required'
+            'department_id' => 'required'
             
         ]);
         if ($validate) {
@@ -96,8 +96,8 @@ class EmployeeController extends Controller
                 $data = [
                     'first_name' => $request->name,
                     'last_name' => $request->last_name,
-                    'department_id' => $request->department,
-                    'branch' => $request->branch,
+                    'department_id' => $request->department_id,
+                    'branch_id' => $request->branch_id,
                     'email' => $request->email,
                     'mobile' => $request->mobile,
                     'created_by' => Auth::guard('admin')->user()->id,
@@ -117,8 +117,8 @@ class EmployeeController extends Controller
                 $data = [
                     'first_name' => $request->name,
                     'last_name' => $request->last_name,
-                    'department_id' => $request->department,
-                    'branch' => $request->branch,
+                    'department_id' => $request->department_id,
+                    'branch_id' => $request->branch_id,
                     'email' => $request->email,
                     'mobile' => $request->mobile,
                     'updated_by' => Auth::guard('admin')->user()->id,
