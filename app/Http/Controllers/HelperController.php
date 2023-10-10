@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Branch;
 use App\Models\Car_battery;
 use App\Models\manufacturers;
 use App\Models\Tube;
@@ -25,13 +26,13 @@ class HelperController extends Controller
     public static function getStateName($id){
         return DB::table('tbl_states')->where('id','=',$id)->get('name');
     }
-    public function getCountry(){
+    public static function getCountry(){
         return DB::table('tbl_countries')->get(['name','id']);
     }
-    public function getState($id){
+    public static function getState($id){
         return DB::table('tbl_states')->where('country_id','=',$id)->get(['id','name']);
     }
-    public function getCity($id){
+    public static function getCity($id){
         return DB::table('tbl_cities')->where('state_id','=',$id)->get(['id','name']);
     }
     public function getTyreHeight(){
@@ -294,7 +295,7 @@ class HelperController extends Controller
             }
         }
     }
-    public function get_Product($id){
+    public static function get_Product($id){
         if($id != ''){
             if($id == '1'){
                 return Tyre::get(['id','name']);
@@ -328,7 +329,7 @@ class HelperController extends Controller
         $data['url'] = route('frontend.filter.year',':id');
         return $data;
     }
-    public function FilterCarYear($id){
+    public static function FilterCarYear($id){
         $data['model'] = DB::select('SELECT C.year as id,C.year as name,count(C.year) as countNo FROM `cars_datas` C
                             inner join manufacturers m on m.id = C.maker
                             inner join car_model cm on m.id = cm.make and C.model = cm.id
@@ -423,5 +424,9 @@ class HelperController extends Controller
         $data['target'] = 'capacity';
         $data['url'] = '';
         return $data;
+    }
+    public static function BranchName($id){
+        $name = '';
+        return Branch::find($id)->pluck('name')->first();
     }
 }

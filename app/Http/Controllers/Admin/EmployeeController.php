@@ -34,7 +34,7 @@ class EmployeeController extends Controller
                     return "<a href='" . route($this->resourceUrl() . '.edit', $row->id) . "'>$row->first_name</a>";
                 })
                 ->addColumn('branch',function($row){
-                    return HelperController::get_BrandName($row->branch_id);
+                    return HelperController::BranchName($row->branch_id);
                 })
                 ->addColumn('email',function($row){
                     return $row->email;
@@ -43,7 +43,7 @@ class EmployeeController extends Controller
                     return $row->mobile;
                 })
                 ->addColumn('created_at', function ($row) {
-                    return $row->created_at;
+                    return Carbon::parse($row->created_at)->format('d-m-Y');
                 })
                 ->addColumn('action', function ($row) {
                     if ($row->deleted_at === NULL) {
@@ -100,15 +100,16 @@ class EmployeeController extends Controller
                     'branch_id' => $request->branch_id,
                     'email' => $request->email,
                     'mobile' => $request->mobile,
+                    'password' => bcrypt($request->password),
                     'created_by' => Auth::guard('admin')->user()->id,
                     'created_at' => Carbon::now()
                 ];
                 try {
                     $res = $this->modelIns()::insert($data);
                     if ($res) {
-                        return redirect()->route($this->resourceUrl() . '.index')->with('success', 'Category saved successfully...!!!');
+                        return redirect()->route($this->resourceUrl() . '.index')->with('success', 'Employee saved successfully...!!!');
                     } else {
-                        return redirect()->route($this->resourceUrl() . '.index')->with('error', 'Error saving Category...!!!');
+                        return redirect()->route($this->resourceUrl() . '.index')->with('error', 'Error saving Employee...!!!');
                     }
                 } catch (Exception $th) {
                     info('Employee-saving-error:' . $th->getMessage());
@@ -121,15 +122,16 @@ class EmployeeController extends Controller
                     'branch_id' => $request->branch_id,
                     'email' => $request->email,
                     'mobile' => $request->mobile,
+                    'password' => bcrypt($request->password),
                     'updated_by' => Auth::guard('admin')->user()->id,
                     'updated_at' => Carbon::now()
                 ];
                 try {
                     $res = $this->modelIns()::whereId($request->id)->update($data);
                     if ($res) {
-                        return redirect()->route($this->resourceUrl() . '.index')->with('success', 'Category updated successfully...!!!');
+                        return redirect()->route($this->resourceUrl() . '.index')->with('success', 'Employee updated successfully...!!!');
                     } else {
-                        return redirect()->route($this->resourceUrl() . '.index')->with('error', 'Error updating Category...!!!');
+                        return redirect()->route($this->resourceUrl() . '.index')->with('error', 'Error updating Employee...!!!');
                     }
                 } catch (Exception $th) {
                     info('Employee-update-error:' . $th->getMessage());

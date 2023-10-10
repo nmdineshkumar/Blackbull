@@ -9,7 +9,7 @@
     $description = old('description');
     if ($id != '') {
         $name = old('name') != '' ? $name : $employee->first_name;
-        $lastName = old('last_name') != '' ? $last_name : $employee->last_name;
+        $last_name = old('last_name') != '' ? $last_name : $employee->last_name;
         $department_id = old('department_id') != '' ? $department_id : $employee->department_id;
         $branch_id = old('branch_id') != '' ? $branch_id : $employee->branch_id;
         $mobile = old('mobile') != '' ? $mobile : $employee->mobile;
@@ -89,7 +89,7 @@
                         <div class="row  mb-3">
                             <div class="col-6">
                                 <label for="" class="mb-3">Branch</label>
-                                <select name="branch_id" id="branch_id" class="form-control">
+                                <select name="branch_id" id="branch_id" class="form-select">
                                     <option value="">---SELECT BRANCH---</option>
                                     @if ($branch != '')
                                         @foreach ($branch as $row)
@@ -111,7 +111,7 @@
                             </div>
                             <div class="col-6">
                                 <label for="" class="mb-3">Department</label>
-                                <select name="department_id" id="department_id" class="form-control">
+                                <select name="department_id" id="department_id" class="form-select">
                                     <option value="">---SELECT---</option>
                                     @if ($department_id != '')
                                         @foreach ($department as $row)

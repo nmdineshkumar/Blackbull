@@ -6,6 +6,9 @@
         if ( in_array( 'edit', $types ) ) {
             $actionBtn .= "<a href='" . route( $baseUrl.'.edit', $id ) ."' title='Edit the data' class='btn btn-icon btn-color-primary'><i class='fas fa-edit'></i></a>";
         }
+        if ( in_array( 'Invocieview', $types ) ) {
+            $actionBtn .= "<a href='" . route('getInvoice',$id) ."' title='Preview' class='btn btn-icon btn-color-primary'><i class='fas fa-eye'></i></a>";
+        }
         if ( in_array( 'delete', $types ) ) {
             $actionBtn .= "<a href='javascript:;'  data-action-type='delete' data-url='" . route( $baseUrl. '.destroy', $id ) ."' title='Delete the data' class='btn btn-icon btn-color-danger delete-by-id'><i class='fas fa-trash'></i></a>";
         }

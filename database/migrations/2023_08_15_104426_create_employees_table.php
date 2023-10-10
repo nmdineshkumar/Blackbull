@@ -22,19 +22,21 @@ class CreateEmployeesTable extends Migration
                     ->references('id')
                     ->on('departments')
                     ->onDelete('cascade');
-            $table->string('location');
+            $table->string('location')->nullable();
             $table->string('mobile');
             $table->string('email');
-            $table->integer('email_verified');
-            $table->string('position');
+            $table->integer('email_verified')->default('0');
+            $table->string('position')->nullable();
             $table->string('password');
-            $table->timestamp('joining_date');
+            $table->timestamp('joining_date')->nullable();
             $table->unsignedBigInteger('branch_id');
             $table->foreign('branch_id')
                     ->references('id')
                     ->on('branches')
                     ->onDelete('cascade');
-            $table->string('photo');
+            $table->string('photo')->nullable();
+            $table->integer('created_by');
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
         });
     }
