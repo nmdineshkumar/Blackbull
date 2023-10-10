@@ -83,6 +83,7 @@ class BranchController extends Controller
                     'city' => $request->city,
                     'pincode' => $request->pincode,
                     'comments' => $request->comments,
+                    'invoice' => $request->invoice,
                     'updated_at' => Carbon::now()
                 ];
                 try {                    
@@ -105,6 +106,7 @@ class BranchController extends Controller
                     'city' => $request->city,
                     'pincode' => $request->pincode,
                     'comments'=>$request->comments,
+                    'invoice' => $request->invoice,
                     'created_at' => Carbon::now()
                 ];
                 try {

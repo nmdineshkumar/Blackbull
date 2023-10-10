@@ -3,23 +3,26 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\category;
+use App\Http\Controllers\HelperController;
+use App\Models\Branch;
+use App\Models\Department;
+use App\Models\Employee;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
-use DataTables;
 use Illuminate\Support\Facades\Auth;
+use DataTables;
 
-class CategoryController extends Controller
+class EmployeeController extends Controller
 {
     //
     function resourceUrl(): string
     {
-        return "admin.category";
+        return "admin.employee";
     }
-    function modelIns(): category
+    function modelIns(): Employee
     {
-        return new category;
+        return new Employee();
     }
     public function index(Request $request)
     {
@@ -28,7 +31,16 @@ class CategoryController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('name', function ($row) {
-                    return "<a href='" . route($this->resourceUrl() . '.edit', $row->id) . "'>$row->name</a>";
+                    return "<a href='" . route($this->resourceUrl() . '.edit', $row->id) . "'>$row->first_name</a>";
+                })
+                ->addColumn('branch',function($row){
+                    return HelperController::get_BrandName($row->branch_id);
+                })
+                ->addColumn('email',function($row){
+                    return $row->email;
+                })
+                ->addColumn('mobile',function($row){
+                    return $row->mobile;
                 })
                 ->addColumn('created_at', function ($row) {
                     return $row->created_at;
@@ -43,36 +55,51 @@ class CategoryController extends Controller
                 ->rawColumns(['name', 'action'])
                 ->make(true);
         } else {
-            return view('admin.category.indexCategory')
-                ->with('pageName', 'Category')
+            return view('admin.employee.indexEmployee')
+                ->with('pageName', 'Employee')
                 ->with('resourceUrl', $this->resourceUrl());
         }
     }
     public function create()
     {
-        return view('admin.category.editCategory')
-            ->with('pageName', 'Create Category')
+        $department = Department::all();
+        $branch = Branch::all();
+        return view('admin.employee.editEmployee',compact('branch','department'))
+            ->with('pageName', 'Create Employee')
             ->with('id', '')
             ->with('resourceUrl', $this->resourceUrl());
     }
     public function edit($id)
     {
-        $category = $this->modelIns()::find($id);
-        return view('admin.category.editCategory', compact('category'))
-            ->with('pageName', 'Edit Category')
+        $department = Department::all();
+        $branch = Branch::all();
+        $employee = $this->modelIns()::find($id);
+        return view('admin.employee.editEmployee', compact('employee','branch','department'))
+            ->with('pageName', 'Edit Employee')
             ->with('id', $id)
             ->with('resourceUrl', $this->resourceUrl());
     }
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'name' => ['required', 'unique:categories,name,' . $request->id . ',id'],
+            'name' => ['required'],
+            'last_name' => 'required',
+            'mobile' => 'required',
+            'email' => 'required',
+            'branch' => 'required',
+            'password' => 'required',
+            'department' => 'required'
+            
         ]);
         if ($validate) {
             if ($request->id == '' || $request->id == null) {
                 $data = [
-                    'name' => $request->name,
-                    'description' => $request->description,
+                    'first_name' => $request->name,
+                    'last_name' => $request->last_name,
+                    'department_id' => $request->department,
+                    'branch' => $request->branch,
+                    'email' => $request->email,
+                    'mobile' => $request->mobile,
                     'created_by' => Auth::guard('admin')->user()->id,
                     'created_at' => Carbon::now()
                 ];
@@ -84,12 +111,16 @@ class CategoryController extends Controller
                         return redirect()->route($this->resourceUrl() . '.index')->with('error', 'Error saving Category...!!!');
                     }
                 } catch (Exception $th) {
-                    info('Category-saving-error:' . $th->getMessage());
+                    info('Employee-saving-error:' . $th->getMessage());
                 }
             } else {
                 $data = [
-                    'name' => $request->name,
-                    'description' => $request->description,
+                    'first_name' => $request->name,
+                    'last_name' => $request->last_name,
+                    'department_id' => $request->department,
+                    'branch' => $request->branch,
+                    'email' => $request->email,
+                    'mobile' => $request->mobile,
                     'updated_by' => Auth::guard('admin')->user()->id,
                     'updated_at' => Carbon::now()
                 ];
@@ -101,7 +132,7 @@ class CategoryController extends Controller
                         return redirect()->route($this->resourceUrl() . '.index')->with('error', 'Error updating Category...!!!');
                     }
                 } catch (Exception $th) {
-                    info('Category-update-error:' . $th->getMessage());
+                    info('Employee-update-error:' . $th->getMessage());
                 }
             }
         }
@@ -116,7 +147,7 @@ class CategoryController extends Controller
                 return response()->json(['str' => 0]);
             }
         } catch (Exception $th) {
-            info('Category-delete-error:' . $th->getMessage());
+            info('Employee-delete-error:' . $th->getMessage());
         }
     }
 }

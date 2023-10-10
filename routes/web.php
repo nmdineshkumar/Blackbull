@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BranchController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\ManufacturersController;
 use App\Http\Controllers\Admin\ProductStockController;
 use App\Http\Controllers\Admin\PurchaseOrderController;
@@ -41,6 +42,14 @@ Route::get('/clear',function(){
     Artisan::call('optimize');
     return "Cleared!";
 });
+//Demo Invoice 
+Route::get('oman-invoice',function(){
+    return view('omanInvoice');
+});
+Route::get('dubai-invoice',function(){
+    return view('dubaiInvoice');
+});
+
 Route::get('/filter-by-maker',[HelperController::class,'FilterMaker'])->name('frontend.filter.maker');
 Route::get('/filter-by-make/{id}',[HelperController::class,'FilterCarModel'])->name('frontend.filter.model');
 Route::get('/filter-by-model/{id}',[HelperController::class,'FilterCarYear'])->name('frontend.filter.year');
@@ -111,6 +120,7 @@ Route::group(['prefix'=>$prefix,'middleware'=>'auth:admin'], function () use($pr
     Route::resource('purchase', PurchaseOrderController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.purchase');
     Route::resource('productstock', ProductStockController::class)->only(['index'])->names($prefix .'.productstock');
     Route::resource('sales', SaleController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.sales');
+    Route::resource('employee', EmployeeController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.employee');
     //Customer
     Route::resource('customer', CustomerController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.customer');
     Route::get('/get-customer/{id}',[CustomerController::class,'getCustomer'])->name('get-customer');

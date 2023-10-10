@@ -109,3 +109,18 @@
         }
         return $type;
     }
+    function InvoiceTemplate():array{
+        return [
+            (object)['id'=>"1",'name'=>'Omen','url'=>'omanInvoice'],
+            (object)['id'=>'2', 'name'=>'Dubai','url'=>'dubaiInvoice']
+        ];
+    }
+    function getInvoiceTemplate($id){
+        $name = '';
+        foreach(InvoiceTemplate() as $row){
+            if($id == $row->id){
+                $name = $row->url;
+            }
+        }
+        return $name;
+    }

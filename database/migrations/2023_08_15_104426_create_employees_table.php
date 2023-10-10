@@ -27,6 +27,7 @@ class CreateEmployeesTable extends Migration
             $table->string('email');
             $table->integer('email_verified');
             $table->string('position');
+            $table->string('password');
             $table->timestamp('joining_date');
             $table->unsignedBigInteger('branch_id');
             $table->foreign('branch_id')

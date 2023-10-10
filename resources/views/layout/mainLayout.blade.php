@@ -234,7 +234,6 @@
                     <span class="text-muted"><i class="ri-record-circle-line align-middle font-size-14 text-success"></i> Online</span>
                 </div>
             </div>
-
             <!--- Sidemenu -->
             <div id="sidebar-menu">
                 <!-- Left Menu Start -->
@@ -248,6 +247,7 @@
                             <li><a href="{{route('admin.category.index')}}"><i class="mdi mdi-application-cog"></i>Category</a></li>
                             <li><a href="{{route('admin.manufacture.index')}}"><i class="mdi mdi-application-cog"></i>Manufacture</a></li>
                             <li><a href="{{route('admin.tyresize.index')}}"><i class="mdi mdi-move-resize"></i>Tyre Size</a></li>
+                            <li><a href="{{route('admin.employee.index')}}"><i class="mdi mdi-account-group"></i>User</a></li>
                         </ul>
                     </li>
                     <li><a href="#"  class="has-arrow wave-effect"><i class="mdi mdi-card-account-details-star"></i><span>Product</span></a>
