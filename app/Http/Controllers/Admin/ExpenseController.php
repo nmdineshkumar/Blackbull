@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\HelperController;
+use App\Models\Expense;
 use Illuminate\Http\Request;
+use DataTables;
 
 class ExpenseController extends Controller
 {
@@ -11,8 +14,8 @@ class ExpenseController extends Controller
     function resourceUrl():string{
         return "admin.expense";
     }
-    function modelIns(): Branch{
-        return new Branch();
+    function modelIns(): Expense{
+        return new Expense();
     }
 
     //
@@ -21,14 +24,14 @@ class ExpenseController extends Controller
             $data = $this->modelIns()::get();
             return DataTables::of($data)
                     ->addIndexColumn()
-                    ->addColumn('name', function($row){
-                        return "<a href='" .route($this->resourceUrl().'.edit',$row->id) ."'>$row->name</a>";
+                    ->addColumn('branch', function($row){
+                        return "<a href='" .route($this->resourceUrl().'.edit',$row->id) ."'>".HelperController::get_BrandName($row->center)."</a>";
                     })
-                    ->addColumn('Country',function($row){
-                        return HelperController::getCountryName($row->country);
+                    ->addColumn('month',function($row){
+                        return $row->month;
                     })
-                    ->addColumn('City',function($row){
-                        return HelperController::getCityName($row->city);
+                    ->addColumn('name',function($row){
+                        $row->expenses_name;
                     })
                     ->addColumn('action', function($row){
                         if($row->deleted_at=== NULL){

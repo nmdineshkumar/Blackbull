@@ -59,7 +59,7 @@ class SaleController extends Controller
                     })
                     ->addColumn('action', function($row){
                         if($row->deleted_at=== NULL){
-                            return getActionButtons($row->id, $this->resourceUrl(),['Invocieview']);
+                            return getActionButtons($row->id, $this->resourceUrl(),['Invocieview ']);
                         }else{
                             return getActionButtons($row->id, $this->resourceUrl(),['retrieve']);
                         }
@@ -264,6 +264,6 @@ class SaleController extends Controller
                                 left outer join tubes on tubes.id = items.product_id
                                 left outer join car_batteries on car_batteries.id = items.product_id
                                 WHERE items.invoice_id=?', [$id]);
-        return view('invoice.myInvoice',compact('invoice','invoiceNumber','customer','branch','invoiceItems'));
+        return view('invoice.omanInvoice',compact('invoice','invoiceNumber','customer','branch','invoiceItems'));
     }
 }

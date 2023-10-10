@@ -44,10 +44,10 @@ Route::get('/clear',function(){
 });
 //Demo Invoice 
 Route::get('oman-invoice',function(){
-    return view('omanInvoice');
+    return view('invoice.omanInvoice');
 });
 Route::get('dubai-invoice',function(){
-    return view('dubaiInvoice');
+    return view('invoice.dubaiInvoice');
 });
 
 Route::get('/filter-by-maker',[HelperController::class,'FilterMaker'])->name('frontend.filter.maker');

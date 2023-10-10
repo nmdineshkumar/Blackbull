@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="images/favicon.png" rel="icon" />
-<title>Recharge Invoice - Koice</title>
+<title>Invoice</title>
 <meta name="author" content="blackbull.com">
 
 <!-- Web Fonts
@@ -35,14 +35,14 @@
   <!-- Main Content -->
   <main>
     <div class="row">
-      <div class="col-sm-6 text-sm-end order-sm-1"> <strong>Pay To:</strong>
+      {{-- <div class="col-sm-6 text-sm-end order-sm-1"> <strong>Pay To:</strong>
         <address>
             {{ $branch[0]->name }}<br />
             {{ $branch[0]->address1 }}, {{ $branch[0]->address2 }}<br />
             {{ $branch[0]->state  }},{{ $branch[0]->city  }} - {{ $branch[0]->zip }}<br />
             {{ $branch[0]->country }}
         </address>
-      </div>
+      </div> --}}
       <div class="col-sm-6 order-sm-0"> <strong>Invoiced To:</strong>
         <address>
         {{ $customer[0]->first_name }} {{ $customer[0]->last_name }}<br />
@@ -105,31 +105,14 @@
     </div>
     <br>
     <div class="table-responsive d-print-none">
-      {{-- <table class="table table-bordered">
-        <thead>
-          <tr>
-            <td class="text-center"><strong>Transaction Date</strong></td>
-            <td class="text-center"><strong>Gateway</strong></td>
-            <td class="text-center"><strong>Transaction ID</strong></td>
-            <td class="text-center"><strong>Amount</strong></td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="text-center">05/12/2020</td>
-            <td class="text-center">Credit Card</td>
-            <td class="text-center">3912912704</td>
-            <td class="text-center">$93.10 USD</td>
-          </tr>
-        </tbody>
-      </table> --}}
+     
     </div>
   </main>
   <!-- Footer -->
-  <footer class="text-center">
+  {{-- <footer class="text-center">
     <p class="text-1"><strong>NOTE :</strong> This is computer generated receipt and does not require physical signature.</p>
     <div class="btn-group btn-group-sm d-print-none"> <a href="javascript:window.print()" class="btn btn-light border text-black-50 shadow-none"><i class="fa fa-print"></i> Print</a> <a href="" class="btn btn-light border text-black-50 shadow-none"><i class="fa fa-download"></i> Download</a> </div>
-  </footer>
+  </footer> --}}
 </div>
 
 </body>

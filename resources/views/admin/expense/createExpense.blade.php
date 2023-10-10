@@ -1,3 +1,6 @@
+@php
+    $month = old('month')
+@endphp
 @extends('layout.mainLayout')
 @section('page-breadcrumb')
 <div class="row">
@@ -33,7 +36,47 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    
+                    <div class="row mb-3">
+                        <div class="col-md-6 col-sm-12">
+                            <label for="form-lable mb-3">Branch</label>
+                            <select name="branch" id="branch" class="form-select">
+                                <option value="">---SELECT---</option>
+                            </select>
+                            @error('branch')
+                            <div class="error">{{ $message }}</div>
+                        @enderror
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label for="form-lable mb-3">Nonth</label>
+                            <select name="month" id="month" class="form-select">
+                                <option value="">---SELECT---</option>
+                            </select>
+                            @error('month')
+                            <div class="error">{{ $message }}</div>
+                        @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6 col-sm-12">
+                            <label for="form-lable mb-3">Expense Name</label>
+                            <input type="text" name="name" id="name" class="form-control">
+                            @error('name')
+                            <div class="error">{{ $message }}</div>
+                        @enderror
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label for="form-lable mb-3">Amount</label>
+                         <input type="text" name="amount" id="amount" class="form-control">
+                        </div>
+                        @error('amount')
+                        <div class="error">{{ $message }}</div>
+                    @enderror
+                    </div>
+                    <div class="col-12 mb-3 text-center">
+                        <input type="hidden" name="id" id="id" value="{{ $id }}">
+                        <a href="{{route($resourceUrl.'.index')}}" class="btn btn-secondary">Close</a>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
                 </div>
             </div>
         </div>
