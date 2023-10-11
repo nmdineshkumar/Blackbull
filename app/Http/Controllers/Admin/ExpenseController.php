@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HelperController;
+use App\Models\Branch;
 use App\Models\Expense;
 use Illuminate\Http\Request;
 use DataTables;
@@ -49,7 +50,8 @@ class ExpenseController extends Controller
         }
     }
     public function create(){
-        return view('admin.expense.createExpense')
+        $branches = Branch::all();
+        return view('admin.expense.createExpense',compact('branches'))
                 ->with('pageName', 'Create Expense')
                 ->with('id','')
                 ->with('resourceUrl',$this->resourceUrl()); 

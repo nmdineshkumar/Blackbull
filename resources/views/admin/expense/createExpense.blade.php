@@ -36,21 +36,24 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    <form action="{{route($resourceUrl.'.store')}}" method="post">
+                        @csrf
                     <div class="row mb-3">
                         <div class="col-md-6 col-sm-12">
                             <label for="form-lable mb-3">Branch</label>
                             <select name="branch" id="branch" class="form-select">
                                 <option value="">---SELECT---</option>
+                                @foreach($branches as $row)
+                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                @endforeach
                             </select>
                             @error('branch')
                             <div class="error">{{ $message }}</div>
                         @enderror
                         </div>
                         <div class="col-md-6 col-sm-12">
-                            <label for="form-lable mb-3">Nonth</label>
-                            <select name="month" id="month" class="form-select">
-                                <option value="">---SELECT---</option>
-                            </select>
+                            <label for="form-lable mb-3">Month</label>
+                            <input type="text" name="month" id="month" class="form-control" value="{{\Carbon\Carbon::parse($month)->format('d-m-Y')}}">
                             @error('month')
                             <div class="error">{{ $message }}</div>
                         @enderror
@@ -77,6 +80,7 @@
                         <a href="{{route($resourceUrl.'.index')}}" class="btn btn-secondary">Close</a>
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -86,8 +90,11 @@
 
 @section('add-js')
 <script type="text/javascript">
+const config_date = {
+    dateFormat: "d-m-Y",
+}
     $(function () {
-        
+        $('#month').flatpickr(config_date);
     });
   </script>
 @endsection
