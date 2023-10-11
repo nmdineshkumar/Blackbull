@@ -1,5 +1,14 @@
 @php
-    $month = old('month')
+    $month = old('month');
+    $branch = old('branch');
+    $name = old('name');
+    $amount = old('amount');
+    if($id != ''){
+        $month = (old('month') != '') ? old('month') : $expense->month;
+        $branch = (old('branch') != '') ? old('branch') : $expense->branch;
+        $name = (old('name') != '') ? old('name') : $expense->name;
+        $amount = (old('amount') != '') ? old('amount') : $expense->amount;
+    }
 @endphp
 @extends('layout.mainLayout')
 @section('page-breadcrumb')
