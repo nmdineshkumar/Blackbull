@@ -32,7 +32,7 @@
         }
 
         .filter-select {
-            width: 23% !important;
+            width: 100% !important;
             padding-left: 3.6em;
             background-color: #cecfd0;
             border-radius: 1.6em;
@@ -168,16 +168,21 @@
 
 @section('content')
     @include('layout.sencondBanner')
-    <div class="page_content_wrap page_paddings_no">
-        <div class="content_wrap">
-            <div class="content-wraper">
-                <div class="dv-full-width">
-                    <div class="sc_section animated fadeInUp normal" data-animation="animated fadeInUp normal">
-                        <h3 class="sc_section_title sc_item_title sc_item_title_without_descr text-uppercase">find the best
-                            option for
-                            your vehicle</h3>
-                        <div class="sc_section_inner">
-                            <div class="woof_container_inner woof_container_inner_makemodelyearsize">
+    
+    <div class="content_wrap">
+        <div class="row my-5">
+            <div class="col-12">
+                <div class="row p-0">
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <h5 class="text-center text-uppercase">
+                                    <h5 class="text-center text-uppercase">find the best option for your vehicle</h5>
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="sc_section_inner text-center">
+                            <div class="woof_container_inner woof_container_inner_makemodelyearsize mb-3">
                                 <div class="filter-select select2-selection">
                                     <select data-filter="true" data-target="model"
                                         data-url="{{ route('frontend.filter.model', ':id') }}" id="make"
@@ -200,20 +205,13 @@
                                 </div>
                             </div>
                             <div class="woof_submit_search_form_container">
-                                <button class="button woof_submit_search_form">Filter</button>
+                                <button class="button woof_submit_search_form my-3">Filter</button>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="content_wrap">
-        <div class="row my-5">
-            <div class="col-12">
-                <div class="row p-0">
+                    
                     @foreach ($tyre as $row)
-                        <div class="col-3">
+                        <div class="col-4">
                             <div class="card rounded-0">
                                 <a class="hover_icon hover_icon_link mb-3"
                                     href="{{ route('frontend.tyre.product-detail', base64_encode($row->id)) }}"><img class="card-img-top"

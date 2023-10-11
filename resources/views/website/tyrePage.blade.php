@@ -26,7 +26,7 @@
         }
 
         .filter-select {
-            width: 23% !important;
+            width: 100% !important;
             padding-left: 3.6em;
             background-color: #cecfd0;
             border-radius: 1.6em;
@@ -71,7 +71,7 @@
         .woof_container_inner,
         .woof_submit_search_form_container {
             position: relative;
-            display: flex;
+            display: inline;
             flex-wrap: wrap;
             justify-content: center;
         }
@@ -162,45 +162,40 @@
 
 @section('content')
     @include('layout.sencondBanner')
-    <div class="page_content_wrap page_paddings_no">
-        <div class="content_wrap">
-            <div class="content-wraper">
-                <div class="dv-full-width">
-                    <div class="sc_section animated fadeInUp normal" data-animation="animated fadeInUp normal">
-                        <h3 class="sc_section_title sc_item_title sc_item_title_without_descr text-uppercase">find the best
-                            option for
-                            your vehicle</h3>
-                        <div class="sc_section_inner">
-                            <div class="woof_container_inner woof_container_inner_makemodelyearsize">
-                                <div class="filter-select select2-selection">
-                                    <select data-filter="true" data-target="model"
-                                        data-url="{{ route('frontend.filter.model', ':id') }}" id="make"
-                                        class="selectpicker" data-live-search="true" data-container="body">
-                                        <option value="">MAKE</option>
-                                        @foreach ($make as $row)
-                                        <option value="{{ $row->id }}">{{ $row->name . '(' . $row->countNo . ')' }}
-                                        </option>
-                                        @endforeach
-                                    </select>
-                                    <span class="select2-selection__arrow" role="presentation"><b
-                                            role="presentation"></b></span>
-                                </div>
-                            </div>
-                            <div class="woof_submit_search_form_container">
-                                <button id="btn_search" class="button woof_submit_search_form">Filter</button>
-                            </div>
+    
+    <div class="content_wrap">
+        <div class="row my-5">
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-12">
+                        <h5 class="text-center text-uppercase">find the best option for your vehicle</h5>
+                    </div>
+                </div>
+                <div class="sc_section_inner text-center">
+                    <div class="woof_container_inner woof_container_inner_makemodelyearsize px-3 mb-3">
+                        <div class="filter-select select2-selection mb-3">
+                            <select data-filter="true" data-target="model"
+                                data-url="{{ route('frontend.filter.model', ':id') }}" id="make"
+                                class="selectpicker" data-live-search="true" data-container="body">
+                                <option value="">MAKE</option>
+                                @foreach ($make as $row)
+                                <option value="{{ $row->id }}">{{ $row->name . '(' . $row->countNo . ')' }}
+                                </option>
+                                @endforeach
+                            </select>
+                            <span class="select2-selection__arrow" role="presentation"><b
+                                    role="presentation"></b></span>
                         </div>
+                    </div>
+                    <div class="woof_submit_search_form_container">
+                        <button id="btn_search" class="button woof_submit_search_form my-3">Filter</button>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="content_wrap">
-        <div class="row my-5">
-            <div class="col-12">
+            <div class="col-8">
                 <div class="row p-0">
                     @foreach ($tyre as $row)
-                        <div class="col-3">
+                        <div class="col-4">
                             <div class="card rounded-0">
                                 <a class="hover_icon hover_icon_link mb-3"
                                     href="{{route('frontend.tyre.product-detail',base64_encode($row->id))}}"><img class="card-img-top"
@@ -278,7 +273,7 @@
             bElement.setAttribute('role', 'presentation')
             spanElement.className = "select2-selection__arrow";
             spanElement.append(bElement);
-            divElement.className = "filter-select select2-selection";
+            divElement.className = "filter-select select2-selection mb-3";
             selectElement.id = id;
             selectElement.name = 'car-' + id;
             if (data['url'] != '') {

@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\TubeController;
 use App\Http\Controllers\Admin\TyreController;
 use App\Http\Controllers\Admin\TyresizeController;
 use App\Http\Controllers\Admin\ExpenseController;
+use App\Http\Controllers\admin\ReportsController;
 use App\Http\Controllers\Auth\Logincontroller;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\FileController;
@@ -49,6 +50,8 @@ Route::get('oman-invoice',function(){
 Route::get('dubai-invoice',function(){
     return view('invoice.dubaiInvoice');
 });
+
+
 
 Route::get('/filter-by-maker',[HelperController::class,'FilterMaker'])->name('frontend.filter.maker');
 Route::get('/filter-by-make/{id}',[HelperController::class,'FilterCarModel'])->name('frontend.filter.model');
@@ -129,4 +132,15 @@ Route::group(['prefix'=>$prefix,'middleware'=>'auth:admin'], function () use($pr
     Route::post('purchase/payment',[PurchaseOrderController::class,'savePayment'])->name($prefix.'.purchase.savePayment');
     //Monthly Expense
     Route::resource('expense', ExpenseController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.expense');
+
+    //Reports start
+    Route::get('reports/sales',[ReportsController::class,'Sales_index'])->name($prefix.'.sales_index');
+    Route::get('sale/overall',[ReportsController::class,'over_all'])->name($prefix.'.over-all-sales');
+    Route::get('sale/monthly/{id}',[ReportsController::class,'monthly'])->name($prefix.'.montly-sales');
+    Route::get('sale/datewise/{from}/{to}',[ReportsController::class,'weekly'])->name($prefix.'.datewise-sales');
+
+    Route::get('reports/purchase',[ReportsController::class,'Purchase_index'])->name($prefix.'.purchase_index');
+    Route::get('purchase/overall',[ReportsController::class,'purchase_over_all'])->name($prefix.'.purchase.over-all-sales');
+    Route::get('purchase/monthly/{id}',[ReportsController::class,'purchase_monthly'])->name($prefix.'.purchase.montly-sales');
+    Route::get('purchase/datewise/{from}/{to}',[ReportsController::class,'purchase_weekly'])->name($prefix.'.purchase.datewise-sales');
 });

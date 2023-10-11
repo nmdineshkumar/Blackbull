@@ -25,7 +25,7 @@
         }
 
         .filter-select {
-            width: 23% !important;
+            width: 100% !important;
             padding-left: 3.6em;
             background-color: #cecfd0;
             border-radius: 1.6em;
@@ -70,7 +70,7 @@
         .woof_container_inner,
         .woof_submit_search_form_container {
             position: relative;
-            display: flex;
+            display: inline;
             flex-wrap: wrap;
             justify-content: center;
         }
@@ -160,45 +160,39 @@
 @endsection
 @section('content')
     @include('layout.sencondBanner')
-    <div class="page_content_wrap page_paddings_no">
-        <div class="content_wrap">
-            <div class="content-wraper">
-                <div class="dv-full-width">
-                    <div class="sc_section animated fadeInUp normal" data-animation="animated fadeInUp normal">
-                        <h3 class="sc_section_title sc_item_title sc_item_title_without_descr text-uppercase">find the best
-                            option for
-                            your vehicle</h3>
-                        <div class="sc_section_inner">
-                            <div class="woof_container_inner woof_container_inner_makemodelyearsize">
-                                <div class="filter-select select2-selection">
-                                    <select data-filter="true" data-target="model"
-                                        data-url="{{ route('frontend.tube.filter.brand',':id') }}" id="brand"
-                                        class="selectpicker" data-live-search="true" data-container="body">
-                                        <option value="">BRAND</option>
-                                        @foreach ($make as $row)
-                                            <option value="{{ $row->id }}">{{ $row->name . '(' . $row->countNo . ')' }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <span class="select2-selection__arrow" role="presentation"><b
-                                            role="presentation"></b></span>
-                                </div>
-                            </div>
-                            <div class="woof_submit_search_form_container">
-                                <button id="btn_search" class="button woof_submit_search_form">Filter</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
+   
     <div class="content_wrap">
         <div class="content_wrap">
             <div class="row my-5">
                 <div class="col-12">
                     <div class="row p-0">
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h5 class="text-center text-uppercase">find the best option for your vehicle</h5>
+                                </div>
+                            </div>
+                            <div class="sc_section_inner text-center">
+                                <div class="woof_container_inner woof_container_inner_makemodelyearsize mb-3">
+                                    <div class="filter-select select2-selection ">
+                                        <select data-filter="true" data-target="model"
+                                            data-url="{{ route('frontend.tube.filter.brand',':id') }}" id="brand"
+                                            class="selectpicker" data-live-search="true" data-container="body">
+                                            <option value="">BRAND</option>
+                                            @foreach ($make as $row)
+                                                <option value="{{ $row->id }}">{{ $row->name . '(' . $row->countNo . ')' }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <span class="select2-selection__arrow" role="presentation"><b
+                                                role="presentation"></b></span>
+                                    </div>
+                                </div>
+                                <div class="woof_submit_search_form_container">
+                                    <button id="btn_search" class="button woof_submit_search_form mt-3">Filter</button>
+                                </div>
+                            </div>
+                        </div>
                         @foreach ($tube as $row)
                             <div class="col-3">
                                 <div class="card rounded-0">

@@ -32,7 +32,7 @@
         }
 
         .filter-select {
-            width: 23% !important;
+            width: 100% !important;
             padding-left: 3.6em;
             background-color: #cecfd0;
             border-radius: 1.6em;
@@ -176,8 +176,24 @@
                         <h3 class="sc_section_title sc_item_title sc_item_title_without_descr text-uppercase">find the best
                             option for
                             your vehicle</h3>
-                        <div class="sc_section_inner">
-                            <div class="woof_container_inner woof_container_inner_makemodelyearsize">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content_wrap">
+        <div class="row my-5">
+            <div class="col-12">
+                <div class="row p-0">
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <h5 class="text-center text-uppercase">find the best option for your vehicle</h5>
+                            </div>
+                        </div>
+                        <div class="sc_section_inner text-center">
+                            <div class="woof_container_inner woof_container_inner_makemodelyearsize my-3">
                                 <div class="filter-select select2-selection">
                                     <select data-filter="true" data-target="model"
                                         data-url="{{ route('frontend.filter.model', ':id') }}" id="make"
@@ -200,18 +216,10 @@
                                 </div>
                             </div>
                             <div class="woof_submit_search_form_container">
-                                <button class="button woof_submit_search_form">Filter</button>
+                                <button class="button woof_submit_search_form my-3">Filter</button>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="content_wrap">
-        <div class="row my-5">
-            <div class="col-12">
-                <div class="row p-0">
                     @foreach ($tube as $row)
                         <div class="col-3">
                             <div class="card rounded-0">
