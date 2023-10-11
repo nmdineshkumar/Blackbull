@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DataTables;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class ExpenseController extends Controller
 {
@@ -19,21 +20,27 @@ class ExpenseController extends Controller
     function modelIns(): Branch{
         return new Branch();
     }
-
+    function userBranch():string{
+        return Auth::guard('employee')->user()->branch_id;
+    }
     //
-    public function index(Request $request){
+     //
+     public function index(Request $request){
         if($request->ajax()){
             $data = $this->modelIns()::get();
             return DataTables::of($data)
                     ->addIndexColumn()
-                    ->addColumn('name', function($row){
-                        return "<a href='" .route($this->resourceUrl().'.edit',$row->id) ."'>$row->name</a>";
+                    ->addColumn('branch', function($row){
+                        return HelperController::BranchName($row->center);
                     })
-                    ->addColumn('Country',function($row){
-                        return HelperController::getCountryName($row->country);
+                    ->addColumn('month',function($row){
+                        return $row->month;
                     })
-                    ->addColumn('City',function($row){
-                        return HelperController::getCityName($row->city);
+                    ->addColumn('expense',function($row){
+                       return  $row->expense_name;
+                    })
+                    ->addColumn('amount',function($row){
+                       return $row->amount;
                     })
                     ->addColumn('action', function($row){
                         if($row->deleted_at=== NULL){
@@ -51,39 +58,37 @@ class ExpenseController extends Controller
         }
     }
     public function create(){
-        return view('manager.expense.createExpense')
+        $branches = Branch::where('id',$this->userBranch())->get();
+        return view('manager.expense.createExpense',compact('branches'))
                 ->with('pageName', 'Create Expense')
                 ->with('id','')
                 ->with('resourceUrl',$this->resourceUrl()); 
     }
     public function edit($id){
-        $branches = $this->modelIns()::find($id);
-        return view('manager.branch.editBranch',compact('branches'))
+        $branches = Branch::where('id',$this->userBranch())->get();
+        $expense = $this->modelIns()::find($id);
+        return view('manager.expense.createExpense',compact('branches','expense'))
         ->with('pageName', 'Edit Branch')
         ->with('id',$id)
         ->with('resourceUrl',$this->resourceUrl()); 
     }
     public function store(Request $request){
         $validate = $request->validate([
-            'name' => ['required','unique:branches,name,'.$request->id.',id'],
-            'address1' => ['required'],
-            'address2' => ['required'],
-            'country' => ['required'],
-            'state' => ['required'],
-            'city' => ['required'],
-            'pincode' => ['required'],]);
+            'name' => ['required'],
+            'branch' => ['required'],
+            'month' => ['required'],
+            'amount' => ['required'],
+        ]);
         if($validate){
             
             if($request->id != null){
                 $data = [
-                    'name' => $request->name,
-                    'address1' => $request->address1,
-                    'address2' => $request->address2,
-                    'country' => $request->country,
-                    'state' => $request->state,
-                    'city' => $request->city,
-                    'pincode' => $request->pincode,
-                    'comments' => $request->comments,
+                    'month' => $request->month,
+                    'center' => $request->branch,
+                    'expense_name' => $request->name,
+                    'amount' => $request->amount,
+                    'comment' => $request->comment,
+                    'updated_by' => Auth::guard('employee')->user()->id,
                     'updated_at' => Carbon::now()
                 ];
                 try {                    
@@ -94,29 +99,27 @@ class ExpenseController extends Controller
                     return redirect()->route($this->resourceUrl().'.index')->with('error','Error updating branch...!!!');
                 }
                 } catch (Exception $th) {
-                    info('Branch-update-error:'.$th->getMessage());
+                    info('expenses-update-error:'.$th->getMessage());
                 }
             }else if($request->id == null || $request->id == ''){
                 $data = [
-                    'name' => $request->name,
-                    'address1' => $request->address1,
-                    'address2' => $request->address2,
-                    'country' => $request->country,
-                    'state' => $request->state,
-                    'city' => $request->city,
-                    'pincode' => $request->pincode,
-                    'comments'=>$request->comments,
+                    'month' => $request->month,
+                    'center' => $request->branch,
+                    'expense_name' => $request->name,
+                    'amount' => $request->amount,
+                    'comment' => $request->comment,
+                    'created_by' => Auth::guard('employee')->user()->id,
                     'created_at' => Carbon::now()
                 ];
                 try {
                     $res = $this->modelIns()::insert($data);
                 if($res){
-                    return redirect()->route($this->resourceUrl().'.index')->with('success','Branches saved successfully...!!!');
+                    return redirect()->route($this->resourceUrl().'.index')->with('success','expenses saved successfully...!!!');
                 }else{
-                    return redirect()->route($this->resourceUrl().'.index')->with('error','Error saving branch...!!!');
+                    return redirect()->route($this->resourceUrl().'.index')->with('error','Error saving expenses...!!!');
                 }
                 } catch (Exception $th) {
-                    info('Branch-saving-error:'.$th->getMessage());
+                    info('expenses-saving-error:'.$th->getMessage());
                 }
             }
         }
@@ -131,7 +134,7 @@ class ExpenseController extends Controller
             return response()->json( [ 'str' => 0 ] );
         }
         } catch (Exception $th) {
-            info('Branch-delete-error:'.$th->getMessage());
+            info('expenses-delete-error:'.$th->getMessage());
         }
     }
 

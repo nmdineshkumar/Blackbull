@@ -38,6 +38,7 @@
                             <th>SNo</th>
                             <th>Center</th>
                             <th>Month</th>
+                            <th>Expense</th>
                             <th>Amount</th>
                             <th>Action</th>
                         </thead>
@@ -56,9 +57,10 @@
     $(function () {
         const columns = [
               {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-              {data: 'branch', name: 'Name'},
+              {data: 'branch', name: 'Center'},
               {data: 'month', name: 'month'},
-              {data: 'name', name: 'expense'},
+              {data: 'expense', name: 'Expense'},
+              {data: 'amount', name: 'Amount'},
               {data: 'action', name: 'action'}
           ];
         initializeDataTable('Ajaxdatatable', '{{ route("$resourceUrl".'.index') }}', columns);

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HelperController;
 use App\Models\Branch;
-use App\Models\Branch;
 use App\Models\Expense;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -30,13 +29,16 @@ class ExpenseController extends Controller
             return DataTables::of($data)
                     ->addIndexColumn()
                     ->addColumn('branch', function($row){
-                        return "<a href='" .route($this->resourceUrl().'.edit',$row->id) ."'>".HelperController::get_BrandName($row->center)."</a>";
+                        return HelperController::BranchName($row->center);
                     })
                     ->addColumn('month',function($row){
                         return $row->month;
                     })
-                    ->addColumn('name',function($row){
-                        $row->expenses_name;
+                    ->addColumn('expense',function($row){
+                       return  $row->expense_name;
+                    })
+                    ->addColumn('amount',function($row){
+                       return $row->amount;
                     })
                     ->addColumn('action', function($row){
                         if($row->deleted_at=== NULL){
@@ -54,22 +56,23 @@ class ExpenseController extends Controller
         }
     }
     public function create(){
-        return view('admin.expense.createExpense')
+        $branches = Branch::all();
+        return view('admin.expense.createExpense',compact('branches'))
                 ->with('pageName', 'Create Expense')
                 ->with('id','')
                 ->with('resourceUrl',$this->resourceUrl()); 
     }
     public function edit($id){
-        $location = Branch::all();
-        $expenses = $this->modelIns()::find($id);
-        return view('admin.branch.editBranch',compact('location','expenses'))
+        $branches = Branch::all();
+        $expense = $this->modelIns()::find($id);
+        return view('admin.expense.createExpense',compact('branches','expense'))
         ->with('pageName', 'Edit Branch')
         ->with('id',$id)
         ->with('resourceUrl',$this->resourceUrl()); 
     }
     public function store(Request $request){
         $validate = $request->validate([
-            'name' => ['required','unique:branches,name,'.$request->id.',id'],
+            'name' => ['required'],
             'branch' => ['required'],
             'month' => ['required'],
             'amount' => ['required'],
