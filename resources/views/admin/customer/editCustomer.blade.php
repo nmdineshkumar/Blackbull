@@ -63,14 +63,14 @@
                     @csrf
                     <div class="row">
                         <div class="col-6 mb-2">
-                            <label for="">Name</label>
+                            <label for="">First Name</label>
                             <input type="text" name="first_name" id="first_name" class="form-control" value="{{ $first_name }}">
                             @error('first_name')
                             <div class="error">{{ $message }}</div>
                         @enderror
                         </div>
                         <div class="col-6 mb-2">
-                            <label for="">Name</label>
+                            <label for="">Last Name</label>
                             <input type="text" name="last_name" id="last_name" class="form-control" value="{{ $last_name }}">
                             @error('first_name')
                             <div class="error">{{ $message }}</div>

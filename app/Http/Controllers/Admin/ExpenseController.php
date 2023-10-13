@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\HelperController;
 use App\Models\Branch;
 use App\Models\Expense;
+use App\Models\expense_category;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DataTables;
@@ -57,15 +58,17 @@ class ExpenseController extends Controller
     }
     public function create(){
         $branches = Branch::all();
-        return view('admin.expense.createExpense',compact('branches'))
+        $expense_category = expense_category::all();
+        return view('admin.expense.createExpense',compact('branches','expense_category'))
                 ->with('pageName', 'Create Expense')
                 ->with('id','')
                 ->with('resourceUrl',$this->resourceUrl()); 
     }
     public function edit($id){
         $branches = Branch::all();
+        $expense_category = expense_category::all();
         $expense = $this->modelIns()::find($id);
-        return view('admin.expense.createExpense',compact('branches','expense'))
+        return view('admin.expense.createExpense',compact('branches','expense','expense_category'))
         ->with('pageName', 'Edit Branch')
         ->with('id',$id)
         ->with('resourceUrl',$this->resourceUrl()); 
@@ -92,9 +95,9 @@ class ExpenseController extends Controller
                 try {                    
                 $res = $this->modelIns()::whereId($request->id)->update($data);
                 if($res){
-                    return redirect()->route($this->resourceUrl().'.index')->with('success','Branches updated successfully...!!!');
+                    return redirect()->route($this->resourceUrl().'.index')->with('success','Expense updated successfully...!!!');
                 }else{
-                    return redirect()->route($this->resourceUrl().'.index')->with('error','Error updating branch...!!!');
+                    return redirect()->route($this->resourceUrl().'.index')->with('error','Error Expense branch...!!!');
                 }
                 } catch (Exception $th) {
                     info('expenses-update-error:'.$th->getMessage());

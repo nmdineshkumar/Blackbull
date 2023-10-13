@@ -40,6 +40,7 @@
                         <th>Brand</th>
                         <th>Origin</th>
                         <th width="40">Year</th>
+                        <th>Size</th>
                         <th>Action</th>
                     </thead>
                     <tbody class="text-gray-600 fw-bold">
@@ -59,6 +60,7 @@
               {data: 'brand', name: 'Brand'},
               {data: 'origin', name: 'Origin'},
               {data: 'manufactory_year', name: 'Year'},
+              {data: 'size', name: 'size'},
               {data: 'action', name: 'action'}
           ];
         initializeDataTable('Ajaxdatatable', '{{ route("$resourceUrl".'.index') }}', columns);

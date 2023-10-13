@@ -44,6 +44,9 @@ class TyreController extends Controller
                 ->addColumn('manufactory_year', function ($row) {
                     return $row->manufactory_year;
                 })
+                ->addColumn('size', function ($row) {
+                    return HelperController::getTyreSize($row->tyre_size);
+                })
                 ->addColumn('action', function ($row) {
                     if ($row->deleted_at === NULL) {
                         return getActionButtons($row->id, $this->resourceUrl(), ['edit', 'delete']);

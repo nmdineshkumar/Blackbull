@@ -72,10 +72,10 @@ class CustomerController extends Controller
             'first_name' => ['required',],
             'phone' => ['required','unique:customers,phone,'.$request->id.',id'],
             'email' => ['required','unique:customers,email,'.$request->id.',id'],
-            'address1' => ['required'],
-            'country' => ['required'],
-            'state' => ['required'],
-            'city' => ['required'],
+            // 'address1' => ['required'],
+            // 'country' => ['required'],
+            // 'state' => ['required'],
+            // 'city' => ['required'],
             'zip' => ['required'],
             'type' => ['required']]);
         if($validate){ 

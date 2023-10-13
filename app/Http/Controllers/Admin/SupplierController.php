@@ -64,14 +64,14 @@ class SupplierController extends Controller
     public function store(Request $request){
         $validate = $request->validate([
             'name' => ['required','unique:suppliers,name,'.$request->id.',id'],
-            'address1' => ['required'],
-            'address2' => ['required'],
-            'pincode' => ['required'],
-            'phone' => ['required'],
-            'email' => ['required'],
-            'contact_name' => ['required'],
-            'contact_email' => ['required'],
-            'contact_phone' => ['required'],
+            // 'address1' => ['required'],
+            // 'address2' => ['required'],
+            // 'pincode' => ['required'],
+            // 'phone' => ['required'],
+            // 'email' => ['required'],
+            // 'contact_name' => ['required'],
+            // 'contact_email' => ['required'],
+            // 'contact_phone' => ['required'],
         ]);
         if($validate){
             if($request->id == '' || $request->id == null){

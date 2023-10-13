@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use App\Models\Car_battery;
+use App\Models\expense_category;
 use App\Models\manufacturers;
 use App\Models\Tube;
 use App\Models\Tyre;
@@ -351,7 +352,8 @@ class HelperController extends Controller
     }
     public static function getTyreSize($id){
         $name = '';
-        $tyreRecord = Tyresize::where('id', $id)->first();
+        $tyreRecord = Tyresize::where('id', $id)->get()->first();
+        //return $tyreRecord;
         $name = $tyreRecord->height.'X'.$tyreRecord->width.' R'.$tyreRecord->rim_size.' '.$tyreRecord->speed;
         return $name;
     }
@@ -428,5 +430,20 @@ class HelperController extends Controller
     public static function BranchName($id){
         $name = '';
         return Branch::find($id)->pluck('name')->first();
+    }
+    public function save_expense_category(Request $request){
+        $validate = $request->validate([
+            'expense_Category' => 'required'
+        ]);
+        if($validate){
+            $data = [
+                'name' => $request->expense_Category
+            ];
+            $res = expense_category::insert($data);
+            if($res){
+                $return_data = expense_category::all();
+                return response()->json(['data'=>$return_data]);
+            }
+        }
     }
 }

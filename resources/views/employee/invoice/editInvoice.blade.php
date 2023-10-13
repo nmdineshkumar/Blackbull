@@ -294,7 +294,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Brand</h5>
+                    <h5 class="modal-title">Customer</h5>
                     <button type="button" class="close btn-icon btn" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -414,7 +414,7 @@
                     success: function(response) {
                         mySlection.empty();
                         mySlection.append(new Option('---SELECT---', ''));
-                        response.customer.forEach(element => {
+                        response.data.forEach(element => {
                             mySlection.append(new Option(element.name, element.id));
                         });
                         modal.modal('toggle');

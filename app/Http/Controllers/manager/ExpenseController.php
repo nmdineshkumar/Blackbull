@@ -5,6 +5,7 @@ namespace App\Http\Controllers\manager;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HelperController;
 use App\Models\Branch;
+use App\Models\expense_category;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DataTables;
@@ -59,7 +60,8 @@ class ExpenseController extends Controller
     }
     public function create(){
         $branches = Branch::where('id',$this->userBranch())->get();
-        return view('manager.expense.createExpense',compact('branches'))
+        $expense_category = expense_category::all();
+        return view('manager.expense.createExpense',compact('branches','expense_category'))
                 ->with('pageName', 'Create Expense')
                 ->with('id','')
                 ->with('resourceUrl',$this->resourceUrl()); 
@@ -67,7 +69,8 @@ class ExpenseController extends Controller
     public function edit($id){
         $branches = Branch::where('id',$this->userBranch())->get();
         $expense = $this->modelIns()::find($id);
-        return view('manager.expense.createExpense',compact('branches','expense'))
+        $expense_category = expense_category::all();
+        return view('manager.expense.createExpense',compact('branches','expense','expense_category'))
         ->with('pageName', 'Edit Branch')
         ->with('id',$id)
         ->with('resourceUrl',$this->resourceUrl()); 

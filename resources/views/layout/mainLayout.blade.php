@@ -50,19 +50,19 @@
                 <div class="navbar-brand-box">
                     <a href="index.html" class="logo logo-dark">
                         <span class="logo-sm">
-                            <img src="{{asset('assets/images/logo-sm.png')}}" alt="logo-sm" height="22">
+                            <img src="{{asset('imgs/logo_text.jpeg')}}" alt="logo-sm" height="22">
                         </span>
                         <span class="logo-lg">
-                            <img src="{{asset('assets/imgs/login_logo.jpeg')}}" alt="logo-dark" height="55">
+                            <img src="{{asset('imgs/logo_text.jpeg')}}" alt="logo-dark" height="55">
                         </span>
                     </a>
 
                     <a href="index.html" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="{{ asset('assets/images/logo-sm.png')}}" alt="logo-sm-light" height="22">
+                            <img src="{{ asset('imgs/logo_text.jpeg')}}" alt="logo-sm-light" height="22">
                         </span>
                         <span class="logo-lg">
-                            <img src="{{ asset('assets/images/logo-light.png')}}" alt="logo-light" height="20">
+                            <img src="{{ asset('imgs/logo_text.jpeg')}}" alt="logo-light" height="20">
                         </span>
                     </a>
                 </div>
@@ -110,102 +110,18 @@
                     </button>
                 </div>
 
-                <div class="dropdown d-inline-block">
-                    <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="ri-notification-3-line"></i>
-                        <span class="noti-dot"></span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
-                        <div class="p-3">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h6 class="m-0"> Notifications </h6>
-                                </div>
-                                <div class="col-auto">
-                                    <a href="#!" class="small"> View All</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div data-simplebar style="max-height: 230px;">
-                            <a href="" class="text-reset notification-item">
-                                <div class="d-flex">
-                                    <div class="avatar-xs me-3">
-                                        <span class="avatar-title bg-primary rounded-circle font-size-16">
-                                            <i class="ri-shopping-cart-line"></i>
-                                        </span>
-                                    </div>
-                                    <div class="flex-1">
-                                        <h6 class="mb-1">Your order is placed</h6>
-                                        <div class="font-size-12 text-muted">
-                                            <p class="mb-1">If several languages coalesce the grammar</p>
-                                            <p class="mb-0"><i class="mdi mdi-clock-outline"></i> 3 min ago</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="" class="text-reset notification-item">
-                                <div class="d-flex">
-                                    <img src="{{ asset('assets/images/users/avatar-3.jpg')}}" class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                    <div class="flex-1">
-                                        <h6 class="mb-1">James Lemire</h6>
-                                        <div class="font-size-12 text-muted">
-                                            <p class="mb-1">It will seem like simplified English.</p>
-                                            <p class="mb-0"><i class="mdi mdi-clock-outline"></i> 1 hours ago</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="" class="text-reset notification-item">
-                                <div class="d-flex">
-                                    <div class="avatar-xs me-3">
-                                        <span class="avatar-title bg-success rounded-circle font-size-16">
-                                            <i class="ri-checkbox-circle-line"></i>
-                                        </span>
-                                    </div>
-                                    <div class="flex-1">
-                                        <h6 class="mb-1">Your item is shipped</h6>
-                                        <div class="font-size-12 text-muted">
-                                            <p class="mb-1">If several languages coalesce the grammar</p>
-                                            <p class="mb-0"><i class="mdi mdi-clock-outline"></i> 3 min ago</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <a href="" class="text-reset notification-item">
-                                <div class="d-flex">
-                                    <img src="{{ asset('assets/images/users/avatar-4.jpg')}}" class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                    <div class="flex-1">
-                                        <h6 class="mb-1">Salena Layfield</h6>
-                                        <div class="font-size-12 text-muted">
-                                            <p class="mb-1">As a skeptical Cambridge friend of mine occidental.</p>
-                                            <p class="mb-0"><i class="mdi mdi-clock-outline"></i> 1 hours ago</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="p-2 border-top">
-                            <div class="d-grid">
-                                <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)">
-                                    <i class="mdi mdi-arrow-right-circle me-1"></i> View More..
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               
 
                 <div class="dropdown d-inline-block user-dropdown">
                     <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="rounded-circle header-profile-user" src="//gravatar.com/avatar/{{ Auth::guard('admin')->user()->email }}?s=100" alt="Header Avatar">
+                        <img class="rounded-circle header-profile-user" src="{{asset('imgs/user-profile.png')}}" alt="Header Avatar">
                         <span class="d-none d-xl-inline-block ms-1">{{ Auth::guard('admin')->user()->display_name }}</span>
                         <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-end">
                         <!-- item-->
-                        <a class="dropdown-item" href="../master/employee_profile.php?id={{Auth::guard('admin')->user()->id}}"><i class="ri-user-line align-middle me-1"></i> Profile</a>
-                        <a class="dropdown-item" href="../users/dashboard.php"><i class="ri-wallet-2-line align-middle me-1"></i> Dashboard</a>
-                        <a class="dropdown-item d-block" href="#"><span class="badge bg-success float-end mt-1">11</span><i class="ri-settings-2-line align-middle me-1"></i> Settings</a>
+                        {{-- <a class="dropdown-item" href="../master/employee_profile.php?id={{Auth::guard('admin')->user()->id}}"><i class="ri-user-line align-middle me-1"></i> Profile</a> --}}
+                        <a class="dropdown-item" href="{{route('admin.dashboard')}}"><i class="ri-wallet-2-line align-middle me-1"></i> Dashboard</a>
                         <a class="dropdown-item" href="{{route('logout')}}"><i class="ri-lock-unlock-line align-middle me-1"></i> Lock
                             screen</a>
                         <div class="dropdown-divider"></div>
@@ -227,7 +143,7 @@
             <!-- User details -->
             <div class="user-profile text-center mt-3">
                 <div class="">
-                    <img src="//gravatar.com/avatar/{{ Auth::guard('admin')->user()->email }}?s=100" alt="" class="avatar-md rounded-circle">
+                    <img src="{{asset('imgs/user-profile.png')}}" alt="" class="avatar-md rounded-circle">
                 </div>
                 <div class="mt-3">
                     <h4 class="font-size-16 mb-1">{{ Auth::guard('admin')->user()->display_name }}</h4>

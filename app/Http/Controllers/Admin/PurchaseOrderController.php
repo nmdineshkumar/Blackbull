@@ -58,7 +58,7 @@ class PurchaseOrderController extends Controller
 
         }else{
             return view('admin.purchseOrder.indexPurchaseOrder')
-                    ->with('pageName','Manufacture')
+                    ->with('pageName','Purchase Order')
                     ->with('resourceUrl',$this->resourceUrl());
         }
     }
