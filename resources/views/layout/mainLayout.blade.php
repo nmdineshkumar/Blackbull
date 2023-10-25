@@ -198,6 +198,7 @@
                         <ul class="sub-menu mm-collapse" aria-expanded="false">
                             <li><a href="{{route('admin.sales_index')}}"><i class="mdi mdi-calendar-account-outline"></i>Sales</a></li>
                             <li><a href="{{route('admin.purchase_index')}}"><i class="mdi mdi-calendar-account-outline"></i>Purchase</a></li>
+                            <li><a href="{{route('admin.expense_index')}}"><i class="mdi mdi-calendar-account-outline"></i>Expense</a></li>
                         </ul>
                     </li>
 

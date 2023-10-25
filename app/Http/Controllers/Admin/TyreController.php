@@ -129,8 +129,6 @@ class TyreController extends Controller
             'make' => ['required'],
             'model' => ['required'],
             'year'  => ['required'],
-            'fuel_type' => ['required'],
-            'engine_type' => ['required'],
             'price' => ['required'],
             'set_price' => ['required'],
             'tyre_size' => ['required'],

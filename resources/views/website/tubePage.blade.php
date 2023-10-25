@@ -166,14 +166,30 @@
             <div class="row my-5">
                 <div class="col-12">
                     <div class="row p-0">
-                        <div class="col-4">
+                        <div class="col-3 bg-light">
                             <div class="row">
                                 <div class="col-12">
-                                    <h5 class="text-center text-uppercase">find the best option for your vehicle</h5>
+                                    <h4 class="text-uppercase my-5 ps-3 fw-800">Shopping Cart</h4>
                                 </div>
                             </div>
-                            <div class="sc_section_inner text-center">
-                                <div class="woof_container_inner woof_container_inner_makemodelyearsize mb-3">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h5 class="text-uppercase my-5 ps-3">Price Filter</h5>
+                                    <input type="range" class="form-range" id="customRange1" min="100" max="5000">
+                                </div>
+                                <div class="col-12 my-3 text-center">
+                                    <div class="woof_submit_search_form_container">
+                                        <button id="btn_search" class="button woof_submit_search_form my-3" style="
+                                        padding-left: 20px;
+                                        padding-right: 20px;
+                                        padding-top: 8px;
+                                        padding-bottom: 8px;
+                                    ">Filter</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sc_section_inner text-center mb-3">
+                                <div class="woof_container_inner woof_container_inner_makemodelyearsize mx-3">
                                     <div class="filter-select select2-selection ">
                                         <select data-filter="true" data-target="model"
                                             data-url="{{ route('frontend.tube.filter.brand',':id') }}" id="brand"
@@ -189,12 +205,32 @@
                                     </div>
                                 </div>
                                 <div class="woof_submit_search_form_container">
-                                    <button id="btn_search" class="button woof_submit_search_form mt-3">Filter</button>
+                                    <button id="btn_search" class="button woof_submit_search_form mt-3"style="
+                                    padding-left: 20px;
+                                    padding-right: 20px;
+                                    padding-top: 8px;
+                                    padding-bottom: 8px;
+                                ">Filter</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4 class="text-uppercase my-3 ps-3 fw-800">Categories</h4>
+                                </div>
+                                <div class="col-12 my-2">
+                                    <ul class="list-unstyled ps-4">
+                                        <li><a href="/tyre"><span class="px-3">Tyre</span></a></li>
+                                        <li><a href="/tube"><span class="px-3">Tube</span></a></li>
+                                        <li><a href="/battery"><span class="px-3">Battery</span></a></li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="col-9">
+                            <div class="row">
                         @foreach ($tube as $row)
-                            <div class="col-3">
+                            <div class="col-md-4 col-sm-6">
                                 <div class="card rounded-0">
                                     <a class="hover_icon hover_icon_link mb-3"
                                         href="{{ route('frontend.tube.product-detail', base64_encode($row->id)) }}"><img
@@ -221,6 +257,8 @@
                                 </div>
                             </div>
                         @endforeach
+                    </div>
+                    </div>
                     </div>
                 </div>
                 <div class="col-12 my-5 text-center">
@@ -273,7 +311,7 @@
         bElement.setAttribute('role', 'presentation')
         spanElement.className = "select2-selection__arrow";
         spanElement.append(bElement);
-        divElement.className = "filter-select select2-selection";
+        divElement.className = "filter-select select2-selection my-3";
         selectElement.id = id;
         selectElement.name = 'car-' + id;
         if (data['url'] != '') {
@@ -306,7 +344,7 @@
         model = $('#model').val() == undefined ? '' : $('#model').val();
         year = $('#year').val() == undefined ? '' : $('#year').val();
         size = $('#size').val() == undefined ? '' : $('#size').val();
-        url = '{{route('frontend.tube.product-search')}}'
+        url = "{{route('frontend.tube.product-search')}}";
         url += '?maker=' + maker + '&size=' + size+'&model=' + model+'&year=' + year;
         if(maker == '' || maker == undefined) {
             alert('Please choose any one of the following options');

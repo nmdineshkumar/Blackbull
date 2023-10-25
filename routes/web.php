@@ -51,8 +51,13 @@ Route::get('dubai-invoice',function(){
     return view('invoice.dubaiInvoice');
 });
 
+//Tyre size based search
+Route::get('tyre-size-filter/height',[HelperController::class,'Get_Filter_TyreHeight'])->name('frontend-tyre-size-filter');
+Route::get('tyre-size-filter/width/{id}',[HelperController::class,'get_Filter_TyreWidth'])->name('frontend-tyre-size-filter-width');
+Route::get('tyre-size-filter/rim-size/{height}/{width}',[HelperController::class,'get_Filter_tyresize'])->name('frontend-tyre-size-filter-rim-size');
 
 
+//Tyre model based search
 Route::get('/filter-by-maker',[HelperController::class,'FilterMaker'])->name('frontend.filter.maker');
 Route::get('/filter-by-make/{id}',[HelperController::class,'FilterCarModel'])->name('frontend.filter.model');
 Route::get('/filter-by-model/{id}',[HelperController::class,'FilterCarYear'])->name('frontend.filter.year');
@@ -144,4 +149,9 @@ Route::group(['prefix'=>$prefix,'middleware'=>'auth:admin'], function () use($pr
     Route::get('purchase/overall',[ReportsController::class,'purchase_over_all'])->name($prefix.'.purchase.over-all-sales');
     Route::get('purchase/monthly/{id}',[ReportsController::class,'purchase_monthly'])->name($prefix.'.purchase.montly-sales');
     Route::get('purchase/datewise/{from}/{to}',[ReportsController::class,'purchase_weekly'])->name($prefix.'.purchase.datewise-sales');
+
+    Route::get('reports/expense',[ReportsController::class,'Expense_index'])->name($prefix.'.expense_index');    
+    Route::get('expense/overall',[ReportsController::class,'expense_over_all'])->name($prefix.'.expense.over-all-expense');
+    Route::get('expense/monthly/{id}',[ReportsController::class,'expense_monthly'])->name($prefix.'.expense.montly-expense');
+    Route::get('expense/datewise/{from}/{to}',[ReportsController::class,'expense_weekly'])->name($prefix.'.expense.datewise-expense');
 });

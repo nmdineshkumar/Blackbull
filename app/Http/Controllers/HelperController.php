@@ -340,12 +340,12 @@ class HelperController extends Controller
         return $data;
     }
     public function FilterCarSize($id,Request $request){
-        $data['model'] = DB::select("SELECT ts.id,concat(ts.height,'X',ts.width,' R',ts.rim_size,' ',ts.speed) as name, '' as countNo FROM `cars_datas` C
+        $data['model'] = DB::select("SELECT ts.id,concat(ifnull(ts.height,''),'X',ifnull(ts.width,''),' R',ifnull(ts.rim_size,''),' ',ifnull(ts.speed,'')) as name, '' as countNo FROM `cars_datas` C
                                     inner join manufacturers m on m.id = C.maker
                                     inner join car_model cm on m.id = cm.make and C.model = cm.id
                                     inner join tyresizes ts on ts.id = c.tyre_size
                                     where c.maker = '$request->make' and m.id = '$request->model'
-                                        and C.year = '$id';");
+                                        and C.year = '$id'");
         $data['target'] = '';
         $data['url'] = '';
         return $data;
@@ -374,7 +374,7 @@ class HelperController extends Controller
     }
     public static function get_TyreSize($id){        
         $product = DB::table('tyresizes')->join('cars_datas', 'tyresizes.id','cars_datas.tyre_size')
-                ->where('cars_datas.id', $id)->get(['tyresizes.height','tyresizes.width','tyresizes.rim_size','tyresizes.speed'])->first();
+                ->where('tyresizes.id', $id)->get(['tyresizes.height','tyresizes.width','tyresizes.rim_size','tyresizes.speed'])->first();
         return $product->height.' X '.$product->width.' R'.$product->rim_size.' '.$product->speed;
     }
     public static function get_TyreOrigin($id){
@@ -445,5 +445,31 @@ class HelperController extends Controller
                 return response()->json(['data'=>$return_data]);
             }
         }
+    }
+    //Tyre size filter
+    public static function Get_Filter_TyreHeight(){
+        $res = Tyresize::groupBy('height')
+                ->selectRaw('count(*) as total,height')
+                ->get();
+        return $res;
+    }
+    public static function get_Filter_TyreWidth($id){
+        $data['model'] = Tyresize::where('height',$id)
+                        ->groupBy('width')
+                        ->selectRaw('count(*) as countNo,width as id,width as name')
+                        ->get();
+                        $data['target'] = 'rim_size';
+                        $data['url'] = route('frontend-tyre-size-filter-rim-size',[':height',':width']);;
+        return $data;
+    }
+    public static function get_Filter_tyresize($height,$width){
+        $data['model'] = Tyresize::where('height',$height)
+                        ->where('width',$width)
+                        ->groupBy('rim_size')
+                        ->selectRaw('count(*) as countNo,rim_size as id,rim_size as name')
+                        ->get();
+                        $data['target'] = '';
+                        $data['url'] = '';
+        return response()->json($data);
     }
 }

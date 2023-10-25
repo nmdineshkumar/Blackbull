@@ -186,29 +186,38 @@
         <div class="row my-5">
             <div class="col-12">
                 <div class="row p-0">
-                    <div class="col-4">
+                    <div class="col-3 bg-light">
                         <div class="row">
                             <div class="col-12">
-                                <h5 class="text-center text-uppercase">find the best option for your vehicle</h5>
+                                <h4 class="text-uppercase my-5 ps-3 fw-800">Shopping Cart</h4>
                             </div>
                         </div>
-                        <div class="sc_section_inner text-center">
-                            <div class="woof_container_inner woof_container_inner_makemodelyearsize my-3">
-                                <div class="filter-select select2-selection">
+                        <div class="row">
+                            <div class="col-12">
+                                <h5 class="text-uppercase my-5 ps-3">Price Filter</h5>
+                                <input type="range" class="form-range" id="customRange1" min="100" max="5000">
+                            </div>
+                            <div class="col-12 my-3 text-center">
+                                <div class="woof_submit_search_form_container">
+                                    <button id="btn_search" class="button woof_submit_search_form my-3" style="
+                                    padding-left: 20px;
+                                    padding-right: 20px;
+                                    padding-top: 8px;
+                                    padding-bottom: 8px;
+                                ">Filter</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sc_section_inner text-center mb-3">
+                            <div class="woof_container_inner woof_container_inner_makemodelyearsize mx-3">
+                                <div class="filter-select select2-selection ">
                                     <select data-filter="true" data-target="model"
-                                        data-url="{{ route('frontend.filter.model', ':id') }}" id="make"
+                                        data-url="{{ route('frontend.tube.filter.brand',':id') }}" id="brand"
                                         class="selectpicker" data-live-search="true" data-container="body">
-                                        <option value="">MAKE</option>
+                                        <option value="">BRAND</option>
                                         @foreach ($make as $row)
-                                            @if ($maker == $row->id)
-                                                <option selected value="{{ $row->id }}">
-                                                    {{ $row->name . '(' . $row->countNo . ')' }}
-                                                </option>
-                                            @else
-                                                <option value="{{ $row->id }}">
-                                                    {{ $row->name . '(' . $row->countNo . ')' }}
-                                                </option>
-                                            @endif
+                                            <option value="{{ $row->id }}">{{ $row->name . '(' . $row->countNo . ')' }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <span class="select2-selection__arrow" role="presentation"><b
@@ -216,7 +225,24 @@
                                 </div>
                             </div>
                             <div class="woof_submit_search_form_container">
-                                <button class="button woof_submit_search_form my-3">Filter</button>
+                                <button id="btn_search" class="button woof_submit_search_form mt-3"style="
+                                padding-left: 20px;
+                                padding-right: 20px;
+                                padding-top: 8px;
+                                padding-bottom: 8px;
+                            ">Filter</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <h4 class="text-uppercase my-3 ps-3 fw-800">Categories</h4>
+                            </div>
+                            <div class="col-12 my-2">
+                                <ul class="list-unstyled ps-4">
+                                    <li><a href="/tyre"><span class="px-3">Tyre</span></a></li>
+                                    <li><a href="/tube"><span class="px-3">Tube</span></a></li>
+                                    <li><a href="/battery"><span class="px-3">Battery</span></a></li>
+                                </ul>
                             </div>
                         </div>
                     </div>

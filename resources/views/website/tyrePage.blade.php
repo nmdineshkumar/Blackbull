@@ -1,4 +1,3 @@
-
 @extends('website.mainLayout')
 
 @section('css')
@@ -162,49 +161,97 @@
 
 @section('content')
     @include('layout.sencondBanner')
-    
+
     <div class="content_wrap">
         <div class="row my-5">
-            <div class="col-4">
+            <div class="col-3 bg-light">
                 <div class="row">
                     <div class="col-12">
-                        <h5 class="text-center text-uppercase">find the best option for your vehicle</h5>
+                        <h4 class="text-uppercase my-5 ps-3 fw-800">Shopping Cart</h4>
                     </div>
                 </div>
-                <div class="sc_section_inner text-center">
-                    <div class="woof_container_inner woof_container_inner_makemodelyearsize px-3 mb-3">
-                        <div class="filter-select select2-selection mb-3">
+                <div class="row">
+                    <div class="col-12">
+                        <h5 class="text-uppercase my-5 ps-3">Size Filter</h5>
+                        <div class="woof_container_inner woof_container_inner_makemodelyearsize mx-3 data-tyresize-filter">
+                            <div class="filter-select select2-selection ">
+                                <select data-filter="true" data-target="width"
+                                    data-url="{{ route('frontend-tyre-size-filter-width', ':id') }}" id="height"
+                                    class="selectpicker" data-live-search="true" data-container="body"
+                                    data-parent-elemente="data-tyresize-filter">
+                                    <option value="">HEIGHT</option>
+                                    @foreach ($tyreheight as $row)
+                                        <option value="{{ $row->height }}">{{ $row->height . '(' . $row->total . ')' }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <span class="select2-selection__arrow" role="presentation"><b
+                                        role="presentation"></b></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 my-3 text-center">
+                        <div class="woof_submit_search_form_container">
+                            <button id="btn_size_search" class="button woof_submit_search_form my-3"
+                                style="
+                            padding-left: 20px;
+                            padding-right: 20px;
+                            padding-top: 8px;
+                            padding-bottom: 8px;
+                        ">Filter</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc_section_inner text-center mb-3">
+                    <div class="woof_container_inner woof_container_inner_makemodelyearsize mx-3 model-filter">
+                        <div class="filter-select select2-selection ">
                             <select data-filter="true" data-target="model"
-                                data-url="{{ route('frontend.filter.model', ':id') }}" id="make"
-                                class="selectpicker" data-live-search="true" data-container="body">
-                                <option value="">MAKE</option>
+                                data-url="{{ route('frontend.filter.model', ':id') }}" id="brand" class="selectpicker"
+                                data-live-search="true" data-container="body" data-parent-elemente="model-filter">
+                                <option value="">BRAND</option>
                                 @foreach ($make as $row)
-                                <option value="{{ $row->id }}">{{ $row->name . '(' . $row->countNo . ')' }}
-                                </option>
+                                    <option value="{{ $row->id }}">{{ $row->name . '(' . $row->countNo . ')' }}
+                                    </option>
                                 @endforeach
                             </select>
-                            <span class="select2-selection__arrow" role="presentation"><b
-                                    role="presentation"></b></span>
+                            <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
                         </div>
                     </div>
                     <div class="woof_submit_search_form_container">
-                        <button id="btn_search" class="button woof_submit_search_form my-3">Filter</button>
+                        <button id="btn_search" class="button woof_submit_search_form mt-3"style="
+                                        padding-left: 20px;
+                                        padding-right: 20px;
+                                        padding-top: 8px;
+                                        padding-bottom: 8px;
+                                    ">Filter</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="text-uppercase my-3 ps-3 fw-800">Categories</h4>
+                    </div>
+                    <div class="col-12 my-2">
+                        <ul class="list-unstyled ps-4">
+                            <li><a href="/tyre"><span class="px-3">Tyre</span></a></li>
+                            <li><a href="/tube"><span class="px-3">Tube</span></a></li>
+                            <li><a href="/battery"><span class="px-3">Battery</span></a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
-            <div class="col-8">
+            <div class="col-9">
                 <div class="row p-0">
                     @foreach ($tyre as $row)
                         <div class="col-4">
                             <div class="card rounded-0">
                                 <a class="hover_icon hover_icon_link mb-3"
-                                    href="{{route('frontend.tyre.product-detail',base64_encode($row->id))}}"><img class="card-img-top"
-                                        alt="Multiple Options"
+                                    href="{{ route('frontend.tyre.product-detail', base64_encode($row->id)) }}"><img
+                                        class="card-img-top" alt="Multiple Options"
                                         src="{{ asset('storage/products/tyre/' . $row->image) }}"></a>
                                 <div class="card-body text-center">
                                     <div class="sc_services_item_content">
                                         <h4 class="item_title"><a
-                                                href="{{route('frontend.tyre.product-detail',base64_encode($row->id))}}">{{ $row->name }}<br>{{ \App\Http\Controllers\HelperController::getTyreSize($row->tyre_size) }}</a>
+                                                href="{{ route('frontend.tyre.product-detail', base64_encode($row->id)) }}">{{ $row->name }}<br>{{ \App\Http\Controllers\HelperController::getTyreSize($row->tyre_size) }}</a>
                                         </h4>
                                         <div class="item_price">
                                             <p>AED {{ $row->price }}</p>
@@ -214,7 +261,7 @@
                                                 href="https://1.envato.market/4ey0Wr" target="_blank" aria-label="Buy theme"
                                                 data-type="link" style="color:#ffffff;background-color:#bf2d0d;display:inline-block"><i
                                                     class="icon-wallet-light"></i></a> --}}
-                                            <a href="{{route('frontend.tyre.product-detail',base64_encode($row->id))}}"
+                                            <a href="{{ route('frontend.tyre.product-detail', base64_encode($row->id)) }}"
                                                 class="sc_button sc_button_square sc_button_style_filled_dark sc_button_size_small">Details</a>
                                         </div>
                                     </div>
@@ -236,18 +283,28 @@
     <script>
         $('select[data-filter=true]').on('change', function(e) {
             if (this.value != '') {
-                LoadFilter(e);
+                console.log($(e.currentTarget).attr('data-url'));
+                if ($(e.currentTarget).attr('data-url') != undefined) {
+                    LoadFilter(e);
+                }
             }
         });
+
 
         function LoadFilter(e) {
             var id = e.currentTarget.id;
             let targetElement = $(e.currentTarget).attr('data-target');
             let url = $(e.currentTarget).attr('data-url');
+            let parent = $(e.currentTarget).attr('data-parent-elemente');
             url = url.replace(':id', e.currentTarget.value);
-            if (id == 'year') {
-                url = url + '?make=' + $('#make').val() + '&model=' + $('#model').val();
+            if (id == 'width') {
+                url = url.replace(':height', $('#height').val());
+                url = url.replace(':width', e.currentTarget.value);
             }
+            if (id == 'year') {
+                url = url + '?make=' + $('#brand').val() + '&model=' + $('#model').val();
+            }
+            //if()
             $.ajax({
                 url: url,
                 dataType: 'json',
@@ -255,7 +312,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(data) {
-                    getCarModel(data, targetElement);
+                    getCarModel(data, targetElement, parent);
                 },
                 error: function(data) {
 
@@ -263,23 +320,27 @@
             })
         }
 
-        function getCarModel(data, id) {
+        function getCarModel(data, id, parent) {
+            var parent = parent;
+            console.log(parent);
             $('#' + id).parent().remove();
             let divElement = document.createElement('div');
             let selectElement = document.createElement('select');
-            let selecterElement = document.getElementsByClassName('woof_container_inner');
+            let selecterElement = document.getElementsByClassName(parent);
             let spanElement = document.createElement('span');
             let bElement = document.createElement('b');
+
             bElement.setAttribute('role', 'presentation')
             spanElement.className = "select2-selection__arrow";
             spanElement.append(bElement);
-            divElement.className = "filter-select select2-selection mb-3";
+            divElement.className = "filter-select select2-selection my-3";
             selectElement.id = id;
             selectElement.name = 'car-' + id;
             if (data['url'] != '') {
                 selectElement.setAttribute('data-target', data['target']);
                 selectElement.setAttribute('data-url', data['url']);
                 selectElement.setAttribute('data-filter', 'true');
+                selectElement.setAttribute('data-parent-elemente', parent);
             }
             selectElement.className = "selectpicker";
             selectElement.append(new Option(id.toUpperCase(), ''))
@@ -292,23 +353,38 @@
             });
             selectElement.addEventListener('change', function(e) {
                 if (this.value != '') {
-                    LoadFilter(e);
+                    if ($(e.currentTarget).attr('data-url') != undefined) {
+                        LoadFilter(e);
+                    }
                 }
             });
             divElement.append(selectElement);
             divElement.append(spanElement)
+            console.log(selecterElement);
             $(selecterElement).append(divElement)
         }
+        $('#btn_size_search').on('click', function(e) {
+            let height = $('#height').val();
+            let width = $('#width').val();
+            let rim_size = $('#rim_size').val();
+            url = '{{ route('frontend.tyre.product-search') }}'
+            url += '?type=tyre_size&height='+height+'&width='+width+'&rim_size='+rim_size;
+            window.location.href = url;
+        })
+
         $('#btn_search').on('click', function(e) {
             let url = '';
-            let maker = model = year = size = '';
-            maker = $('#make').val();
+            let maker = model = year = size = height = width = rsize = '';
+            maker = $('#brand').val();
             model = $('#model').val() == undefined ? '' : $('#model').val();
             year = $('#year').val() == undefined ? '' : $('#year').val();
             size = $('#size').val() == undefined ? '' : $('#size').val();
-            url = '{{route('frontend.tyre.product-search')}}'
-            url += '?maker=' + maker + '&size=' + size+'&model=' + model+'&year=' + year;
-            if(maker == '' || maker == undefined) {
+            url = '{{ route('frontend.tyre.product-search') }}'
+
+            url += '?type=model&maker=' + maker + '&size=' + size + '&model=' + model + '&year=' + year +
+                '&height=' + height +
+                '&width=' + width + '&size=' + size;
+            if (maker == '' || maker == undefined) {
                 alert('Please choose any one of the following options');
                 return false;
             }

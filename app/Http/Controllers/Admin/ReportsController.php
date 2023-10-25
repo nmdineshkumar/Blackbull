@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Exports\ExpenseExport;
+use App\Exports\monthlyExpense;
 use App\Exports\monthlyPurchase;
 use App\Exports\montlySales;
 use App\Exports\PurchaseExport;
 use App\Exports\SalesExport;
+use App\Exports\WeeklyExpense;
 use App\Exports\WeeklyPurchase;
 use App\Exports\WeeklySales;
 use App\Http\Controllers\Controller;
@@ -36,6 +39,16 @@ class ReportsController extends Controller
         return Excel::download(new PurchaseExport(),Carbon::now().'.xlsx');
     }
 
+    public function expense_over_all(){
+        return Excel::download(new ExpenseExport(),Carbon::now().'.xlsx');
+    }
+    public function expense_weekly($from,$to){
+        return Excel::download(new WeeklyExpense($from,$to),Carbon::now().'.xlsx');
+    }
+    public function expense_monthly($id){
+        return Excel::download(new monthlyExpense($id),Carbon::now().'.xlsx');
+    }
+
     //Page Load function
     public function Sales_index(){
         return view('admin.reports.Sales')
@@ -44,5 +57,9 @@ class ReportsController extends Controller
     public function Purchase_index(){
         return view('admin.reports.purchase')
                 ->with('pageName','Purchase Report');
+    }
+    public function Expense_index(){
+        return view('admin.reports.exportExpense')
+                ->with('pageName','Expense Report');
     }
 }
