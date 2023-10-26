@@ -246,6 +246,15 @@
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-md-6 col-sm-12 text-end">
+                                        <label for="">Tax</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <input type="text" name="tax_amount" id="tax_amount" placeholder="Tax"
+                                            class="form-control"  value="">
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-md-6 col-sm-12 text-end">
                                         <label for="">Total Amount</label>
                                     </div>
                                     <div class="col-md-6 col-sm-12">
@@ -489,6 +498,7 @@
                 var amountArray = document.querySelectorAll('input[id=total]');
                 var SubTotalAmount = document.getElementById('SubTotalAmount');
                 var TotalAmount = document.getElementById('TotalAmount');
+                var Tax_amount = document.getElementById('tax_amount');
                 var Tax = document.getElementById('tax');
                 var AddAmount = 0,
                     TaxAmount = 0;
@@ -498,6 +508,7 @@
                 SubTotalAmount.value = Number(AddAmount).toFixed(2);
                 if (Number(Tax.value) > 0) {
                     TaxAmount = AddAmount * Number(Tax.value) / 100;
+                    Tax_amount.value = Number(TaxAmount).toFixed(2);
                 }
                 TotalAmount.value = Number(AddAmount + TaxAmount).toFixed(2);
                 $('#display_amount').html(Number(AddAmount + TaxAmount).toFixed(2));

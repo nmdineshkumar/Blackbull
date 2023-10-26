@@ -70,28 +70,29 @@ class CustomerController extends Controller
     public function store(Request $request){
         $validate = $request->validate([
             'first_name' => ['required',],
-            'phone' => ['required','unique:customers,phone,'.$request->id.',id'],
-            'email' => ['required','unique:customers,email,'.$request->id.',id'],
+            //'phone' => ['required','unique:customers,phone,'.$request->id.',id'],
+            //'email' => ['required','unique:customers,email,'.$request->id.',id'],
             // 'address1' => ['required'],
             // 'country' => ['required'],
             // 'state' => ['required'],
             // 'city' => ['required'],
-            'zip' => ['required'],
-            'type' => ['required']]);
+            //'zip' => ['required'],
+            //'type' => ['required']
+        ]);
         if($validate){ 
             if($request->id != null){
                 $data = [
                     'first_name' => $request->first_name,
                     'type' => $request->type,
-                    'last_name' => $request->last_name,
-                    'address1' => $request->address1,
-                    'address2' => $request->address2,
-                    'country' => $request->country,
-                    'state' => $request->state,
-                    'city' => $request->city,
-                    'zip' => $request->zip,
-                    'phone' => $request->phone,
-                    'email' => $request->email,
+                    'last_name' => $request->last_name == null ? "-" : $request->last_name,
+                    'address1' => $request->address1 == null ? " " : $request->address1,
+                    'address2' => $request->address2 == null ? " " : $request->address2,
+                    'country' => $request->country == null ? " " : $request->country,
+                    'state' => $request->state == null ? " " : $request->state,
+                    'city' => $request->city == null ? " " : $request->city,
+                    'zip' => $request->zip == null ? " " : $request->zip,
+                    'phone' => $request->phone == null ? " " : $request->phone,
+                    'email' => $request->email == null ? " " : $request->email,
                     'updated_at' => Carbon::now()
                 ];
                 try {

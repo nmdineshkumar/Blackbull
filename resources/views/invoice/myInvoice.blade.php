@@ -24,7 +24,7 @@
   <!-- Header -->
   <header>
     <div class="row align-items-center">
-      <div class="col-sm-7 text-center text-sm-start mb-3 mb-sm-0"> <img id="logo" src="{{ asset('imgs/login_logo.jpeg') }}" title="Koice" alt="Koice" style="height: 90px" /> </div>
+      <div class="col-sm-7 text-center text-sm-start mb-3 mb-sm-0">  </div>
       <div class="col-sm-5 text-center text-sm-end">
         <h4 class="mb-0">Invoice</h4>
         <p class="mb-0">Invoice Number - {{ $invoiceNumber }}</p>

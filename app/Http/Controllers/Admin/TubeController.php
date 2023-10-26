@@ -99,15 +99,15 @@ class TubeController extends Controller
             'name' => ['required','unique:tyres,name,'.$request->id.',id'],
             'brand' => ['required'],
             'origin' => ['required'],
-            'myear' => ['required'],
-            'sku' => ['required','unique:tyres,sku,'.$request->id.',id'],
+            //'myear' => ['required'],
+            //'sku' => ['required','unique:tyres,sku,'.$request->id.',id'],
             'volve' => ['required'],
             'height' => ['required'],
             'rim_size' => ['required'],
             'image' => ['required'],
             'description' => ['required'],
             'price' => ['required'],
-            'set_price' => ['required']
+            //'set_price' => ['required']
         ]);
         if($validate){
             if($request->id == '' || $request->id == null){
@@ -116,15 +116,15 @@ class TubeController extends Controller
                     'name' => $request->name,
                     'brand' => $request->brand,
                     'origin' => $request->origin,
-                    'manufacure_year' => $request->myear,
-                    'sku' => $request->sku,
+                    'manufacure_year' => $request->myear == null ? "-" : $request->myear,
+                    'sku' => $request->sku == null ? "-" : $request->sku,
                     'description' => $request->description,
                     'image' => $request->image,
                     'height' =>  $request->height,
                     'rim_size' =>  $request->rim_size,
                     'volve' =>  $request->volve,
                     'price' => $request->price,
-                    'set_price' => $request->set_price,
+                    'set_price' => $request->set_price == null ? "0" : $request->set_price,
                     'created_by' => Auth::guard('admin')->user()->id,
                     'created_at' => Carbon::now()
                 ];
@@ -143,15 +143,15 @@ class TubeController extends Controller
                     'name' => $request->name,
                     'brand' => $request->brand,
                     'origin' => $request->origin,
-                    'manufacure_year' => $request->myear,
-                    'sku' => $request->sku,
+                    'manufacure_year' =>  $request->myear == null ? "-" : $request->myear,
+                    'sku' => $request->sku == null ? "-" : $request->sku,
                     'description' => $request->description,
                     'image' => $request->image,
                     'height' =>  $request->height,
                     'rim_size' =>  $request->rim_size,
                     'volve' =>  $request->volve,
                     'price' => $request->price,
-                    'set_price' => $request->set_price,
+                    'set_price' => $request->set_price == null ? "0" : $request->set_price,
                     'created_by' => Auth::guard('admin')->user()->id,
                     'created_at' => Carbon::now()
                 ];
