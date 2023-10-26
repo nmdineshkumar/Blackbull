@@ -77,9 +77,9 @@ class BatteryController extends Controller
             'capacity' => ['required'],
             //'wyear' => ['required'],
             //'sku' => ['required','unique:tyres,sku,'.$request->id.',id'],
-            'image' => ['required'],
+            //'image' => ['required'],
             'price' => ['required'],
-            'description' => ['required'],
+            //'description' => ['required'],
         ]);
         if($validate){
             if($request->id == '' || $request->id == null){
@@ -95,6 +95,7 @@ class BatteryController extends Controller
                     'voltage' =>  $request->voltage,
                     'model_number' => $request->model_number,
                     'price' => $request->price,
+                    'status' => $request->visible_status,
                     'created_by' => Auth::guard('admin')->user()->id,
                     'created_at' => Carbon::now()
                 ];
@@ -120,6 +121,7 @@ class BatteryController extends Controller
                     'voltage' =>  $request->voltage,
                     'model_number' => $request->model_number,
                     'price' => $request->price,
+                    'status' => $request->visible_status,
                     'updated_by' => Auth::guard('admin')->user()->id,
                     'created_at' => Carbon::now()
                 ];

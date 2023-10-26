@@ -64,15 +64,15 @@ class ManufacturersController extends Controller
     public function store(Request $request){
         $validate = $request->validate([
             'name' => ['required','unique:manufacturers,name,'.$request->id.',id'],
-            'image' => ['required'],
-            'statues' => ['required']
+            //'image' => ['required'],
+            //'statues' => ['required']
         ]);
         if($validate){
             if($request->id == '' || $request->id == null){
                 $data = [
                     'name' => $request->name,
-                    'path' => $request->image,
-                    'status' => $request->statues,
+                    'path' => $request->image == null ? '-' : $request->image,
+                    'status' => $request->statues == null ? '1' : $request->statues,
                     'created_by' => Auth::guard('admin')->user()->id,
                     'created_at' => Carbon::now()
                 ];

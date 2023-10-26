@@ -103,6 +103,12 @@
             (object)['id'=>'2','name'=>'Third Party']
         ];
     }
+    function website_visible():array{
+        return [
+            (object)['id'=>'1','name'=>'Enable'],
+            (object)['id'=>'0','name'=>'disable']
+        ];
+    }
     function get_Puchase_type($id){
         $type = "";
         foreach(purchase_type() as $row){

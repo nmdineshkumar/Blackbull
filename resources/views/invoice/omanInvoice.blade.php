@@ -127,8 +127,8 @@
                                                         <td><small class="">{{ $row->category }}</small><br />
                                                             {{ $row->Product }}</td>
                                                         <td class="text-center">{{ $row->qty }}</td>
-                                                        <td class="text-center">{{ $row->price }}</td>
-                                                        <td class="text-end">{{ $row->total }}</td>
+                                                        <td class="text-center">OMR {{ $row->price }}</td>
+                                                        <td class="text-end">OMR {{ $row->total }}</td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -136,7 +136,7 @@
                                                 <tr>
                                                     <td colspan="3" class="text-end"><strong>Paid Amount:</strong>
                                                     </td>
-                                                    <td class="text-end">{{ $invoice->paid_amount }}</td>
+                                                    <td class="text-end">OMR {{ $invoice->paid_amount }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="3" class="text-end"><strong>Tax:</strong></td>
@@ -145,7 +145,7 @@
                                                 <tr>
                                                     <td colspan="3" class="text-end border-bottom-0">
                                                         <strong>Total:</strong></td>
-                                                    <td class="text-end border-bottom-0">{{ $invoice->total }}</td>
+                                                    <td class="text-end border-bottom-0">OMR {{ $invoice->total }}</td>
                                                 </tr>
                                             </tfoot>
                                         </table>

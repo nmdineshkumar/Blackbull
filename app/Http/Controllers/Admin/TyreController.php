@@ -132,8 +132,8 @@ class TyreController extends Controller
             'price' => ['required'],
             //'set_price' => ['required'],
             'tyre_size' => ['required'],
-            'image' => ['required'],
-            'description' => ['required'],
+            //'image' => ['required'],
+            //'description' => ['required'],
         ]);
         if ($validate) {
             if ($request->id == '' || $request->id == null) {
@@ -181,11 +181,12 @@ class TyreController extends Controller
                     'manufactory_year' => $request->myear == null ? "0" : $request->myear,
                     'warranty_year' => $request->wyear == null ? "0" : $request->wyear,
                     'sku' => $request->sku == null ? "-" : $request->sku,
-                    'description' => $request->description,
+                    'description' => $request->description == null ? "-" : $request->description,
                     'cars' => $car_data_id,
-                    'image' => $request->image,
+                    'image' => $request->image == null ? "-" : $request->image,
                     'price' => $request->price,
                     'set_price' => $request->set_price == null ? "0" : $request->set_price,
+                    'status' => $request->visible_status,
                     'created_by' => Auth::guard('admin')->user()->id,
                     'created_at' => Carbon::now()
                 ];
@@ -211,7 +212,9 @@ class TyreController extends Controller
                     'warranty_year' => $request->wyear == null ? "0" : $request->wyear,
                     'sku' => $request->sku == null ? "-" : $request->sku,
                     'description' => $request->description,
+                    'status' => $request->visible_ststus,
                     'image' => $request->image,
+                    'status' => $request->visible_status,
                     'created_by' => Auth::guard('admin')->user()->id,
                     'created_at' => Carbon::now()
                 ];

@@ -39,6 +39,33 @@ class HelperController extends Controller
     public function getTyreHeight(){
         return DB::table('tbl_tyres')->get();
     }
+    public function SaveTyreMake(Request $request){
+        $validate = $request->validate([
+            'name' => ['required','unique:manufacturers,name,'.$request->id.',id'],
+        ]);
+        if($validate){
+            $data = [
+                'name' => $request->name,
+                'path' => $request->image == null ? '-' : $request->image,
+                'status' => $request->statues == null ? '1' : $request->statues,
+                'created_by' => Auth::guard('admin')->user()->id,
+                'created_at' => Carbon::now()
+            ];
+            try {
+                $res = DB::table('manufacturers')->insert($data);
+                return DB::table('manufacturers')->get();
+            if($res){
+                return DB::table('manufacturers')->get();
+            }else{
+                return response()->with('error','Error saving Tyre Make ...!!!');
+            }
+            } catch (Exception $th) {
+                info('Tyre-make-saving-error:'.$th->getMessage());
+            }
+        }else{
+            return response()->json(['success' => false, 'errors' => $validate->errors()], 422);;
+        }
+    }
     public function saveTyreheight(Request $request){
         $validate = $request->validate([
             'height' =>['required' , 'unique:tyre_heights,height']
@@ -107,12 +134,12 @@ class HelperController extends Controller
     public function saveBrand(Request $request){
         $validate  = $request->validate([
             'brandname' =>[ 'required'],
-            'image' => ['required'],
+            //'image' => ['required'],
         ]);
         if($validate){
             $data = [
                 'name' =>$request->brandname,
-                'path' =>$request->image,
+                'path' =>$request->image == null ? '-' : $request->image,
                 'created_by' => Auth::guard('admin')->user()->id,
                 'created_at' => Carbon::now()
             ];
@@ -174,7 +201,7 @@ class HelperController extends Controller
     }
     public function saveCar_model(Request $request){
         $validate  = $request->validate([
-            'name' =>[ 'required'],
+            'name' =>[ 'required','unique:car_model,name,'.$request->make.',id'],
             'make' =>[ 'required'],
         ]);
         if($validate){

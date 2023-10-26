@@ -19,6 +19,7 @@
     $description = old('description');
     $price = old('price');
     $set_price = old('set_price');
+    $visible_status = old('visible_status');
 
     if ($id != '') {
         $name = old('name') != '' ? $name : $tyre->name;
@@ -40,6 +41,7 @@
         $other = old('other') != '' ? $other : $cars_data[0]->Horsepower;
         $tyre_size = old('tyre_size') != '' ? $tyre_size : $cars_data[0]->tyre_size;
         $set_price = old('set_price') != '' ? $set_price : $tyre->set_price;
+        $visible_status = old('visible_status') != '' ? $visible_status : $tyre->status;
     }
     if ($image != '') {
         $path1 = 'products/tyre/' . $image;
@@ -285,6 +287,7 @@
                             <hr>
                             <div class="col-md-6 col-sm-12">
                                 <label for="">Make</label>
+                                <div class="input-group">
                                 <select name="make" id="make" class="form-select">
                                     <option value="">---SELECT---</option>
                                     @if ($id != '')
@@ -301,6 +304,11 @@
                                         @endforeach
                                     @endif
                                 </select>
+                                <div class="input-group-append">
+                                    <a data-bs-toggle="modal" data-bs-target="#makeModal"
+                                        class="btn btn-primary"><i class="mdi mdi-plus-circle"></i></a>
+                                </div>
+                                </div>
                                 @error('make')
                                     <div class="error">{{ $message }}</div>
                                 @enderror
@@ -429,6 +437,28 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6 col-sm-12">
+                                <label for="" class="mb-3">Website Visible</label>
+                                <select name="visible_status" id="visible_status" class="form-select">
+                                    <option value="">---SELECT----</option>
+                                @if($visible_status != '')
+                                    @foreach (website_visible() as $row )
+                                    @if($visible_status == $row->id)                                        
+                                        <option value="{{$row->id}}" selected>{{$row->name}}</option>
+                                    @else                                        
+                                        <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endif
+                                    @endforeach
+                                @else
+                                    @foreach (website_visible() as $row )
+                                        <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endforeach
+
+                                @endif
+                            </select>
+                            </div>
+                        </div>
                         <div class="row mb-3">
                             <div class="col-12">
                                 <label for="">Description</label>
@@ -459,6 +489,46 @@
             </div>
         </div>
     </div>
+    <!-- Make Modal Start -->
+    <div class="modal fade" id="makeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Make</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form ajax-submit="true" id="addMake" action="{{ route('save-tyremake') }}" method="post">
+                        @csrf
+                        <div class="row">
+                            <div class="col-12">
+                                <label for="">Name</label>
+                                <input type="text" name="name" id="name" class="form-control">
+                            </div>
+                            <div class="col-12">
+                                <label for="" class="mb-3">Images</label>
+                                <input type="file"name="file1" id="file1" file-accept='<?php echo json_encode(['jpg', 'png', 'gif', 'jpeg', 'svg']); ?>'
+                                    data-fileuploader-files='<?php echo json_encode($preload); ?>'
+                                    data-id="{{ url('admin/delete-image?path=manufacturers') }}"
+                                    data-attr-name="image-file-saver" data-url="{{ url('admin/save-image?path=manufacturers') }}"
+                                    class="form-control">
+                                <input type="hidden" name="image" class="image-file-saver"
+                                    value="<?php echo $image; ?>">
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Make Modal End -->
     <!-- Brand Modal Start -->
     <div class="modal fade" id="brandModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
@@ -657,6 +727,9 @@
                 } else if (formid == 'addCaryear') {
                     mySlection = $('#year');
                     modal = $('#caryearModal');
+                }else if(formid == 'addMake'){
+                    mySlection = $('#make');
+                    modal = $('#makeModal');
                 }
                 $.ajax({
                     url: e.currentTarget.action,

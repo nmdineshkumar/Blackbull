@@ -100,6 +100,7 @@ Route::post('/expense/catgory',[HelperController::class,'save_expense_category']
 $prefix = 'admin';
 Route::group(['prefix'=>$prefix,'middleware'=>'auth:admin'], function () use($prefix) {
     //Helper Process
+    Route::post('/save-tyremake', [HelperController::class, 'SaveTyreMake'])->name('save-tyremake');
     Route::post('/save-tyreheight', [HelperController::class, 'saveTyreheight'])->name('save-tyreheight');
     Route::post('/save-tyreprofile', [HelperController::class, 'saveTyreprofile'])->name('save-tyreprofile');
     Route::post('/save-tyrerimsize', [HelperController::class, 'saveTyrerimsize'])->name('save-tyrerimsize');

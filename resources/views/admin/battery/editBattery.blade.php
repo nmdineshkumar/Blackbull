@@ -10,6 +10,7 @@
     $sku = old('sku');
     $model_number = old('model_number');
     $price = old('price');
+    $visible_status = old('visible_status');
 
     if($id != ''){
         $name = (old('name') != '') ? $name : $battery->name;
@@ -22,6 +23,7 @@
         $sku = (old('sku') != '') ? $sku : $battery->sku;
         $model_number = (old('model_number') != '') ? $model_number : $battery->model_number;
         $price = (old('price') != '') ? $price : $battery->price;
+        $visible_status = (old('visible_status') != '') ? $visible_status : $battery->status;
     }
     if ($image != "") {
     $path1 = "products/tube/" . $image;
@@ -175,13 +177,35 @@
                                 </div>
                                 <div class="col-6">
                                     <label for="">Price</label>
-                            <input type="text" name="price" id="price" class="form-control" value="{{ $price }}">
-                            @error('price')
-                                <div class="error">{{$message}}</div>
-                            @enderror
+                                    <input type="text" name="price" id="price" class="form-control" value="{{ $price }}">
+                                    @error('price')
+                                        <div class="error">{{$message}}</div>
+                                    @enderror
                                 </div>
                             </div>
+                            <div class="col-md-12 col-sm-12 mt-3">
+                                <label for="" class="mb-3">Website Visible</label>
+                                <select name="visible_status" id="visible_status" class="form-select">
+                                    <option value="">---SELECT----</option>
+                                    @if ($visible_status != '')
+                                        @foreach (website_visible() as $row)
+                                            @if ($visible_status == $row->id)
+                                                <option value="{{ $row->id }}" selected>{{ $row->name }}</option>
+                                            @else
+                                                <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                            @endif
+                                        @endforeach
+                                    @else
+                                        @foreach (website_visible() as $row)
+                                            <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
                         </div>
+                    </div>
+                    <div class="row mb-3">
+                        
                     </div>
                     <div class="row mb-3">
                         <div class="col-12">

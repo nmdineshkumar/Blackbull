@@ -20,7 +20,7 @@ class TubeController extends Controller
         return "admin.tube";
     }
     function modelIns(): Tube{
-        return new Tube;
+        return new Tube();
     }
     public function index(Request $request){
         if($request->ajax()) {
@@ -96,7 +96,7 @@ class TubeController extends Controller
     }
     public function store(Request $request){
         $validate = $request->validate([
-            'name' => ['required','unique:tyres,name,'.$request->id.',id'],
+            'name' => ['required','unique:tubes,name,'.$request->id.',id'],
             'brand' => ['required'],
             'origin' => ['required'],
             //'myear' => ['required'],
@@ -104,8 +104,8 @@ class TubeController extends Controller
             'volve' => ['required'],
             'height' => ['required'],
             'rim_size' => ['required'],
-            'image' => ['required'],
-            'description' => ['required'],
+            //'image' => ['required'],
+            //'description' => ['required'],
             'price' => ['required'],
             //'set_price' => ['required']
         ]);
@@ -119,12 +119,13 @@ class TubeController extends Controller
                     'manufacure_year' => $request->myear == null ? "-" : $request->myear,
                     'sku' => $request->sku == null ? "-" : $request->sku,
                     'description' => $request->description,
-                    'image' => $request->image,
+                    'image' => $request->image == null ? "-" : $request->image,
                     'height' =>  $request->height,
                     'rim_size' =>  $request->rim_size,
                     'volve' =>  $request->volve,
                     'price' => $request->price,
                     'set_price' => $request->set_price == null ? "0" : $request->set_price,
+                    'status' => $request->visible_status,
                     'created_by' => Auth::guard('admin')->user()->id,
                     'created_at' => Carbon::now()
                 ];
@@ -146,12 +147,13 @@ class TubeController extends Controller
                     'manufacure_year' =>  $request->myear == null ? "-" : $request->myear,
                     'sku' => $request->sku == null ? "-" : $request->sku,
                     'description' => $request->description,
-                    'image' => $request->image,
+                    'image' => $request->image == null ? "-" : $request->image,
                     'height' =>  $request->height,
                     'rim_size' =>  $request->rim_size,
                     'volve' =>  $request->volve,
                     'price' => $request->price,
                     'set_price' => $request->set_price == null ? "0" : $request->set_price,
+                    'status' => $request->visible_status,
                     'created_by' => Auth::guard('admin')->user()->id,
                     'created_at' => Carbon::now()
                 ];
