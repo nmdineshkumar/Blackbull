@@ -38,7 +38,7 @@
                         <th>Name</th>
                         <th>Height</th>
                         <th>Width</th>
-                        <th>Speed</th>
+                        <th>Rim Size</th>
                         <th>Action</th>
                     </thead>
                     <tbody class="text-gray-600 fw-bold">
@@ -54,10 +54,10 @@
     $(function () {
         const columns = [
               {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-              {data: 'name', name: 'Name'},
-              {data: 'height', name: 'Height'},
-              {data: 'width', name: 'Width'},
-              {data: 'speed', name: 'Speed'},
+              {data: 'name', name: 'Name',  orderable: true},
+              {data: 'height', name: 'Height',  orderable: true},
+              {data: 'width', name: 'Width',  orderable: true},
+              {data: 'rim_size', name: 'Rim Size',  orderable: true},
               {data: 'action', name: 'action'}
           ];
         initializeDataTable('Ajaxdatatable', '{{ route("$resourceUrl".'.index') }}', columns);

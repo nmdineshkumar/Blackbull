@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use DataTables;
+use Illuminate\Validation\Rule;
 
 class TyresizeController extends Controller
 {
@@ -22,7 +23,7 @@ class TyresizeController extends Controller
     }
     public function index(Request $request){
         if($request->ajax()) {
-            $data = $this->modelIns()::all();
+            $data = $this->modelIns()::orderBy('created_at','DESC')->get();
             return DataTables::of($data)
                     ->addIndexColumn()
                     ->addColumn('name', function($row){
@@ -76,9 +77,10 @@ class TyresizeController extends Controller
     public function store(Request $request){
         $validate = $request->validate([
             'height' =>['required'],
-            'width' =>['required'],
-            'rimsize' =>['required'],
-        ]);
+            //'width' =>['unique:tyresizes,width,'.$request->id.',id,height,'.$request->height],
+            'rimsize' =>['required','unique:tyresizes,rim_size,'.$request->id.',id,height,'.$request->height.',width,'.$request->width],
+        ],
+    ['rimsize.unique'=>'The tyre size had already been taken']);
         if($validate){
             if($request->id == '' || $request->id == null){
                 $data = [

@@ -756,5 +756,6 @@
                 });
             })
         });
+        $('#tyre_size').select2();
     </script>
 @endsection

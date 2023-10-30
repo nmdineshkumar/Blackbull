@@ -104,10 +104,15 @@ class SaleController extends Controller
     }
     public function edit($id)
     {
+        $category_dataset = category::all();
+        $customer = customer::all();
+        $branch_dataset = Branch::all();
         $sales = $this->modelIns()::find($id);
-        return view('admin.branch.editBranch', compact('sales'))
+        $invoiceno = $sales->invoice_no;
+        return view('admin.invoice.editInvoice', compact('sales','category_dataset', 'customer', 'branch_dataset'))
             ->with('pageName', 'Edit Branch')
             ->with('id', $id)
+            ->with('invoiceno', $invoiceno)
             ->with('resourceUrl', $this->resourceUrl());
     }
     public function store(Request $request)

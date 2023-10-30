@@ -9,7 +9,7 @@ class HomeController extends Controller
 {
     //
     public function index(){
-        $tyre = Tyre::take(4)->get();
+        $tyre = Tyre::where('status','1')->take(4)->get();
         return view('website.home',compact('tyre'));
     }
 }

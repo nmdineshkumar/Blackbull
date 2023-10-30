@@ -77,14 +77,14 @@ class SupplierController extends Controller
             if($request->id == '' || $request->id == null){
                 $data = [
                     'name' => $request->name,
-                    'address1' => $request->address1,
-                    'address2' => $request->address2,
-                    'pincode' => $request->pincode,
-                    'phone' => $request->phone,
-                    'email' => $request->email,
-                    'contact_name' => $request->contact_name,
-                    'contact_email' => $request->contact_email,
-                    'contact_phone' => $request->contact_phone,
+                    'address1' => $request->address1 == null ? ' ' : $request->address1,
+                    'address2' => $request->address2 == null ? ' ' : $request->address2,
+                    'pincode' => $request->pincode == null ? ' ' : $request->pincode,
+                    'phone' => $request->phone == null ? ' ' : $request->phone,
+                    'email' => $request->email == null ? ' ' : $request->email,
+                    'contact_name' => $request->contact_name == null ? ' ' : $request->contact_name,
+                    'contact_email' => $request->contact_email == null ? ' ' : $request->contact_email,
+                    'contact_phone' => $request->contact_phone == null ? ' ' : $request->contact_phone,
                     'created_at' => Carbon::now()
                 ];
                 try {
@@ -100,14 +100,14 @@ class SupplierController extends Controller
             }else{
                 $data = [
                     'name' => $request->name,
-                    'address1' => $request->address1,
-                    'address2' => $request->address2,
-                    'pincode' => $request->pincode,
-                    'phone' => $request->phone,
-                    'email' => $request->email,
-                    'contact_name' => $request->contact_name,
-                    'contact_email' => $request->contact_email,
-                    'contact_phone' => $request->contact_phone,
+                    'address1' => $request->address1 == null ? ' ' : $request->address1,
+                    'address2' => $request->address2 == null ? ' ' : $request->address2,
+                    'pincode' => $request->pincode == null ? ' ' : $request->pincode,
+                    'phone' => $request->phone == null ? ' ' : $request->phone,
+                    'email' => $request->email == null ? ' ' : $request->email,
+                    'contact_name' => $request->contact_name == null ? ' ' : $request->contact_name,
+                    'contact_email' => $request->contact_email == null ? ' ' : $request->contact_email,
+                    'contact_phone' => $request->contact_phone == null ? ' ' : $request->contact_phone,
                     'updated_at' => Carbon::now()
                 ];
                 try {                    

@@ -15,7 +15,7 @@ class TyreController extends Controller
         $make = DB::select('SELECT m.id,m.name,count(C.id) as countNo FROM `cars_datas` C
                             inner join manufacturers m on m.id = C.maker
                             GROUP BY(m.id);');
-        $tyre = Tyre::paginate(20);
+        $tyre = Tyre::where('status','1')->paginate(20);
         $tyreheight = HelperController::Get_Filter_TyreHeight();
         return view('website.tyrePage', compact('make','tyre','tyreheight'))
         ->with('url',$url)

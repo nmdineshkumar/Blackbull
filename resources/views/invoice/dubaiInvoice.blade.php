@@ -76,10 +76,10 @@
                                   </div>
                                   <div class="col-sm-6 order-sm-0"> <strong>Invoiced To:</strong>
                                     <address>
-                                    {{ $customer[0]->first_name }} {{ $customer[0]->last_name }}<br />
-                                    {{ $customer[0]->address1 }}, {{ $customer[0]->address2 }}<br />
-                                    {{ $customer[0]->state  }},{{ $customer[0]->city  }} - {{ $customer[0]->zip }}<br />
-                                    {{ $customer[0]->country }}
+                                    {{ $customer[0]->first_name }} {{ ($customer[0]->last_name == '-' ? '' : $customer[0]->last_name) }}<br />
+                                    {{ $customer[0]->address1 == '-' ? '' : $customer[0]->address1}} {{ $customer[0]->address2 == '' ? '' : $customer[0]->address2 }}<br />
+                                    {{ $customer[0]->state == '-' ? '' : $customer[0]->state }}{{ $customer[0]->city == '-' ? '' : $customer[0]->city }}  {{ $customer[0]->zip == '-' ? '' : $customer[0]->zip }}<br />
+                                    {{ $customer[0]->country == '-' ? '' : $customer[0]->country }}
                                     </address>
                                   </div>
                                 </div>

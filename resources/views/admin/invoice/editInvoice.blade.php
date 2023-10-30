@@ -67,7 +67,7 @@
                                                 <option value="">---SELECT---</option>
                                                 @foreach ($customer as $row)
                                                     <option value="{{ $row->id }}">
-                                                        {{ $row->first_name . ' ' . $row->last_name }}</option>
+                                                        {{ $row->first_name . ' ' . ($row->last_name == '-' ? '' : $row->last_name) }}</option>
                                                 @endforeach
                                             </select>
                                             <div class="input-group-append">
@@ -336,20 +336,10 @@
                                 <label for="">Country</label>
                                 <select name="country" id="country" class="selectpicker form-select"
                                     data-live-search="true">
-                                    <option value="">---SELECT---</option>
-                                    @if ($id != '')
-                                        @foreach ($coutries as $row)
-                                            @if ($row->id == $country)
-                                                <option value="{{ $row->id }}" selected>{{ $row->name }}</option>
-                                            @else
-                                                <option value="{{ $row->id }}">{{ $row->name }}</option>
-                                            @endif
-                                        @endforeach
-                                    @else
+                                    <option value="">---SELECT---</option>                                    
                                         @foreach ($coutries as $row)
                                             <option value="{{ $row->id }}">{{ $row->name }}</option>
                                         @endforeach
-                                    @endif
                                 </select>
                             </div>
                             <div class="col-6 mb-2">
@@ -532,6 +522,7 @@
                         data.forEach(element => {
                             mySelection.append(new Option(element.name, element.id));
                         });
+                        mySelection.select2();
                     }
                 })
             })

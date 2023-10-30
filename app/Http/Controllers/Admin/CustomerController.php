@@ -27,7 +27,7 @@ class CustomerController extends Controller
             return DataTables::of($data)
                     ->addIndexColumn()
                     ->addColumn('name', function($row){
-                        return "<a href='" .route($this->resourceUrl().'.edit',$row->id) ."'>$row->first_name $row->last_name </a>";
+                        return "<a href='" .route($this->resourceUrl().'.edit',$row->id) ."'>$row->first_name </a>";
                     })
                     ->addColumn('Country',function($row){
                         return HelperController::getCountryName($row->country);
