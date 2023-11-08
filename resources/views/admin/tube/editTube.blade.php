@@ -99,7 +99,7 @@
                             <div class="col-md-6 col-sm-12">
                                 <label for="">Brand</label>
                                 <div class="input-group">
-                                    <select class="form-select" name="brand" id="brand">
+                                    <select class="selectpicker form-select"  data-live-search="true" name="brand" id="brand">
                                         <option value="">---SELECT---</option>
                                         @if ($id != '')
                                             @foreach ($brand_dataset as $row)
@@ -130,7 +130,7 @@
                             <div class="col-md-6 col-sm-12">
                                 <label for="">Origin</label>
                                 <div class="input-group">
-                                    <select name="origin" id="origin" class="form-select">
+                                    <select name="origin" id="origin" class="selectpicker form-select"  data-live-search="true">
                                         <option value="">---SELECT---</option>
                                         @if ($id != '')
                                             @foreach ($origin_dataset as $row)
@@ -171,7 +171,7 @@
                                     <div class="col-6">
                                         <label for="">Volve</label>
                                         <div class="input-group">
-                                            <select name="volve" id="volve" class="form-select">
+                                            <select name="volve" id="volve" class="selectpicker form-select"  data-live-search="true">
                                                 <option value="">---SELECT---</option>
                                                 @if ($id != '')
                                                     @foreach ($volve_dataset as $row)
@@ -213,7 +213,7 @@
                                     <div class="col-md-6">
                                         <label for="">Height</label>
                                         <div class="input-group">
-                                            <select name="height" id="height" class="form-select">
+                                            <select name="height" id="height" class="selectpicker form-select"  data-live-search="true">
                                                 <option value="">---SELECT---</option>
                                                 @if ($id != '')
                                                     @foreach ($tube_height as $row)
@@ -243,7 +243,7 @@
                                     <div class="col-md-6">
                                         <label for="">Rim Size</label>
                                         <div class="input-group">
-                                            <select name="rim_size" id="rim_size" class="form-select">
+                                            <select name="rim_size" id="rim_size" class="selectpicker form-select"  data-live-search="true">
                                                 <option value="">---SELECT---</option>
                                                 @if ($id != '')
                                                     @foreach ($tube_rim_size as $row)
@@ -307,7 +307,7 @@
                             </div>
                             <div class="col-md-6 col-sm-12">
                                 <label for="" class="mb-3">Website Visible</label>
-                                <select name="visible_status" id="visible_status" class="form-select">
+                                <select name="visible_status" id="visible_status" class="selectpicker form-select"  data-live-search="true">
                                     <option value="">---SELECT----</option>
                                     @if ($visible_status != '')
                                         @foreach (website_visible() as $row)
@@ -381,6 +381,7 @@
                                     value="<?php echo $image; ?>">
                             </div>
                         </div>
+                        <input type="hidden" name="category" value="2">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -547,6 +548,7 @@
                         response.forEach(element => {
                             mySlection.append(new Option(element.name, element.id));
                         });
+                        $(mySlection).selectpicker('refresh');
                         modal.modal('toggle');
                     },
                     error: function(error) {
@@ -566,5 +568,6 @@
                 $('#summernote').summernote();
             });
         })
+      
     </script>
 @endsection

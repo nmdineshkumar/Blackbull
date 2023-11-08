@@ -46,7 +46,7 @@ class BatteryController extends Controller
 
         }else{
             return view('admin.battery.indexBattery')
-                    ->with('pageName','Tube')
+                    ->with('pageName','Battery')
                     ->with('resourceUrl',$this->resourceUrl());
         }
     }
@@ -56,7 +56,7 @@ class BatteryController extends Controller
     }
    
     public function create(){
-        $brand_dataset = DB::table('brand')->get(['id','name']);
+        $brand_dataset = DB::table('brand')->where('category','3')->get(['id','name']);
         return view('admin.battery.editBattery',compact('brand_dataset'))
                 ->with('pageName', 'Create Battery')
                 ->with('id','')
@@ -72,7 +72,7 @@ class BatteryController extends Controller
     }
     public function store(Request $request){
         $validate = $request->validate([
-            'name' => ['required','unique:tyres,name,'.$request->id.',id'],
+            'name' => ['required'],
             'brand' => ['required'],
             'capacity' => ['required'],
             //'wyear' => ['required'],

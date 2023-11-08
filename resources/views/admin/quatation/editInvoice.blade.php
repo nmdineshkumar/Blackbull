@@ -12,32 +12,7 @@
     $tax = old('tax') == '' ? '0' : old('tax');
     $branch = old('branch');
     $customer_data = old('customer');
-    $item_description = old('item_description');
-    $subTotal = old('subTotal');
-    $discount = old('discount');
-    $pay_mode = old('pay_mode');
-    $taxAmount = old('$tax_amount');
-    $DeliveryAmount = old('DeliveryAmount');
-    $delivery_address = old('delivery_address');
     if ($id != '') {
-        //print_r($invoice_items);
-        $category = old('category') != null ? old('category') : array_column($invoice_items, 'category');
-        $product = old('product') != null ? old('product') : array_column($invoice_items, 'product_id');
-        $qty = old('qty') != null ? old('qty') : array_column($invoice_items, 'qty');
-        $price = old('price') != null ? old('price') : array_column($invoice_items, 'price');
-        $total = old('total') != null ? old('total') : array_column($invoice_items, 'total');
-        $item_description = old('item_description') != null ? old('item_description') : array_column($invoice_items, 'description');
-        $branch = old('branch') != null ? old('branch') : $sales->branch;
-        $customer_data = old('customer_data') != null ? old('customer_data') : $sales->customer;
-        $TotalAmount = old('TotalAmount') != null ? old('TotalAmount') : $sales->total;
-        $tax = old('tax') != null ? old('tax') : $sales->tax;
-        $description = old('description') != null ? old('description') : $sales->comment;
-        $discount = old('discount') != null ? old('discount') : $sales->discount;
-        $pay_mode = old('pay_mode') != null ? old('pay_mode') : $sales->pay_mode;
-        $DeliveryAmount = old('DeliveryAmount') != null ? old('DeliveryAmount') : $sales->delivery_amount;
-        $delivery_address = old('delivery_address') != null ? old('delivery_address') : $sales->delivery;
-        $paidAmount = old('paidAmount') != null ? old('paidAmount') : $sales->paid_amount;
-        // print_r($category);paidAmount
     }
     $category_dataset = App\Http\Controllers\Admin\SaleController::getCategory();
     $tyre_dataset = App\Http\Controllers\Admin\SaleController::getTyres();
@@ -53,7 +28,7 @@
                 <h4 class="mb-sm-0">{{ $pageName }}</h4>
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Product TaxAmo</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Product Sales</a></li>
                         <li class="breadcrumb-item active">{{ $pageName }}</li>
                     </ol>
                 </div>
@@ -89,25 +64,11 @@
                                             <select name="customer" id="customer" class="selectpicker form-select"
                                                 data-live-search="true">
                                                 <option value="">---SELECT---</option>
-                                                @if ($customer_data != '')
-                                                    @foreach ($customer as $row)
-                                                        @if ($row->id == $customer_data)
-                                                            <option value="{{ $row->id }}" selected>
-                                                                {{ $row->first_name . ' ' . ($row->last_name == '-' ? '' : $row->last_name) }}
-                                                            </option>
-                                                        @else
-                                                            <option value="{{ $row->id }}">
-                                                                {{ $row->first_name . ' ' . ($row->last_name == '-' ? '' : $row->last_name) }}
-                                                            </option>
-                                                        @endif
-                                                    @endforeach
-                                                @else
-                                                    @foreach ($customer as $row)
-                                                        <option value="{{ $row->id }}">
-                                                            {{ $row->first_name . ' ' . ($row->last_name == '-' ? '' : $row->last_name) }}
-                                                        </option>
-                                                    @endforeach
-                                                @endif
+                                                @foreach ($customer as $row)
+                                                    <option value="{{ $row->id }}">
+                                                        {{ $row->first_name . ' ' . ($row->last_name == '-' ? '' : $row->last_name) }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                             <div class="input-group-append">
                                                 <a class="btn btn-primary" href="#" id="addCustomer"
@@ -121,8 +82,7 @@
                                     </div>
                                     <div class="col-12 mb-2">
                                         <div class="px-3" id="customer_address">
-                                            @if ($customer_data != '')
-                                            @endif
+
                                         </div>
                                     </div>
                                 </div>
@@ -133,20 +93,9 @@
                                         <label for="">Branch</label>
                                         <select name="branch" id="branch" class="form-select">
                                             <option value="">---SELECT---</option>
-                                            @if ($branch != null)
-                                                @foreach ($branch_dataset as $row)
-                                                    @if ($branch == $row->id)
-                                                        <option value="{{ $row->id }}" selected>{{ $row->name }}
-                                                        </option>
-                                                    @else
-                                                        <option value="{{ $row->id }}">{{ $row->name }}</option>
-                                                    @endif
-                                                @endforeach
-                                            @else
-                                                @foreach ($branch_dataset as $row)
-                                                    <option value="{{ $row->id }}">{{ $row->name }}</option>
-                                                @endforeach
-                                            @endif
+                                            @foreach ($branch_dataset as $row)
+                                                <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                            @endforeach
                                         </select>
                                         @error('branch')
                                             <div class="error">{{ $message }}</div>
@@ -181,7 +130,6 @@
                                     <thead>
                                         <th>Category</th>
                                         <th>Product</th>
-                                        <th>Description</th>
                                         <th width="80">Quantity</th>
                                         <th width="80">Price</th>
                                         <th width="80">Total</th>
@@ -210,10 +158,6 @@
                                                     data-live-search="true" required>
                                                     <option value="">---SELECT---</option>
                                                 </select> --}}
-                                                </td>
-                                                <td width="200">
-                                                    <input type="text" name="item_description[]" id="item_description"
-                                                        class="form-control">
                                                 </td>
                                                 <td width="120">
                                                     <input min="0" type="number" name="qty[]" id="qty"
@@ -247,17 +191,11 @@
                                                         </select>
                                                     </td>
                                                     {{-- Get Product by category --}}
-
+                                                    @php
+                                                        $dropdown_dataset = App\Http\Controllers\HelperController::get_Product($categoryrow);
+                                                    @endphp
                                                     <td>
-                                                        <div class="auto-complete">
-                                                            <input type="text" name="auto_complete" id="auto_complete"
-                                                                class="form-control"
-                                                                value="{{ App\Http\Controllers\HelperController::get_ProductName_ById($category[$category_index], $product[$category_index]) }}">
-                                                            <input type="hidden" name="product[]" id="product"
-                                                                value="{{ $product[$category_index] }}">
-                                                            <input type="hidden" name="invoice_item_id" value="{{$invoice_items[$category_index]['id']}}">
-                                                        </div>
-                                                        {{-- <select name="product[]" id="product"
+                                                        <select name="product[]" id="product"
                                                             class="form-select product" data-live-search="true" required>
                                                             <option value="">---SELECT---</option>
                                                             @foreach ($dropdown_dataset as $productrow)
@@ -269,12 +207,7 @@
                                                                         {{ $productrow->name }}</option>
                                                                 @endif
                                                             @endforeach
-                                                        </select> --}}
-                                                    </td>
-                                                    <td width="200">
-                                                        <input type="text" name="item_description[]"
-                                                            value="{{ $item_description[$category_index] }}"
-                                                            id="item_description" class="form-control">
+                                                        </select>
                                                     </td>
                                                     <td width="120">
                                                         <input min="0" type="number" name="qty[]"
@@ -288,13 +221,10 @@
                                                             id="total" class="form-control" placeholder="Total"
                                                             required readonly value="{{ $total[$category_index] }}"></td>
                                                     <td>
-                                                        <a class="btn-reomve btn btn-icon text-red" invoice-item-remove="true" invocie-item-id="{{$invoice_items[$category_index]['id']}}"><span
-                                                                class="mdi mdi-delete"></span></a>
+                                                        <a class="btn-reomve btn btn-icon text-red"><span
+                                                                class="mdi mdi-close-circle"></span></a>
                                                     </td>
                                                 </tr>
-                                                @php
-                                                    $SubTotalAmount = $SubTotalAmount + $total[$category_index];
-                                                @endphp
                                             @endforeach
                                         @endif
                                     </tbody>
@@ -315,13 +245,13 @@
                                             for="" class="ps-3">Same address</label>
                                         <div class="row">
                                             <div class="col-12 mb-3">
-                                                <textarea name="delivery_address" id="delivery_address" cols="10" rows="5" class="form-control">{{$delivery_address}}</textarea>
+                                                <textarea name="delivery_address" id="delivery_address" cols="10" rows="5" class="form-control"></textarea>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <label for="">Note:</label>
-                                        <textarea name="description" id="description" cols="30" rows="3" class="form-control">{{ $description }}</textarea>
+                                        <textarea name="description" id="description" cols="30" rows="3" class="form-control"></textarea>
                                     </div>
                                 </div>
 
@@ -352,15 +282,9 @@
                                     <div class="col-md-6 col-sm-12 text-end">
                                         <label for="">Tax Amount</label>
                                     </div>
-                                    @php
-                                        if ($tax > 0) {
-                                            $taxAmount = number_format(($tax * $SubTotalAmount) / 100, 2);
-                                        }
-
-                                    @endphp
                                     <div class="col-md-6 col-sm-12">
                                         <input type="text" name="tax_amount" id="tax_amount" placeholder="Tax"
-                                            class="form-control" value="{{ $taxAmount }}">
+                                            class="form-control" value="">
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -369,7 +293,7 @@
                                     </div>
                                     <div class="col-md-6 col-sm-12">
                                         <input type="text" name="discount" id="discount" placeholder="Discount"
-                                            class="form-control" value="{{ number_format($discount, 2) }}">
+                                            class="form-control" value="">
                                     </div>
                                 </div>
                                 {{-- <div class="row mb-2">
@@ -395,36 +319,16 @@
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-md-6 col-sm-12 text-end">
-                                        <label for="">Delivery Charges</label>
-                                    </div>
-                                    <div class="col-md-6 col-sm-12">
-                                        <input type="text" name="DeliveryAmount" id="DeliveryAmount" class="form-control"
-                                             value="{{ $DeliveryAmount }}">
-                                        @error('DeliveryAmount')
-                                            <div class="error">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-md-6 col-sm-12 text-end">
                                         <label for="">Pay Mode</label>
                                     </div>
                                     <div class="col-md-6 col-sm-12">
                                         <select name="pay_mode" id="pay_mode" class="form-select">
                                             <option value="">---SELECT---</option>
-                                            <option value="Credit Cards"
-                                                @if ($pay_mode == 'Credit Cards') selected @endif>Credit Cards
-                                            </option>
-                                            <option
-                                                value="Debit Cards"@if ($pay_mode == 'Debit Cards') selected @endif>
-                                                Credit Cards</option>
-                                            <option value="Cash"
-                                                @if ($pay_mode == 'Cash') selected @endif>Cash</option>
-                                            <option value="Paper Checks"
-                                                @if ($pay_mode == 'Paper Checks') selected @endif>Paper Checks
-                                            </option>
-                                            <option value="UPI"
-                                                @if ($pay_mode == 'UPI') selected @endif>UPI</option>
+                                            <option value="Credit Cards">Credit Cards</option>
+                                            <option value="Debit Cards">Credit Cards</option>
+                                            <option value="Cash">Cash</option>
+                                            <option value="Paper Checks">Paper Checks</option>
+                                            <option value="UPI">UPI</option>
                                         </select>
                                         @error('paidAmount')
                                             <div class="error">{{ $message }}</div>
@@ -437,7 +341,7 @@
                                     </div>
                                     <div class="col-md-6 col-sm-12">
                                         <input type="text" name="paidAmount" id="paidAmount" class="form-control"
-                                            value="{{$paidAmount}}" required>
+                                            value="0.00" required>
                                         @error('paidAmount')
                                             <div class="error">{{ $message }}</div>
                                         @enderror
@@ -544,7 +448,21 @@
     </div>
     <!-- Brand Modal End -->
     <style>
-        
+        .btn.dropdown-toggle.bs-placeholder.btn-light,
+        .btn.dropdown-toggle.btn-light {
+            padding: 0px !important;
+            background-color: transparent;
+            border: 0px;
+        }
+
+        .dropdown.bootstrap-select.form-select {
+            width: 100% !important;
+        }
+
+        .input-group .dropdown.bootstrap-select.form-select {
+            width: auto !important;
+        }
+
         .auto-complete {
             position: relative;
         }
@@ -734,7 +652,7 @@
                                                         rowIndex - 1
                                                     ]
                                                     .children[
-                                                        4]
+                                                        3]
                                                     .children[
                                                         0]
                                                     .value =
@@ -814,33 +732,25 @@
                 table = $("#itemTable");
                 var newRow = table.find("tr:last").clone(true).find(':input', ':select').val('').end();
                 var row = $('#itemTable >tbody >tr');
-                newRow[0].children[2].children[0].value = ""
-                newRow[0].children[3].children[0].value = "0"
+                newRow[0].children[2].children[0].value = "0"
+                newRow[0].children[3].children[0].value = "0.00"
                 newRow[0].children[4].children[0].value = "0.00"
-                // newRow[0].children[5].children[0].value = "0.00"
-                // var Selectoption = newRow[0].children[0].children[0];
-                // newRow[0].children[0].innerHTML =  "";
-               
-                // newRow[0].children[0].append(Selectoption);
-                // $(newRow[0].children[0]).find('select').select2({
-                //     theme: 'bootstrap-5'
-                // })
                 $("#itemTable").find('tr:last').after(newRow);
             });
             $('#tax').on('change paste keyup', function() {
                 addTotalAmount()
             })
             $('[id=price]').on('change paste keyup', function() {
-                var qty = $(this)[0].parentNode.parentNode.children[3].children[0].value;
+                var qty = $(this)[0].parentNode.parentNode.children[2].children[0].value;
                 var price = $(this).val() * qty;
                 addTotalAmount();
-                $(this)[0].parentNode.parentNode.children[5].children[0].value = Number(price).toFixed(2);
+                $(this)[0].parentNode.parentNode.children[4].children[0].value = Number(price).toFixed(2);
             })
             $('[id=qty]').on('change paste keyup', function() {
-                var amount = $(this)[0].parentNode.parentNode.children[4].children[0].value;
+                var amount = $(this)[0].parentNode.parentNode.children[3].children[0].value;
                 var price = $(this).val() * amount;
                 addTotalAmount();
-                $(this)[0].parentNode.parentNode.children[5].children[0].value = Number(price).toFixed(2);;
+                $(this)[0].parentNode.parentNode.children[4].children[0].value = Number(price).toFixed(2);;
             })
 
             function addTotalAmount() {
@@ -851,11 +761,9 @@
                 var Tax = document.getElementById('tax');
                 var Discount = document.getElementById('discount');
                 var Discount_amount = document.getElementById('discount_amount');
-                var Delivery_Amount = document.getElementById('DeliveryAmount'); 
                 var AddAmount = 0,
                     TaxAmount = 0,
                     DiscountAmount = 0;
-                    DeliveryAmount = 0;
                 for (let index = 0; index < amountArray.length; index++) {
                     AddAmount = Number(AddAmount) + Number(amountArray[index].value);
                 }
@@ -866,31 +774,22 @@
                 } else {
                     Tax_amount.value = 0;
                 }
-                
-                if (Number(Delivery_Amount.value) > 0) {
-                    DeliveryAmount = Delivery_Amount.value
-                } else {
-                    DeliveryAmount = 0;
-                }
-                TotalAmount.value = Number(Number(AddAmount + TaxAmount + Number(DeliveryAmount)) - Discount.value).toFixed(2);
-                $('#display_amount').html(Number(Number(AddAmount + TaxAmount + Number(DeliveryAmount)) - DiscountAmount).toFixed(2));
+                // if (Number(Discount.value) > 0) {
+                //     DiscountAmount = Number((Number(Discount.value) / 100) * Number(TotalAmount.value)).toFixed(2);
+                //     Discount_amount.value = DiscountAmount;
+                // } else {
+                //     Discount_amount.value = 0;
+                // }
+                TotalAmount.value = Number(Number(AddAmount + TaxAmount) - Discount.value).toFixed(2);
+                $('#display_amount').html(Number(Number(AddAmount + TaxAmount) - DiscountAmount).toFixed(2));
             }
-            $('#DeliveryAmount').on('keyup',function(){ addTotalAmount(); });
             $('.btn-reomve').on('click', function(e) {
                 var row = e.currentTarget.parentNode.parentNode;
                 if ($('#itemTable >tbody >tr').length > 1) {
-                    if(e.currentTarget.getAttribute('invoice-item-remove')){
-                        let remove_item = e.currentTarget.attributes['invocie-item-id'].value;
-                        
-                        console.log()
-                    }
                     $(e.currentTarget.parentNode.parentNode).remove();
                     addTotalAmount();
                 } else {
-                    iziToast.warning({
-                                      title: 'Error',
-                                      message: 'You unable to remove this item...!!!',
-                                      position: 'topRight'});                   
+                    alert('you unable to remove this item');
                 }
             })
 

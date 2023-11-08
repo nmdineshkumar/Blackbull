@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="images/favicon.png" rel="icon" />
-    <title>Invoice</title>
+    <title>Quotation</title>
     <meta name="author" content="blackbull.com">
 
     <!-- Web Fonts
@@ -29,8 +29,8 @@
             <div class="row align-items-center">
                 <div class="col-sm-7 text-center text-sm-start mb-3 mb-sm-0"> </div>
                 <div class="col-sm-5 text-center text-sm-end">
-                    <h4 class="mb-0">Invoice</h4>
-                    <p class="mb-0">Invoice Number - {{ $invoiceNumber }}</p>
+                    <h4 class="mb-0">Quotation</h4>
+                    <p class="mb-0">Quotation Number - {{ $invoiceNumber }}</p>
                 </div>
             </div>
             <hr>
@@ -46,7 +46,7 @@
             {{ $branch[0]->country }}
         </address>
       </div> --}}
-                <div class="col-sm-6 order-sm-0"> <strong>Invoiced To:</strong>
+                <div class="col-sm-6 order-sm-0"> <strong>To:</strong>
                     <address>
                         @if (count($customer) > 0)
                             {{ $customer[0]->first_name }}
@@ -62,11 +62,11 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-6"> <strong>Payment Method:</strong><br>
+                {{-- <div class="col-sm-6"> <strong>Payment Method:</strong><br>
                     <span> Cash </span> <br />
                     <br />
-                </div>
-                <div class="col-sm-6 text-sm-end"> <strong>Order Date:</strong><br>
+                </div> --}}
+                <div class="col-sm-6 text-sm-end"> <strong>Quotation Date:</strong><br>
                     <span>{{ \Carbon\Carbon::parse($invoice->invocie_date)->format('d-m-Y') }}<br>
                         <br>
                     </span>
@@ -97,10 +97,10 @@
                                 @endforeach
                             </tbody>
                             <tfoot class="card-footer">
-                                <tr>
+                                {{-- <tr>
                                     <td colspan="3" class="text-end"><strong>Paid Amount:</strong></td>
                                     <td class="text-end">{{ $invoice->paid_amount }}</td>
-                                </tr>
+                                </tr> --}}
                                 <tr>
                                     <td colspan="3" class="text-end"><strong>Tax:</strong></td>
                                     <td class="text-end">{{ $invoice->tax }}</td>

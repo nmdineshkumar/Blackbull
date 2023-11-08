@@ -36,7 +36,7 @@ class SaleController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = $this->modelIns()::get();
+            $data = $this->modelIns()::orderBy('created_at', 'DESC')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('name', function ($row) {
@@ -109,7 +109,9 @@ class SaleController extends Controller
         $branch_dataset = Branch::all();
         $sales = $this->modelIns()::find($id);
         $invoiceno = $sales->invoice_no;
-        return view('admin.invoice.editInvoice', compact('sales','category_dataset', 'customer', 'branch_dataset'))
+        $invoice_items = InvoiceItem::where('invoice_id', $id)->get()->toArray();
+        //return $invoice_items;
+        return view('admin.invoice.editInvoice', compact('sales', 'category_dataset', 'customer', 'branch_dataset', 'invoice_items'))
             ->with('pageName', 'Edit Branch')
             ->with('id', $id)
             ->with('invoiceno', $invoiceno)
@@ -142,11 +144,80 @@ class SaleController extends Controller
                     'total' => $request->TotalAmount,
                     'paid_amount' => $request->paidAmount,
                     'due_amount' => ($request->TotalAmount - $request->paidAmount),
+                    'delivery' => $request->delivery_address,
+                    'discount' => $request->discount == null ? '0' : $request->discount,
+                    'comment' => $request->description,
+                    'pay_mode' => $request->pay_mode,
+                    'delivery_amount' => $request->DeliveryAmount,
                     'created_by' => Auth::guard('admin')->user()->id,
                     'created_at' => Carbon::now(),
                 ];
                 try {
-                    $res = $this->modelIns()::whereId($request->id)->update($data);
+                    $res = $this->modelIns()::whereId($request->id)->update($invoice_data);
+                    for ($i = 0; $i < count($request->product); $i++) {
+                        $product_items = [
+                            'invoice_id' => $request->id,
+                            'category' => $request->category[$i],
+                            'product_id' => $request->product[$i],
+                            'description' => $request->item_description[$i],
+                            'qty' => $request->qty[$i],
+                            'price' => $request->price[$i],
+                            'total' => $request->total[$i],
+                            'created_at' => Carbon::now()
+                        ];
+                        if ($request->invoice_item_id == null) {
+                            $res = InvoiceItem::insert($product_items);
+                            //Remove stock quantity
+                            DB::Table('productstocks')
+                                ->where([
+                                    'product_id' => $request->product[$i],
+                                    'category' => $request->category[$i],
+                                    'branch' => $request->branch
+                                ])
+                                ->decrement('current_qty', $request->qty[$i]);
+                            if ($request->type == "2") {
+                                DB::Table('productstocks')
+                                    ->where([
+                                        'product_id' => $request->product[$i],
+                                        'category' => $request->category[$i],
+                                        'branch' => $request->branch
+                                    ])
+                                    ->increment('offline_purchases', $request->qty[$i]);
+                            } elseif ($request->type == "1") {
+                                DB::Table('productstocks')
+                                    ->where([
+                                        'product_id' => $request->product[$i],
+                                        'category' => $request->category[$i],
+                                        'branch' => $request->branch
+                                    ])
+                                    ->increment('online_purchases', $request->qty[$i]);
+                            }
+                        } else {
+                            //Check Invoice Item
+                            $old_Invoice_item = InvoiceItem::where('id', $request->invoice_item_id)->get()->first();
+                            //Check Invoice Item Qty Greater then current qty
+                            if ($request->qty[$i] > $old_Invoice_item->qty) {
+                                //Remove stock quantity
+                                DB::Table('productstocks')
+                                    ->where([
+                                        'product_id' => $request->product[$i],
+                                        'category' => $request->category[$i],
+                                        'branch' => $request->branch
+                                    ])
+                                    ->decrement('current_qty', ($request->qty[$i] - $old_Invoice_item->qty));
+                            } else if ($request->qty[$i] < $old_Invoice_item->qty) {
+                                //Check Invoice Item Qty less then current qty
+                                DB::Table('productstocks')
+                                    ->where([
+                                        'product_id' => $request->product[$i],
+                                        'category' => $request->category[$i],
+                                        'branch' => $request->branch
+                                    ])
+                                    ->increment('current_qty', ($old_Invoice_item->qty-$request->qty[$i]));
+                            }
+                            $res = InvoiceItem::where('id', $request->invoice_item_id)->update($product_items);
+                        }
+                    }
                     if ($res) {
                         return redirect()->route($this->resourceUrl() . '.index')->with('success', 'Invoice updated successfully...!!!');
                     } else {
@@ -166,7 +237,11 @@ class SaleController extends Controller
                     'total' => $request->TotalAmount,
                     'paid_amount' => $request->paidAmount,
                     'due_amount' => ($request->TotalAmount - $request->paidAmount),
+                    'delivery' => $request->delivery_address,
+                    'discount' => $request->discount == null ? '0' : $request->discount,
                     'comment' => $request->description,
+                    'pay_mode' => $request->pay_mode,
+                    'delivery_amount' => $request->DeliveryAmount,
                     'created_by' => Auth::guard('admin')->user()->id,
                     'created_at' => Carbon::now(),
                 ];
@@ -177,6 +252,7 @@ class SaleController extends Controller
                             'category' => $request->category[$i],
                             'invoice_id' => $invoice_id,
                             'product_id' => $request->product[$i],
+                            'description' => $request->item_description[$i],
                             'qty' => $request->qty[$i],
                             'price' => $request->price[$i],
                             'total' => $request->total[$i],
@@ -250,6 +326,15 @@ class SaleController extends Controller
     {
         return Category::all(['id', 'name']);
     }
+    public function remove_InvoiceItem($id){
+
+        $invoice_item = InvoiceItem::where('id',$id)->get()->first();
+        if(count($invoice_item)>0){
+
+        }else{
+            return response()->json($data=['status'=>'0','message'=>'Please choose any valid item...!!!']);
+        }
+    }
     public function viewInvoice($id)
     {
         $invoice = $this->modelIns()::find($id);
@@ -263,9 +348,9 @@ class SaleController extends Controller
                 'branches.pincode', 'tbl_countries.name as country', 'tbl_states.name as state',
                 'tbl_cities.name as city', 'branches.invoice'
             ]);
-        $customer = Customer::join('tbl_countries', 'tbl_countries.id', '=', 'customers.country')
-            ->join('tbl_states', 'tbl_states.id', '=', 'customers.state')
-            ->join('tbl_cities', 'tbl_cities.id', '=', 'customers.city')
+        $customer = Customer::join('tbl_countries', 'tbl_countries.id', '=', 'customers.country', 'left outer')
+            ->join('tbl_states', 'tbl_states.id', '=', 'customers.state', 'left outer')
+            ->join('tbl_cities', 'tbl_cities.id', '=', 'customers.city', 'left outer')
             ->where('customers.id', '=', $invoice->customer)
             ->get([
                 'customers.first_name', 'customers.last_name', 'customers.address1', 'customers.address2',
@@ -282,7 +367,8 @@ class SaleController extends Controller
                                     end as Product,
                                     items.qty,
                                     items.price,
-                                    items.total
+                                    items.total,
+                                    items.description
                                 FROM black_bull.invoice_items items
                                 inner join categories on categories.id = items.category
                                 left outer join tyres on tyres.id = items.product_id

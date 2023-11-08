@@ -140,13 +140,14 @@ class HelperController extends Controller
             $data = [
                 'name' =>$request->brandname,
                 'path' =>$request->image == null ? '-' : $request->image,
+                'category' => $request->category,
                 'created_by' => Auth::guard('admin')->user()->id,
                 'created_at' => Carbon::now()
             ];
             try {
                 $res = DB::table('brand')->insert($data);
             if($res){
-                return DB::table('brand')->get(['id','name']);
+                return DB::table('brand')->where('category',$request->category)->get(['id','name']);
             }else{
                 return response()->with('error','Error saving Tyre Brand...!!!');
             }
@@ -498,5 +499,85 @@ class HelperController extends Controller
                         $data['target'] = '';
                         $data['url'] = '';
         return response()->json($data);
+    }
+    public function auto_complete(Request $request){
+        $validate = $request->validate([
+            'search_text' => ['required'],
+            'category' => ['required']
+        ]);
+        if($validate){
+            $rows = '';
+            if($request->ajax()){
+                if($request->category == '1'){
+                    $rows = Tyre::join('tyresizes','tyresizes.id','tyres.tyre_size')
+                    ->join('brand','brand.id','tyres.brand')
+                    ->join('pattern','pattern.id','tyres.pattern')
+                    ->join('origin','origin.id','tyres.origin')
+                    ->orwhere('tyres.name','like',"%{$request->search_text}%")
+                    ->orwhere('tyresizes.height','like',"%{$request->search_text}%")
+                    ->orwhere('tyresizes.width','like',"%{$request->search_text}%")
+                    ->orwhere('tyresizes.rim_size','like',"%{$request->search_text}%")
+                    ->orwhere('brand.name','like',"%{$request->search_text}%")
+                    ->orwhere('pattern.name','like',"%{$request->search_text}%")
+                    ->take(10)
+                    ->get(['tyres.id','tyres.name as tyre_name', 
+                    'tyresizes.height',
+                    'tyresizes.width',
+                    'tyresizes.rim_size',
+                    'brand.name as brand_name',
+                    'pattern.name as pattern_name','origin.name as origin', 
+                    "tyres.tyre_type  as TYPE",'tyres.price']);
+                }
+                else if($request->category == '2'){
+                    $rows = Tube::join('brand','brand.id','tubes.brand')
+                                ->join('origin','origin.id','tubes.origin')
+                                ->join('tube_rim_size','tube_rim_size.id','tubes.rim_size')
+                                ->join('tube_volve','tube_volve.id','tubes.volve')
+                                ->join('tube_height','tube_height.id','tubes.height')
+                                ->orWhere('tubes.name','like',"%{$request->search_text}%")
+                                ->orWhere('brand.name','like',"%{$request->search_text}%")
+                                ->orWhere('origin.name','like',"%{$request->search_text}%")
+                                ->orWhere('tube_rim_size.name','like',"%{$request->search_text}%")
+                                ->orWhere('tube_height.name','like',"%{$request->search_text}%")
+                                ->orWhere('tube_volve.name','like',"%{$request->search_text}%")
+                                ->take(10)
+                                ->get(['tubes.id','tubes.name as tube_name'
+                                    ,'brand.name as brand'
+                                    ,'origin.name as origin'
+                                    ,'tube_rim_size.name as rim_size'
+                                    ,'tube_height.name as height'
+                                    ,'tube_volve.name as volve'
+                                    ,'tubes.price']);
+                }
+                else if($request->category == '3'){
+                    $rows = Car_battery::join('brand','brand.id','car_batteries.brand')
+                                        ->orWhere('car_batteries.name','like',"%{$request->search_text}%")
+                                        ->orWhere('brand.name','like',"%{$request->search_text}%")
+                                        ->get(['car_batteries.id','car_batteries.name as battery_name'
+                                        ,'brand.name as brand'
+                                        ,'car_batteries.capacity'
+                                        ,'car_batteries.voltage'
+                                        ,'car_batteries.price']);
+                                
+                }
+                return response()->json(['rows'=>$rows]);
+            }
+        }
+        
+    }
+    public static function getPatternNameById($id):string{
+        $row = DB::select("SELECT * FROM pattern where id ='".$id."'");
+        return $row[0]->name;
+    }
+    public static function get_ProductName_ById($category,$id):String{
+        $name = $category;
+        if($category == '1'){
+            $name = (Tyre::where('id',$id)->get('name')->first())->name;            
+        }else if($category == '2'){
+            $name = (Tube::where('id',$id)->get('name')->first())->name;
+        }else if($category == '3'){
+            $name = (Car_battery::where('id',$id)->get('name')->first())->name;
+        }
+        return $name;
     }
 }

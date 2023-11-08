@@ -20,6 +20,7 @@ function initializeDataTable(id, url, columns) {
         processing: true,
         serverSide: true,
         stateSave: true,
+        "lengthMenu": [[10, 25, 50,100, -1], [10, 25, 50,100, "All"]],
         // ajax: url,
         ajax: {
             url: url,
@@ -90,6 +91,7 @@ $('#make').on('change',function(e){
             data.forEach(element => {
                 mySelection.append(new Option(element.name,element.id))
             });
+            $(mySelection).selectpicker('refresh');
         }
     });
 });
@@ -104,6 +106,7 @@ $('#model').on('change',function(e){
             data.forEach(element => {
                 mySelection.append(new Option(element.name,element.id))
             });
+            $(mySelection).selectpicker('refresh');
         }
     });
 });
@@ -170,3 +173,4 @@ BODY.on('click', '.delete-by-id', function (e) {
         ]
     });
 });
+

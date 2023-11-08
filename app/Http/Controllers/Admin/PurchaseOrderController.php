@@ -65,7 +65,7 @@ class PurchaseOrderController extends Controller
     public function getbranch($id){
         return Branch::where('id','=',$id)->get('name')->pluck('name')->first();
     }
-    public function getSupplier($id){
+    public static function getSupplier($id){
         return Supplier::where('id',$id)->get('name')->pluck('name')->first();
     }
     public function create(){

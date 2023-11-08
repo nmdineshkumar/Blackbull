@@ -65,7 +65,7 @@ class TubeController extends Controller
         return DB::table('origin')->where('id',$id)->get(['name'])->pluck('name')->first();
     }
     public function create(){
-        $brand_dataset = DB::table('brand')->get(['id','name']);
+        $brand_dataset = DB::table('brand')->where('category','2')->get(['id','name']);
         $volve_dataset = DB::table('tube_volve')->get(['id','name']);
         $origin_dataset = DB::table('origin')->get(['id','name']);
         $tyre_size_dataset = Tyresize::get(['id',"height","width","rim_size","speed"]); 
@@ -96,7 +96,7 @@ class TubeController extends Controller
     }
     public function store(Request $request){
         $validate = $request->validate([
-            'name' => ['required','unique:tubes,name,'.$request->id.',id'],
+            'name' => ['required'],
             'brand' => ['required'],
             'origin' => ['required'],
             //'myear' => ['required'],
