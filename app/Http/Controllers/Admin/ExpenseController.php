@@ -41,6 +41,12 @@ class ExpenseController extends Controller
                     ->addColumn('amount',function($row){
                        return $row->amount;
                     })
+                    ->addColumn('item',function($row){
+                        return $row->item;
+                     })
+                     ->addColumn('status',function($row){
+                        return $row->status;
+                     })
                     ->addColumn('action', function($row){
                         if($row->deleted_at=== NULL){
                             return getActionButtons($row->id, $this->resourceUrl(),['edit','delete']);
@@ -89,6 +95,8 @@ class ExpenseController extends Controller
                     'expense_name' => $request->name,
                     'amount' => $request->amount,
                     'comment' => $request->comment,
+                    'status' => $request->payment_status,
+                    'item' => $request->item,
                     'updated_by' => Auth::guard('admin')->user()->id,
                     'updated_at' => Carbon::now()
                 ];
@@ -109,6 +117,8 @@ class ExpenseController extends Controller
                     'expense_name' => $request->name,
                     'amount' => $request->amount,
                     'comment' => $request->comment,
+                    'status' => $request->payment_status,
+                    'item' => $request->item,
                     'created_by' => Auth::guard('admin')->user()->id,
                     'created_at' => Carbon::now()
                 ];

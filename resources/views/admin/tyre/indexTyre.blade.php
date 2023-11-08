@@ -39,8 +39,10 @@
                         <th>Name</th>
                         <th>Brand</th>
                         <th>Origin</th>
-                        <th width="40">Year</th>
                         <th>Size</th>
+                        <th>Pattern</th>
+                        <th>Type</th>
+                        <th>Price</th>
                         <th>Action</th>
                     </thead>
                     <tbody class="text-gray-600 fw-bold">
@@ -59,8 +61,10 @@
               {data: 'name', name: 'Name'},
               {data: 'brand', name: 'Brand'},
               {data: 'origin', name: 'Origin'},
-              {data: 'manufactory_year', name: 'Year'},
               {data: 'size', name: 'size'},
+              {data: 'pattern', name: 'pattern'},
+              {data: 'tyre_type', name: 'Type'},
+              {data: 'amount', name: 'price'},
               {data: 'action', name: 'action'}
           ];
         initializeDataTable('Ajaxdatatable', '{{ route("$resourceUrl".'.index') }}', columns);

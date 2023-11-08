@@ -7,17 +7,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class Sales extends Model
+class Quotation extends Model
 {
     use HasFactory;
-    protected $table = 'invoice';
     public static function generateInvoiceNo(): String{
-        $TempNo = DB::table('invoice')->where('invoice_no','like',Carbon::now()->format('Ymd').'%')->orderBy('id','desc')->get('invoice_no')->first();
+        $TempNo = DB::table('quotations')->orderBy('id','desc')->get('invoice_no')->first();
         $InvoiceNo = "";
         if($TempNo == ''){
-            $InvoiceNo = Carbon::now()->format('Ymd').'0001';
+            $InvoiceNo = 'QS-'.Carbon::now()->format('Ymd').'0001';
         }else{
-            $InvoiceNo = $TempNo->invoice_no + 1;
+            $InvoiceNo = 'QS-'.(explode('-',$TempNo->invoice_no)[1] + 1);
         }
         return $InvoiceNo;
     }

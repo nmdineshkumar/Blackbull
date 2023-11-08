@@ -35,12 +35,12 @@
                 <table id="Ajaxdatatable" class="table table-striped table-row-bordered gy-5 gs-7 border rounded w-100 margin-t">
                     <thead>
                         <th width="20">SNo</th>
-                        <th>Name</th>
-                        <th>Brand</th>
-                        <th>Model</th>
-                        <th>Capacity</th>
-                        <th>Voltage</th>
-                        <th>Price</th>
+                        <th>Branch</th>
+                        <th>InvoiceNo</th>
+                        <th>Type</th>
+                        <th>Customer</th>
+                        <th>Date</th>
+                        <th>Amount</th>
                         <th>Action</th>
                     </thead>
                     <tbody class="text-gray-600 fw-bold">
@@ -51,22 +51,21 @@
     </div>
 </div>
 @endsection
-
-
 @section('add-js')
 <script type="text/javascript">
     $(function () {
         const columns = [
               {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-              {data: 'name', name: 'Name'},
-              {data: 'brand', name: 'Brand'},
-              {data: 'model', name: 'Model'},
-              {data: 'capacity', name: 'capacity'},
-              {data: 'voltage', name: 'voltage'},
-              {data: 'price', name: 'price'},
+              {data: 'branch', name: 'Branch'},
+              {data: 'name', name: 'Invoiceno'},
+              {data: 'type', name: 'Type'},
+              {data: 'customer', name: 'Customer'},
+              {data: 'date', name: 'Date'},
+              {data: 'amount', name: 'Amount'},
               {data: 'action', name: 'action'}
           ];
         initializeDataTable('Ajaxdatatable', '{{ route("$resourceUrl".'.index') }}', columns);
     });
   </script>
 @endsection
+

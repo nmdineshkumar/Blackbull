@@ -1,11 +1,16 @@
 body {
     background: #e7e9ed;
-    color: #535b61;
+    color: #000000 !important;
     font-family: "Poppins", sans-serif;
     font-size: 14px;
     line-height: 22px;
   }
-  
+  .card-footer{
+    background-color: #FFF !important;
+  }
+  table thead, table tbody{
+    color: #000000 !important;
+  }
   form {
     padding: 0;
     margin: 0;

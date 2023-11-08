@@ -1,5 +1,5 @@
-@php
-    $subTotal = '0';
+@php 
+$subTotal = '0';
 @endphp
 <!doctype html>
 <html lang="en">
@@ -7,10 +7,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dubai Invoice</title>
+    <title>Oman Quotation</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="{{ asset('assets/js/ntw.js') }}"></script>
+        <script src="{{ asset('assets/js/ntw.js') }}"></script>
     <style>
         body {
             background: rgb(204, 204, 204);
@@ -23,19 +23,16 @@
             display: block;
             margin: 0 auto;
             margin-bottom: 0.5cm;
-            /* box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5); */
+            box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
         }
 
-        table.invoice-container-content {
-            page-break-after: always;
-        }
+        @media print {
 
-        thead.invoice-header {
-            display: table-header-group;
-        }
-
-        tfoot.invoice-footer {
-            display: table-footer-group;
+            body,
+            page[size="A4"] {
+                margin: 0;
+                box-shadow: 0;
+            }
         }
     </style>
     <!-- Web Fonts
@@ -66,10 +63,14 @@
                                         </div>
                                     </div>
                                     <div class="col-9 text-end">
-                                        <p class="text-danger fw-bolder mb-1">شركة بالك بيل لتجارة اطارات السيارات ذ.م
-                                            .م</p>
-                                        <p class="fw-bolder text-left mb-1">BLACKBULL TYRES & RIMS TRADING CO. L.L.C</p>
-                                        <p class="fw-bolder text-left mb-1">TRN: 100427665300003 (DUBAI)</p>
+                                        <p class="text-danger fw-bolder mb-1">الثور األسود للتجارة. ش ش و</p>
+                                        <p class="fw-bold mb-1" style="font-size: 12px">بيع االطارات ولوازمها - اصالح االطارات والعجالت
+                                            - بيع قطع الغير الجديدة للمركبات - بيع البطاريات</p>
+                                        <p class="fw-bolder mb-1"><span class="text-danger">BLACK BULL TRADING S P C</span> | OMAN</p>
+                                        <p class="mb-1" style="font-size: 11px">SALE OF MOTOR VEHICLE TYRES ACCESSORIES - REPAIR TYRES
+                                            & RIMS</p>
+                                        <p class="mb-1" style="font-size: 11px">SALE OF NEW MOTOR VEHICLE SPARE PARTS & ACCESSORIES -
+                                            SALE OF MOTOR VEHICLE BATTERIES</p>
                                     </div>
                                 </div>
                             </td>
@@ -83,13 +84,13 @@
                                     <div class="row align-items-center ">
                                         <div class="col-sm-7 text-center text-sm-start mb-3 mb-sm-0"> </div>
                                         <div class="col-sm-5 text-center text-sm-end">
-                                            <p class="mb-0">Invoice Number - {{ $invoiceNumber }}</p>
+                                            <p class="mb-0">Quotation Number - {{ $invoiceNumber }}</p>
                                         </div>
                                     </div>
                                     <div class="row mt-3">
 
                                         <div class="col-12">
-                                            <h4 class="fw-bolder text-center text-decoration-underline">TAX INVOICE</h4>
+                                            <h4 class="fw-bolder text-center text-decoration-underline">Quotation</h4>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -101,8 +102,8 @@
                                         background-size: 70%;height:100vh;opacity:0.3"> --}}
                                             <main>
                                                 <div class="row">
-                                                    <div class="col-sm-6 text-sm-end order-sm-1"> <strong>Pay
-                                                            To:</strong>
+                                                    <div class="col-sm-6 text-sm-end order-sm-1"> <strong>Quotation
+                                                            From:</strong>
                                                         <address>
                                                             {{ $branch[0]->name }}<br />
                                                             {{-- {{ $branch[0]->address1 }}, {{ $branch[0]->address2 }}<
@@ -110,7 +111,7 @@
                                                             {{ $branch[0]->country }} --}}
                                                         </address>
                                                     </div>
-                                                    <div class="col-sm-6 order-sm-0"> <strong>Invoiced To:</strong>
+                                                    <div class="col-sm-6 order-sm-0"> <strong>Quotation To:</strong>
                                                         <address>
                                                             @if (count($customer) > 0)
                                                                 {{ $customer[0]->first_name }}
@@ -126,10 +127,11 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-sm-6"> <strong>Payment Method:</strong><br>
+                                                    {{-- <div class="col-sm-6"> <strong>Payment Method:</strong><br>
                                                         <span> {{ $invoice->pay_mode }} </span> <br />
                                                         <br />
-                                                    </div>
+                                                    </div> --}}
+                                                    <div class="col-sm-6"></div>
                                                     <div class="col-sm-6 text-sm-end"> <strong>Order Date:</strong><br>
                                                         <span>{{ \Carbon\Carbon::parse($invoice->invocie_date)->format('d-m-Y') }}<br>
                                                             <br>
@@ -162,7 +164,7 @@
                                                                 </thead>
                                                                 <tbody>
                                                                     @foreach ($invoiceItems as $index => $row)
-                                                                        <tr style="border-bottom: 1px solid #808080;">
+                                                                        <tr style="border-bottom: 1px solid #808080">
                                                                             <td>{{ $index + 1 }}. </td>
                                                                             <td>{{ $row->Product }}</td>
                                                                             <td>{{ $row->description }} </td>
@@ -225,18 +227,18 @@
                                                                                     </td>
                                                                                     <td
                                                                                         class="text-end border-bottom-0">
-                                                                                       <b><small>AED </small>
+                                                                                       <b><small>OMR </small>
                                                                                         {{ number_format($invoice->total, 2) }}</b> 
                                                                                     </td>
                                                                                 </tr>
-                                                                                <tr>
+                                                                                {{-- <tr>
                                                                                     <td colspan="3" class="text-end">
                                                                                         <strong>Paid Amount:</strong>
                                                                                     </td>
                                                                                     <td class="text-end">                                                                                        
                                                                                         <b><small>AED</small> {{ number_format($invoice->paid_amount, 2) }}</b>
                                                                                     </td>
-                                                                                </tr>
+                                                                                </tr> --}}
                                                                                 <tr>
                                                                                     <td colspan="2"
                                                                                         style="text-align: center">
@@ -277,15 +279,11 @@
                             <td class="p-0">
                                 <!-- Footer -->
 
-                                <div class="d-flex align-items-end invoice-footer" id="fotter">
+                                <div class="d-flex align-items-end">
                                     <div class="col-12 text-center">
-                                        <p style="font-size: 12px"><b>Address:</b>Shop No. 32, Chinese Dragon Building,
-                                            Deira,
-                                            Dubai,
-                                            United Arab Emirates <b>| P.O Box :</b> 39502</p>
-                                        <p style="font-size: 12px"><b>Email :</b> <a
-                                                href="mailto:blackbulltyre@gmail.com">blackbulltyre@gmail.com</a> <b>|
-                                                Tel :</b>+97142248844</p>
+                                        <p class="mb-1"><b>Address:</b> Khasab, Musandam, Sultan of Oman</p>
+                                        <p class="mb-1"><b>Email :</b> <a href="mailto:blackbulloman@gmail.com">blackbulloman@gmail.com</a> <b>| Tel
+                                                :</b> +96879858474, +9687836026</p>
                                     </div>
                                 </div>
                                 <footer class="text-center mb-5">
@@ -322,5 +320,8 @@
     let number = numberWords.attributes['data-value'].nodeValue;
     numberWords.innerHTML = NumToWordsInt(Number(number));
 </script>
+    
+   
+</body>
 
 </html>

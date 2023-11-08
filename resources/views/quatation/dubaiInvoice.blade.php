@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dubai Invoice</title>
+    <title>Dubai Quotation</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="{{ asset('assets/js/ntw.js') }}"></script>
@@ -83,13 +83,13 @@
                                     <div class="row align-items-center ">
                                         <div class="col-sm-7 text-center text-sm-start mb-3 mb-sm-0"> </div>
                                         <div class="col-sm-5 text-center text-sm-end">
-                                            <p class="mb-0">Invoice Number - {{ $invoiceNumber }}</p>
+                                            <p class="mb-0">Quotation Number - {{ $invoiceNumber }}</p>
                                         </div>
                                     </div>
                                     <div class="row mt-3">
 
                                         <div class="col-12">
-                                            <h4 class="fw-bolder text-center text-decoration-underline">TAX INVOICE</h4>
+                                            <h4 class="fw-bolder text-center text-decoration-underline">Quotation</h4>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -101,8 +101,7 @@
                                         background-size: 70%;height:100vh;opacity:0.3"> --}}
                                             <main>
                                                 <div class="row">
-                                                    <div class="col-sm-6 text-sm-end order-sm-1"> <strong>Pay
-                                                            To:</strong>
+                                                    <div class="col-sm-6 text-sm-end order-sm-1"> <strong>Quotation From:</strong>
                                                         <address>
                                                             {{ $branch[0]->name }}<br />
                                                             {{-- {{ $branch[0]->address1 }}, {{ $branch[0]->address2 }}<
@@ -110,7 +109,7 @@
                                                             {{ $branch[0]->country }} --}}
                                                         </address>
                                                     </div>
-                                                    <div class="col-sm-6 order-sm-0"> <strong>Invoiced To:</strong>
+                                                    <div class="col-sm-6 order-sm-0"> <strong>Quotation To:</strong>
                                                         <address>
                                                             @if (count($customer) > 0)
                                                                 {{ $customer[0]->first_name }}
@@ -126,10 +125,11 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-sm-6"> <strong>Payment Method:</strong><br>
+                                                    {{-- <div class="col-sm-6"> <strong>Payment Method:</strong><br>
                                                         <span> {{ $invoice->pay_mode }} </span> <br />
                                                         <br />
-                                                    </div>
+                                                    </div> --}}
+                                                    <div class="col-sm-6"></div>
                                                     <div class="col-sm-6 text-sm-end"> <strong>Order Date:</strong><br>
                                                         <span>{{ \Carbon\Carbon::parse($invoice->invocie_date)->format('d-m-Y') }}<br>
                                                             <br>
@@ -162,7 +162,7 @@
                                                                 </thead>
                                                                 <tbody>
                                                                     @foreach ($invoiceItems as $index => $row)
-                                                                        <tr style="border-bottom: 1px solid #808080;">
+                                                                        <tr style="border-bottom: 1px solid #808080">
                                                                             <td>{{ $index + 1 }}. </td>
                                                                             <td>{{ $row->Product }}</td>
                                                                             <td>{{ $row->description }} </td>
@@ -229,14 +229,14 @@
                                                                                         {{ number_format($invoice->total, 2) }}</b> 
                                                                                     </td>
                                                                                 </tr>
-                                                                                <tr>
+                                                                                {{-- <tr>
                                                                                     <td colspan="3" class="text-end">
                                                                                         <strong>Paid Amount:</strong>
                                                                                     </td>
                                                                                     <td class="text-end">                                                                                        
                                                                                         <b><small>AED</small> {{ number_format($invoice->paid_amount, 2) }}</b>
                                                                                     </td>
-                                                                                </tr>
+                                                                                </tr> --}}
                                                                                 <tr>
                                                                                     <td colspan="2"
                                                                                         style="text-align: center">

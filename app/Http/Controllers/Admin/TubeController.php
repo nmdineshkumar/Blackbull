@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\HelperController;
 use App\Models\Tube;
 use App\Models\Tyresize;
 use Carbon\Carbon;
@@ -39,6 +40,15 @@ class TubeController extends Controller
                     ->addColumn('volve',function($row){
                         return $this->getVolve($row->volve);
                     })
+                    ->addColumn('height',function($row){
+                        return HelperController::get_TubeHeight($row->height);
+                    })
+                    ->addColumn('rim_size',function($row){
+                        return HelperController::get_RimSize($row->rim_size);
+                    })
+                    ->addColumn('price',function($row){
+                        return number_format($row->price,2);
+                    })
                     ->addColumn('action', function($row){
                         if($row->deleted_at=== NULL){
                             return getActionButtons($row->id, $this->resourceUrl(),['edit','delete']);
@@ -65,7 +75,7 @@ class TubeController extends Controller
         return DB::table('origin')->where('id',$id)->get(['name'])->pluck('name')->first();
     }
     public function create(){
-        $brand_dataset = DB::table('brand')->get(['id','name']);
+        $brand_dataset = DB::table('brand')->where('category','2')->get(['id','name']);
         $volve_dataset = DB::table('tube_volve')->get(['id','name']);
         $origin_dataset = DB::table('origin')->get(['id','name']);
         $tyre_size_dataset = Tyresize::get(['id',"height","width","rim_size","speed"]); 
@@ -96,7 +106,7 @@ class TubeController extends Controller
     }
     public function store(Request $request){
         $validate = $request->validate([
-            'name' => ['required','unique:tubes,name,'.$request->id.',id'],
+            'name' => ['required'],
             'brand' => ['required'],
             'origin' => ['required'],
             //'myear' => ['required'],

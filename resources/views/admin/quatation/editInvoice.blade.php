@@ -255,8 +255,7 @@
                                                                 value="{{ App\Http\Controllers\HelperController::get_ProductName_ById($category[$category_index], $product[$category_index]) }}">
                                                             <input type="hidden" name="product[]" id="product"
                                                                 value="{{ $product[$category_index] }}">
-                                                            <input type="hidden" id="invoice_item_id"
-                                                                name="invoice_item_id[]"
+                                                            <input type="hidden" name="invoice_item_id[]" id="invoice_item_id"
                                                                 value="{{ $invoice_items[$category_index]['id'] }}">
                                                         </div>
                                                         {{-- <select name="product[]" id="product"
@@ -409,7 +408,7 @@
                                         @enderror
                                     </div>
                                 </div>
-
+                                
                                 <div class="row mb-2">
                                     <div class="col-md-6 col-sm-12 text-end">
                                         <label for="">Pay Mode</label>
@@ -449,15 +448,6 @@
                                 </div>
                             </div>
                         </div>
-                        @if ($id != null)
-                            <div class="row mb-3">
-                                <div class="col-12">
-                                    <p> Delivery Status ::
-                                        <b>{{ $sales->delivery_status == 0 ? 'Not Delivered' : 'Delivered on the date : ' . $sales->delivery_at }}</b>
-                                    </p>
-                                </div>
-                            </div>
-                        @endif
                         <div class="row mb-3 ">
                             <input type="hidden" name="type" id="type" value="2">
                             <input type="hidden" name="id" value="{{ $id }}">
@@ -470,6 +460,7 @@
                                             Update
                                         @endif
                                     </span></button>
+                               
                             </div>
                         </div>
                     </form>
@@ -550,6 +541,8 @@
                     <input type="hidden" name="type" value="2">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Save changes</button>
+
+
                 </div>
                 </form>
             </div>
@@ -600,6 +593,7 @@
 @endsection
 @section('add-js')
     <script>
+       
         $(function() {
             $('form[ajax-submit=true]').submit(function(e) {
                 e.preventDefault();
@@ -684,7 +678,10 @@
                                     complete_row.addEventListener('click', function(e) {
                                         let parent_Node = this.parentNode
                                             .parentNode;
-
+                                        $(parent_Node).find('#auto_complete')
+                                            .val(this.attributes[1].nodeValue);
+                                        $(parent_Node).find('#product').val(this
+                                            .attributes[0].nodeValue);
                                         var selectedRow = $(this);
                                         var category = $(this)[0].parentNode
                                             .parentNode.parentNode
@@ -724,22 +721,7 @@
                                                 });
                                                 $(parent_Node).find('#product')
                                                     .val('');
-                                                $(parent_Node).find(
-                                                        '#auto_complete')
-                                                    .val('');
-                                                $(parent_Node).find('#product')
-                                                    .val('');
                                                 return false;
-                                            } else {
-                                                $(parent_Node).find(
-                                                        '#auto_complete')
-                                                    .val(this.attributes[1]
-                                                        .nodeValue);
-                                                $(parent_Node).find('#product')
-                                                    .val(this
-                                                        .attributes[0].nodeValue
-                                                    );
-                                                //   addTotalAmount();
                                             }
                                         }
                                         var url =
@@ -849,22 +831,22 @@
                 addTotalAmount()
             })
             $('[id=price]').on('change paste keyup', function() {
-                var qty = $(this)[0].parentNode.parentNode.children[3].children[0].value;
-                var price = $(this).val() * qty;
+                // var qty = $(this)[0].parentNode.parentNode.children[3].children[0].value;
+                // var price = $(this).val() * qty;
                 addTotalAmount();
-                $(this)[0].parentNode.parentNode.children[5].children[0].value = Number(price).toFixed(2);
+               // $(this)[0].parentNode.parentNode.children[5].children[0].value = Number(price).toFixed(2);
             })
             $('[id=qty]').on('change paste keyup', function() {
-                //var amount = $(this)[0].parentNode.parentNode.children[4].children[0].value;
-                // var price = $(this).val() * amount;
+                var amount = $(this)[0].parentNode.parentNode.children[4].children[0].value;
+                var price = $(this).val() * amount;
                 addTotalAmount();
-                //$(this)[0].parentNode.parentNode.children[5].children[0].value = Number(price).toFixed(2);;
+                $(this)[0].parentNode.parentNode.children[5].children[0].value = Number(price).toFixed(2);;
             })
 
             function addTotalAmount() {
                 var table = $('#itemTable');
                 var tbl_rows = table[0].rows;
-                for (var i = 1; i < tbl_rows.length; i++) {
+                for(var i = 1;i < tbl_rows.length;i++){
                     //console.log(tbl_rows[i].cells[3].children[0].value);
                     var qty = table[0].rows[i].cells[3].children[0].value
                     var price = table[0].rows[i].cells[4].children[0].value
@@ -912,11 +894,11 @@
                 if ($('#itemTable >tbody >tr').length > 1) {
                     if (e.currentTarget.getAttribute('invoice-item-remove')) {
                         let remove_item = e.currentTarget.attributes['invocie-item-id'].value;
-                        url = '{{ route('admin.invoice-item.delete', ':id') }}';
+                        url = '{{ route('admin.quotation-item.delete', ':id') }}';
                         url = url.replace(':id', deleted_id);
                         $.ajax({
                             type: 'POST',
-                            url: url,
+                            url: url,                          
                             success: function(data) {
 
                             }

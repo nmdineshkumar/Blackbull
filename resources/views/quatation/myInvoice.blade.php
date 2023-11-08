@@ -1,43 +1,17 @@
 @php
     $subTotal = '0';
 @endphp
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dubai Invoice</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="images/favicon.png" rel="icon" />
+    <title>Quotation</title>
+    <meta name="author" content="blackbull.com">
     <script src="{{ asset('assets/js/ntw.js') }}"></script>
-    <style>
-        body {
-            background: rgb(204, 204, 204);
-        }
-
-        page[size="A4"] {
-            background: white;
-            width: 21cm;
-            min-height: 29.7cm;
-            display: block;
-            margin: 0 auto;
-            margin-bottom: 0.5cm;
-            /* box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5); */
-        }
-
-        table.invoice-container-content {
-            page-break-after: always;
-        }
-
-        thead.invoice-header {
-            display: table-header-group;
-        }
-
-        tfoot.invoice-footer {
-            display: table-footer-group;
-        }
-    </style>
     <!-- Web Fonts
 ======================= -->
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900'
@@ -45,6 +19,30 @@
 
     <!-- Stylesheet
 ======================= -->
+<style>
+    body {
+        background: rgb(204, 204, 204);
+    }
+
+    page[size="A4"] {
+        background: white;
+        width: 21cm;
+        min-height: 29.7cm;
+        display: block;
+        margin: 0 auto;
+        margin-bottom: 0.5cm;
+        box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
+    }
+
+    @media print {
+
+        body,
+        page[size="A4"] {
+            margin: 0;
+            box-shadow: 0;
+        }
+    }
+</style>
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/app.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/invoice/invoice.css') }}" />
@@ -58,20 +56,7 @@
                     <thead class="p-0 border-0">
                         <tr>
                             <td>
-                                <div class="row mb-3 invoice-header" id="header">
-                                    <div class="col-3">
-                                        <div class="block">
-                                            <img src="{{ asset('invoice/logo_text.jpeg') }}" class=""
-                                                alt="..." style="height: 15%">
-                                        </div>
-                                    </div>
-                                    <div class="col-9 text-end">
-                                        <p class="text-danger fw-bolder mb-1">شركة بالك بيل لتجارة اطارات السيارات ذ.م
-                                            .م</p>
-                                        <p class="fw-bolder text-left mb-1">BLACKBULL TYRES & RIMS TRADING CO. L.L.C</p>
-                                        <p class="fw-bolder text-left mb-1">TRN: 100427665300003 (DUBAI)</p>
-                                    </div>
-                                </div>
+                               
                             </td>
                         </tr>
 
@@ -83,13 +68,13 @@
                                     <div class="row align-items-center ">
                                         <div class="col-sm-7 text-center text-sm-start mb-3 mb-sm-0"> </div>
                                         <div class="col-sm-5 text-center text-sm-end">
-                                            <p class="mb-0">Invoice Number - {{ $invoiceNumber }}</p>
+                                            <p class="mb-0">Quotation Number - {{ $invoiceNumber }}</p>
                                         </div>
                                     </div>
                                     <div class="row mt-3">
 
                                         <div class="col-12">
-                                            <h4 class="fw-bolder text-center text-decoration-underline">TAX INVOICE</h4>
+                                            <h4 class="fw-bolder text-center text-decoration-underline">Quotation</h4>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -101,15 +86,7 @@
                                         background-size: 70%;height:100vh;opacity:0.3"> --}}
                                             <main>
                                                 <div class="row">
-                                                    <div class="col-sm-6 text-sm-end order-sm-1"> <strong>Pay
-                                                            To:</strong>
-                                                        <address>
-                                                            {{ $branch[0]->name }}<br />
-                                                            {{-- {{ $branch[0]->address1 }}, {{ $branch[0]->address2 }}<
-                                                            {{ $branch[0]->state }},{{ $branch[0]->city }} - {{ $branch[0]->zip }}<br />
-                                                            {{ $branch[0]->country }} --}}
-                                                        </address>
-                                                    </div>
+                                                   
                                                     <div class="col-sm-6 order-sm-0"> <strong>Invoiced To:</strong>
                                                         <address>
                                                             @if (count($customer) > 0)
@@ -162,7 +139,7 @@
                                                                 </thead>
                                                                 <tbody>
                                                                     @foreach ($invoiceItems as $index => $row)
-                                                                        <tr style="border-bottom: 1px solid #808080;">
+                                                                        <tr style="border-bottom: 1px solid #808080">
                                                                             <td>{{ $index + 1 }}. </td>
                                                                             <td>{{ $row->Product }}</td>
                                                                             <td>{{ $row->description }} </td>
@@ -278,7 +255,7 @@
                                 <!-- Footer -->
 
                                 <div class="d-flex align-items-end invoice-footer" id="fotter">
-                                    <div class="col-12 text-center">
+                                    {{-- <div class="col-12 text-center">
                                         <p style="font-size: 12px"><b>Address:</b>Shop No. 32, Chinese Dragon Building,
                                             Deira,
                                             Dubai,
@@ -286,7 +263,7 @@
                                         <p style="font-size: 12px"><b>Email :</b> <a
                                                 href="mailto:blackbulltyre@gmail.com">blackbulltyre@gmail.com</a> <b>|
                                                 Tel :</b>+97142248844</p>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <footer class="text-center mb-5">
                                     <p class="text-1"><strong>NOTE :</strong> This is computer generated receipt and
@@ -312,15 +289,16 @@
             </div>
         </div>
     </page>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-    </script>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+</script>
 </body>
 <script>
-    var numberWords = document.getElementById('numberWords');
-    console.log(numberWords);
-    let number = numberWords.attributes['data-value'].nodeValue;
-    numberWords.innerHTML = NumToWordsInt(Number(number));
+var numberWords = document.getElementById('numberWords');
+console.log(numberWords);
+let number = numberWords.attributes['data-value'].nodeValue;
+numberWords.innerHTML = NumToWordsInt(Number(number));
 </script>
-
 </html>

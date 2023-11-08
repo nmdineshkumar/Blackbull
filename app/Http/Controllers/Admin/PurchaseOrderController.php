@@ -35,7 +35,7 @@ class PurchaseOrderController extends Controller
                         return "<a href='" .route($this->resourceUrl().'.edit',$row->id) ."'>".$this->getSupplier($row->supplier)."</a>";
                     })
                     ->addColumn('date',function($row){
-                        return Carbon::parse($row->invoice_date)->format('d-m-Y');
+                        return $row->invoice_date;
                     })
                     ->addColumn('branch',function($row){
                         return $this->getbranch($row->branch);
@@ -65,7 +65,7 @@ class PurchaseOrderController extends Controller
     public function getbranch($id){
         return Branch::where('id','=',$id)->get('name')->pluck('name')->first();
     }
-    public function getSupplier($id){
+    public static function getSupplier($id){
         return Supplier::where('id',$id)->get('name')->pluck('name')->first();
     }
     public function create(){
@@ -112,11 +112,12 @@ class PurchaseOrderController extends Controller
                     'invoice_date' => Carbon::parse($request->invoicedata),
                     'invoice_amount' => $request->TotalAmount,
                     'invoice_no' => $request->invoiceno,
+                    'invoice_tax' => $request->tax,
                     'image' => $request->image == '' ? '/' : $request->image,
                     'created_by' => Auth::guard('admin')->user()->id,
                     'created_at' => Carbon::now()
                 ];
-                try {
+                //try {
                     $PO_id = $this->modelIns()::insertGetId($purchase_order);
                     for($i = 0; $i<count($request->product); $i++){
                         $product_items =[
@@ -125,6 +126,7 @@ class PurchaseOrderController extends Controller
                             'product_id' => $request->product[$i],
                             'quantity' => $request->qty[$i],
                             'amount' => $request->price[$i],
+                            //'description' => $request->description[$i],
                             'total_amount' => $request->total[$i],
                             'created_at' => Carbon::now()
                         ];
@@ -173,9 +175,9 @@ class PurchaseOrderController extends Controller
                 }else{
                     return redirect()->route($this->resourceUrl().'.index')->with('error','Error saving Purchase Order...!!!');
                 }
-                } catch (Exception $th) {
-                    info('Purchase Order-saving-error:'.$th->getMessage());
-                }
+                // } catch (Exception $th) {
+                //     info('Purchase Order-saving-error:'.$th->getMessage());
+                // }
             }else{
                 $data = [
                     'name' => $request->name,

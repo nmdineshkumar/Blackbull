@@ -39,6 +39,8 @@
                             <th>Center</th>
                             <th>Month</th>
                             <th>Expense</th>
+                            <th>Item</th>
+                            <th>Status</th>
                             <th>Amount</th>
                             <th>Action</th>
                         </thead>
@@ -60,6 +62,8 @@
               {data: 'branch', name: 'Center'},
               {data: 'month', name: 'month'},
               {data: 'expense', name: 'Expense'},
+              {data: 'item', name: 'item'},
+              {data: 'status', name: 'status'},
               {data: 'amount', name: 'Amount'},
               {data: 'action', name: 'action'}
           ];

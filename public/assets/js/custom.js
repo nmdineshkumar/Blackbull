@@ -20,6 +20,7 @@ function initializeDataTable(id, url, columns) {
         processing: true,
         serverSide: true,
         stateSave: true,
+        "lengthMenu": [[10, 25, 50,100, -1], [10, 25, 50,100, "All"]],
         // ajax: url,
         ajax: {
             url: url,
@@ -90,6 +91,7 @@ $('#make').on('change',function(e){
             data.forEach(element => {
                 mySelection.append(new Option(element.name,element.id))
             });
+            $(mySelection).selectpicker('refresh');
         }
     });
 });
@@ -104,6 +106,7 @@ $('#model').on('change',function(e){
             data.forEach(element => {
                 mySelection.append(new Option(element.name,element.id))
             });
+            $(mySelection).selectpicker('refresh');
         }
     });
 });
@@ -116,7 +119,58 @@ $.ajaxSetup({
         'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
     }
 });
+BODY.on('click','.delivery-by-id',function(e){
+    e.preventDefault();
+    const deliveryUrl = $(this).data('url');
+    const actionType = nullAsEmpty($(this).data('action-type')).toLowerCase();
+    const alertMessage = "Are you sure want to update delivery status?";
+    iziToast.question({
+        rtl: false,
+        layout: 1,
+        drag: false,
+        timeout: false,
+        close: true,
+        overlay: true,
+        displayMode: 1,
+        progressBar: true,
+        title: 'Hey',
+        message: alertMessage,
+        position: 'center',
+        buttons: [
+            ['<button><b>Yes, '+ actionType +'!</b></button>', function (instance, toast, button, e, inputs) {
+                instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+                var fd = new FormData();
+                fd.append('_token', CsrfToken);
+                //fd.append('_method', "DELETE");
+                $.ajax({
+                    type: 'POST',
+                    data: fd,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    url: deliveryUrl,
+                    dataType: 'json',
+                    success: function (d) {
+                        if (d.str == 1) {
+                            successAlert('Delivery status updated successfully');
+                            pageLoader();
+                           // $('#datatable').DataTable().draw(false);
+                            window.location.reload();
+                        } else {
+                            errorAlert('Select data not available!');
+                            pageLoader();
+                        }
+                    },
+                    error: function (d) {
+                        errorAlert('Select data not available!');
+                        pageLoader();
+                    },
+                });
+            }, false]
+        ]
+    });
 
+})
 BODY.on('click', '.delete-by-id', function (e) {
     e.preventDefault();
     console.log($(this).data('url'))
@@ -170,3 +224,41 @@ BODY.on('click', '.delete-by-id', function (e) {
         ]
     });
 });
+BODY.on('click', '.approval-by-id', function (e) {
+    console.log(e);
+    var url = e.currentTarget.attributes['data-url'].nodeValue;
+    var id = e.currentTarget.attributes['data-id'].nodeValue;
+    var req = e.currentTarget.attributes['data-action'].nodeValue;
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: {
+            'status': (req === 'approved' ? '2' : '3'),
+            'quotation_id': id
+        },
+        success: function(response) {
+            if (response.success) {
+                iziToast.success({
+                    title: 'Success',
+                    message: response.success,
+                    position: 'topRight'
+                });
+            } else {
+                iziToast.error({
+                    title: 'Error',
+                    message: response.error,
+                    position: 'topRight'
+                });
+            }
+            window.location.reload();
+        },
+        error: function(error) {
+            var errors = error.responseJSON;
+            $.each(errors.errors, function(k, v) {
+                $('#Error' + k).remove();
+                $('#' + k).after('<div id="Error' + k + '" class="error">' +
+                    v + '</div>');
+            });
+        }
+    });
+})

@@ -26,7 +26,23 @@
         <link href="{{asset('/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{asset('/assets/libs/datatables.net-select-bs4/css/select.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
 
+    <style>
+        .btn.dropdown-toggle.bs-placeholder.btn-light,
+        .btn.dropdown-toggle.btn-light {
+            padding: 0px !important;
+            background-color: transparent;
+            border: 0px;
+        }
 
+        .dropdown.bootstrap-select.form-select {
+            width: 100% !important;
+        }
+
+        .input-group .dropdown.bootstrap-select.form-select {
+            width: auto !important;
+        }
+
+    </style>
 </head>
 
 <!-- <body data-layout="horizontal" data-topbar="dark"> -->
@@ -182,6 +198,7 @@
                     <li><a href="#"  class="has-arrow wave-effect"><i class="mdi mdi-sale"></i><span>Product Sales</span></a>
                         <ul class="sub-menu mm-collapse" aria-expanded="false">
                             <li><a href="{{route('admin.sales.index')}}"><i class="mdi mdi-database-arrow-right"></i>Sales</a></li>
+                            <li><a href="{{route('admin.quotation.index')}}"><i class="mdi mdi-database-arrow-right"></i>Quotation</a></li>
                         </ul>
                     </li>
                     <li><a href="#"  class="has-arrow wave-effect"><i class="mdi mdi-account-group"></i><span>Customers</span></a>
@@ -253,7 +270,6 @@
     <script src="{{ asset('assets/js/pages/datatables.init.js')}}"></script>
     <script src="{{ asset('assets/js/app.js')}}"></script>
     <script src="https://unpkg.com/izitoast/dist/js/iziToast.min.js"></script>
-    <script src="{{asset('assets/js/custom.js')}}"></script>
     <!-- File Uploaders -->
     <link rel="stylesheet" href="{{asset('assets/file-uploader/css/font-fileuploader.css')}}">
     <link rel="stylesheet" href="{{asset('assets/file-uploader/css/script.css')}}">
@@ -270,6 +286,9 @@
      <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js"></script>
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css">
+     {{-- Select2 bootstrap --}}
+     {{-- Custom Js --}}
+     <script src="{{asset('assets/js/custom.js')}}"></script>
 
 
     @yield('add-js')

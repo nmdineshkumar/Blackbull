@@ -34,6 +34,15 @@ class BatteryController extends Controller
                     ->addColumn('model',function($row){
                         return $row->model_number;
                     })
+                    ->addColumn('capacity',function($row){
+                        return $row->capacity;
+                    })
+                    ->addColumn('voltage',function($row){
+                        return $row->voltage;
+                    })
+                    ->addColumn('price',function($row){
+                        return number_format($row->price,2);
+                    })
                     ->addColumn('action', function($row){
                         if($row->deleted_at=== NULL){
                             return getActionButtons($row->id, $this->resourceUrl(),['edit','delete']);
@@ -46,7 +55,7 @@ class BatteryController extends Controller
 
         }else{
             return view('admin.battery.indexBattery')
-                    ->with('pageName','Tube')
+                    ->with('pageName','Battery')
                     ->with('resourceUrl',$this->resourceUrl());
         }
     }
@@ -56,7 +65,7 @@ class BatteryController extends Controller
     }
    
     public function create(){
-        $brand_dataset = DB::table('brand')->get(['id','name']);
+        $brand_dataset = DB::table('brand')->where('category','3')->get(['id','name']);
         return view('admin.battery.editBattery',compact('brand_dataset'))
                 ->with('pageName', 'Create Battery')
                 ->with('id','')
@@ -72,7 +81,7 @@ class BatteryController extends Controller
     }
     public function store(Request $request){
         $validate = $request->validate([
-            'name' => ['required','unique:tyres,name,'.$request->id.',id'],
+            'name' => ['required'],
             'brand' => ['required'],
             'capacity' => ['required'],
             //'wyear' => ['required'],

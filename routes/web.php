@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\TubeController;
 use App\Http\Controllers\Admin\TyreController;
 use App\Http\Controllers\Admin\TyresizeController;
 use App\Http\Controllers\Admin\ExpenseController;
+use App\Http\Controllers\Admin\QuatationController;
 use App\Http\Controllers\admin\ReportsController;
 use App\Http\Controllers\Auth\Logincontroller;
 use App\Http\Controllers\CartController;
@@ -87,6 +88,7 @@ Route::get('/tyre', [\App\Http\Controllers\TyreController::class,'index'])->name
 Route::get('/wheel', [\App\Http\Controllers\WheelController::class,'index'])->name('wheel');
 Route::get('/tube', [\App\Http\Controllers\TubeController::class,'index'])->name('tube');
 Route::get('/invoice/{id}',[SaleController::class, 'viewInvoice'])->name('getInvoice');
+Route::get('/quatation/{id}',[QuatationController::class, 'viewInvoice'])->name('getQuotation');
 Route::get('/state/{id}',[HelperController::class,'getState']);
 Route::get('/cities/{id}',[HelperController::class,'getCity']);
 Route::get('logout',[Logincontroller::class,'logoutForm'])->name('logout');
@@ -97,6 +99,7 @@ Route::get('/get-car-year/{id}', [HelperController::class,'getCar_year'])->name(
 Route::get('/get-products/{id}', [HelperController::class, 'get_Product'])->name('get-products');
 Route::get('/get-product-price', [SaleController::class, 'getPriceByProduct'])->name('get-product-price');
 Route::post('/expense/catgory',[HelperController::class,'save_expense_category'])->name('save-expense-category');
+Route::get('/sales/auto-complete',[HelperController::class,'auto_complete'])->name('sales-auto-complete');
 $prefix = 'admin';
 Route::group(['prefix'=>$prefix,'middleware'=>'auth:admin'], function () use($prefix) {
     //Helper Process
@@ -130,6 +133,7 @@ Route::group(['prefix'=>$prefix,'middleware'=>'auth:admin'], function () use($pr
     Route::resource('purchase', PurchaseOrderController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.purchase');
     Route::resource('productstock', ProductStockController::class)->only(['index'])->names($prefix .'.productstock');
     Route::resource('sales', SaleController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.sales');
+    Route::resource('quotation', QuatationController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.quotation');
     Route::resource('employee', EmployeeController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.employee');
     //Customer
     Route::resource('customer', CustomerController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.customer');
@@ -155,4 +159,11 @@ Route::group(['prefix'=>$prefix,'middleware'=>'auth:admin'], function () use($pr
     Route::get('expense/overall',[ReportsController::class,'expense_over_all'])->name($prefix.'.expense.over-all-expense');
     Route::get('expense/monthly/{id}',[ReportsController::class,'expense_monthly'])->name($prefix.'.expense.montly-expense');
     Route::get('expense/datewise/{from}/{to}',[ReportsController::class,'expense_weekly'])->name($prefix.'.expense.datewise-expense');
+    //Quotation Approval
+    Route::post('/quotation/approval',[QuatationController::class,'Quotation_status_update'])->name($prefix.'.quotation.approval');
+    //delete Invoice items
+    Route::post('/invoice-item/delete/{id}',[SaleController::class,'remove_InvoiceItem'])->name($prefix.'.invoice-item.delete');
+    Route::post('/quotation-item/delete/{id}',[QuatationController::class,'remove_InvoiceItem'])->name($prefix.'.quotation-item.delete');
+    //Delivery the product 
+    Route::post('sales/delivery/{id}',[SaleController::class,'UpdateDeliveryStatus'])->name($prefix.'.sales.delivery');
 });

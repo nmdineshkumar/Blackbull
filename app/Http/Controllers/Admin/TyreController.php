@@ -41,11 +41,17 @@ class TyreController extends Controller
                 ->addColumn('origin', function ($row) {
                     return $this->getOrigin($row->origin);
                 })
-                ->addColumn('manufactory_year', function ($row) {
-                    return $row->manufactory_year;
-                })
                 ->addColumn('size', function ($row) {
                     return HelperController::getTyreSize($row->tyre_size);
+                })
+                ->addColumn('pattern', function ($row) {
+                    return HelperController::getPatternNameById($row->pattern);
+                })
+                ->addColumn('tyre_type', function ($row) {
+                    return $row->tyre_type == '1' ? 'TTF' : 'TL';
+                })
+                ->addColumn('amount', function ($row) {
+                    return $row->price;
                 })
                 ->addColumn('action', function ($row) {
                     if ($row->deleted_at === NULL) {
@@ -54,7 +60,7 @@ class TyreController extends Controller
                         return getActionButtons($row->id, $this->resourceUrl(), ['retrieve']);
                     }
                 })
-                ->rawColumns(['name', 'action'])
+                ->rawColumns(['name', 'action','amount'])
                 ->make(true);
         } else {
             return view('admin.tyre.indexTyre')
@@ -72,7 +78,7 @@ class TyreController extends Controller
     }
     public function create()
     {
-        $brand_dataset = DB::table('brand')->get(['id', 'name']);
+        $brand_dataset = DB::table('brand')->where('category','1')->get(['id', 'name']);
         $pattern_dataset = DB::table('pattern')->get(['id', 'name']);
         $origin_dataset = DB::table('origin')->get(['id', 'name']);
         $make_dataset = manufacturers::get(['id', 'name']);
@@ -118,7 +124,7 @@ class TyreController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'name' => ['required', 'unique:tyres,name,' . $request->id . ',id'],
+            'name' => ['required'],
             'brand' => ['required'],
             'pattern' => ['required'],
             'type' => ['required'],

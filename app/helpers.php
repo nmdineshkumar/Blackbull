@@ -18,6 +18,15 @@
         if ( in_array( 'payment', $types ) ) {
             $actionBtn .= "<a href='" . route( $baseUrl. '.addPayment', $id ) ."' title='Add Payment' class='btn btn-icon btn-color-success'><i class='fas fa-money-bill-alt'></i></i></a>";
         }
+        if ( in_array( 'approved', $types ) ) {
+            $actionBtn .= "<a href='javascript:;' data-url='". route('admin.quotation.approval')."' data-id='".$id."'  data-action='approved' title='Approved' class='btn btn-icon btn-color-success approval-by-id'><i class='fs-4 mdi mdi-truck-check'></i></a>";
+        }
+        if ( in_array( 'rejected', $types ) ) {
+            $actionBtn .= "<a href='javascript:;' data-url='". route('admin.quotation.approval') ."' data-id='".$id."'   data-action='rejected' title='Rejected' class='btn btn-icon btn-color-success approval-by-id'><i class='fs-4 mdi mdi-truck-remove-outline'></i></a>";
+        }
+        if(in_array('delivery',$types)){
+            $actionBtn .= "<a href='javascript:;'  data-action-type='Delivered' data-url='" . route( $baseUrl. '.delivery', $id ) ."' title='Delivery the product' class='btn btn-icon btn-color-danger delivery-by-id'><i class='fas fa-shipping-fast'></i></a>";
+        }
         return $actionBtn;
     }
     function getRandomSting(): string {

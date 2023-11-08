@@ -127,7 +127,7 @@
                             <div class="col-md-6 col-sm-12">
                                 <label for="">Brand</label>
                                 <div class="input-group">
-                                    <select name="brand" id="brand" class="form-select">
+                                    <select name="brand" id="brand" class="selectpicker selectpicker form-select"  data-live-search="true">
                                         <option value="">---SELECT---</option>
                                         @if ($id != '')
                                             @foreach ($brand_dataset as $row)
@@ -158,7 +158,7 @@
                             <div class="col-md-6 col-sm-12">
                                 <label for="">Pattern</label>
                                 <div class="input-group">
-                                    <select name="pattern" id="pattern" class="form-select">
+                                    <select name="pattern" id="pattern" class="selectpicker form-select"  data-live-search="true">
                                         <option value="">---SELECT---</option>
                                         @if ($id != '')
                                             @foreach ($pattern_dataset as $row)
@@ -186,7 +186,7 @@
                             </div>
                             <div class="col-md-6 col-sm-12">
                                 <label for="">Type</label>
-                                <select name="type" id="type" class="form-select">
+                                <select name="type" id="type" class="selectpicker form-select"  data-live-search="true">
                                     <option value="">---SELECT---</option>
                                     @if ($id != '')
                                         @foreach (tyreType() as $row)
@@ -211,7 +211,7 @@
                             <div class="col-md-6 col-sm-12">
                                 <label for="">Origin</label>
                                 <div class="input-group">
-                                    <select name="origin" id="origin" class="form-select">
+                                    <select name="origin" id="origin" class="selectpicker form-select"  data-live-search="true">
                                         <option value="">---SELECT---</option>
                                         @if ($id != '')
                                             @foreach ($origin_dataset as $row)
@@ -288,26 +288,27 @@
                             <div class="col-md-6 col-sm-12">
                                 <label for="">Make</label>
                                 <div class="input-group">
-                                <select name="make" id="make" class="form-select">
-                                    <option value="">---SELECT---</option>
-                                    @if ($id != '')
-                                        @foreach ($make_dataset as $row)
-                                            @if ($make == $row->id)
-                                                <option value="{{ $row->id }}" selected>{{ $row->name }}</option>
-                                            @else
+                                    <select name="make" id="make" class="selectpicker form-select"  data-live-search="true">
+                                        <option value="">---SELECT---</option>
+                                        @if ($id != '')
+                                            @foreach ($make_dataset as $row)
+                                                @if ($make == $row->id)
+                                                    <option value="{{ $row->id }}" selected>{{ $row->name }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            @foreach ($make_dataset as $row)
                                                 <option value="{{ $row->id }}">{{ $row->name }}</option>
-                                            @endif
-                                        @endforeach
-                                    @else
-                                        @foreach ($make_dataset as $row)
-                                            <option value="{{ $row->id }}">{{ $row->name }}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                                <div class="input-group-append">
-                                    <a data-bs-toggle="modal" data-bs-target="#makeModal"
-                                        class="btn btn-primary"><i class="mdi mdi-plus-circle"></i></a>
-                                </div>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                    <div class="input-group-append">
+                                        <a data-bs-toggle="modal" data-bs-target="#makeModal" class="btn btn-primary"><i
+                                                class="mdi mdi-plus-circle"></i></a>
+                                    </div>
                                 </div>
                                 @error('make')
                                     <div class="error">{{ $message }}</div>
@@ -316,7 +317,7 @@
                             <div class="col-md-6 col-sm-12">
                                 <label for="">Model</label>
                                 <div class="input-group">
-                                    <select name="model" id="model" class="form-select">
+                                    <select name="model" id="model" class="selectpicker form-select"  data-live-search="true">
                                         <option value="">---SELECT---</option>
                                         @if ($id != '')
                                             @foreach ($model_dataset as $row)
@@ -343,7 +344,7 @@
                             <div class="col-md-6 col-sm-12">
                                 <label for="">Year</label>
                                 <div class="input-group">
-                                    <select name="year" id="year" class="form-select">
+                                    <select name="year" id="year" class="selectpicker form-select"  data-live-search="true">
                                         <option value="">---SELECT---</option>
                                         @if ($id != '')
                                             @foreach ($year_dataset as $row)
@@ -367,7 +368,7 @@
                             </div>
                             <div class="col-md-6 col-sm-12">
                                 <label for="">Fuel Type</label>
-                                <select name="fuel_type" id="fuel_type" class="form-select">
+                                <select name="fuel_type" id="fuel_type" class="selectpicker form-select"  data-live-search="true">
                                     <option value="">---SELECT---</option>
                                     @if ($id != '')
                                         @foreach (carFuelType() as $row)
@@ -400,7 +401,7 @@
                         <div class="row mb-2">
                             <div class="col-md-6 col-sm-12">
                                 <label for="">Tyre Size</label>
-                                <select name="tyre_size" id="tyre_size" class="form-select">
+                                <select name="tyre_size" id="tyre_size" class="selectpicker form-select"  data-live-search="true">
                                     <option value="">---SELECT---</option>
                                     @if ($id != '')
                                         @foreach ($tyre_size_dataset as $row)
@@ -440,23 +441,22 @@
                         <div class="row mb-2">
                             <div class="col-md-6 col-sm-12">
                                 <label for="" class="mb-3">Website Visible</label>
-                                <select name="visible_status" id="visible_status" class="form-select">
+                                <select name="visible_status" id="visible_status" class="selectpicker form-select"  data-live-search="true">
                                     <option value="">---SELECT----</option>
-                                @if($visible_status != '')
-                                    @foreach (website_visible() as $row )
-                                    @if($visible_status == $row->id)                                        
-                                        <option value="{{$row->id}}" selected>{{$row->name}}</option>
-                                    @else                                        
-                                        <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @if ($visible_status != '')
+                                        @foreach (website_visible() as $row)
+                                            @if ($visible_status == $row->id)
+                                                <option value="{{ $row->id }}" selected>{{ $row->name }}</option>
+                                            @else
+                                                <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                            @endif
+                                        @endforeach
+                                    @else
+                                        @foreach (website_visible() as $row)
+                                            <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                        @endforeach
                                     @endif
-                                    @endforeach
-                                @else
-                                    @foreach (website_visible() as $row )
-                                        <option value="{{$row->id}}">{{$row->name}}</option>
-                                    @endforeach
-
-                                @endif
-                            </select>
+                                </select>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -513,8 +513,8 @@
                                 <input type="file"name="file1" id="file1" file-accept='<?php echo json_encode(['jpg', 'png', 'gif', 'jpeg', 'svg']); ?>'
                                     data-fileuploader-files='<?php echo json_encode($preload); ?>'
                                     data-id="{{ url('admin/delete-image?path=manufacturers') }}"
-                                    data-attr-name="image-file-saver" data-url="{{ url('admin/save-image?path=manufacturers') }}"
-                                    class="form-control">
+                                    data-attr-name="image-file-saver"
+                                    data-url="{{ url('admin/save-image?path=manufacturers') }}" class="form-control">
                                 <input type="hidden" name="image" class="image-file-saver"
                                     value="<?php echo $image; ?>">
                             </div>
@@ -557,6 +557,7 @@
                                     class="form-control">
                                 <input type="hidden" name="image" class="image-file-saver"
                                     value="<?php echo $image; ?>">
+                                    <input type="hidden" name="category" value="1">
                             </div>
                         </div>
                 </div>
@@ -727,7 +728,7 @@
                 } else if (formid == 'addCaryear') {
                     mySlection = $('#year');
                     modal = $('#caryearModal');
-                }else if(formid == 'addMake'){
+                } else if (formid == 'addMake') {
                     mySlection = $('#make');
                     modal = $('#makeModal');
                 }
@@ -741,6 +742,7 @@
                         response.forEach(element => {
                             mySlection.append(new Option(element.name, element.id));
                         });
+                        $(mySlection).selectpicker('refresh');
                         modal.modal('toggle');
                     },
                     error: function(error) {
@@ -756,6 +758,6 @@
                 });
             })
         });
-        $('#tyre_size').select2();
+        
     </script>
 @endsection

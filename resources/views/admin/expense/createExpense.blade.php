@@ -4,12 +4,17 @@
     $name = old('name');
     $amount = old('amount');
     $comment = old('coment');
+    $item = old('item');
+    $payment_status = old('payment_status');
     if ($id != '') {
         $month = old('month') != '' ? old('month') : $expense->month;
         $branch = old('branch') != '' ? old('branch') : $expense->center;
         $name = old('name') != '' ? old('name') : $expense->expense_name;
         $amount = old('amount') != '' ? old('amount') : $expense->amount;
         $comment = old('comment') != '' ? old('comment') : $expense->comment;
+        $item = old('item') != '' ? old('item') : $expense->item;
+        $payment_statu  = old('payment_status') != '' ? old('payment_status') : $expense->status;
+        
     }
 @endphp
 @extends('layout.mainLayout')
@@ -123,6 +128,22 @@
                                 <div class="error">{{ $message }}</div>
                             @enderror
                         </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="" class="mb-2">Item</label>
+                                <input type="text" name="item" id="item" value="{{$item}}" class="form-control">
+                            </div>
+                            <div class="col-6">
+                                <label for="" class="mb-2">Payment Status</label>
+                                <select name="payment_status" id="payment_status" class="form-select">
+                                    <option value="">---SELECT ----</option>
+                                    <option value="Paid" @if ($payment_status == 'Paid') selected   @endif>Paid</option>
+                                    <option value="UnPaid" @if ($payment_status == 'UnPaid') selected   @endif>UnPaid</option>
+                                    <option value="Partialy Paid"  @if ($payment_status == 'Partialy Paid') selected   @endif>Partialy Paid</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="row mb-3">
                             <div class="col-md-6 col-sm-12">
                                 <label for="">Remarks</label>

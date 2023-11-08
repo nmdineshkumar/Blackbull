@@ -94,7 +94,7 @@
                         <div class="col-md-6 col-sm-12">
                             <label for="">Brand</label>
                                 <div class="input-group">
-                                    <select class="form-select" name="brand" id="brand">
+                                    <select class="selectpicker form-select"  data-live-search="true" name="brand" id="brand">
                                         <option value="">---SELECT---</option>
                                         @if($id != '')
                                             @foreach ($brand_dataset as $row)
@@ -185,7 +185,7 @@
                             </div>
                             <div class="col-md-12 col-sm-12 mt-3">
                                 <label for="" class="mb-3">Website Visible</label>
-                                <select name="visible_status" id="visible_status" class="form-select">
+                                <select name="visible_status" id="visible_status" class="selectpicker form-select"  data-live-search="true">
                                     <option value="">---SELECT----</option>
                                     @if ($visible_status != '')
                                         @foreach (website_visible() as $row)
@@ -257,6 +257,7 @@
                         class="form-control">
                         <input type="hidden" name="image" class="image-file-saver" value="<?php echo $image; ?>">
                 </div>
+                <input type="hidden" name="category" value="3">
             </div>
         </div>
         <div class="modal-footer">
