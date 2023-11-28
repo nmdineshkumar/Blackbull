@@ -930,7 +930,6 @@
                         data.forEach(element => {
                             mySelection.append(new Option(element.name, element.id));
                         });
-
                     }
                 })
             })

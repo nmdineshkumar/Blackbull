@@ -88,7 +88,6 @@ Route::get('/tyre', [\App\Http\Controllers\TyreController::class,'index'])->name
 Route::get('/wheel', [\App\Http\Controllers\WheelController::class,'index'])->name('wheel');
 Route::get('/tube', [\App\Http\Controllers\TubeController::class,'index'])->name('tube');
 Route::get('/invoice/{id}',[SaleController::class, 'viewInvoice'])->name('getInvoice');
-Route::get('/quatation/{id}',[QuatationController::class, 'viewInvoice'])->name('getQuotation');
 Route::get('/state/{id}',[HelperController::class,'getState']);
 Route::get('/cities/{id}',[HelperController::class,'getCity']);
 Route::get('logout',[Logincontroller::class,'logoutForm'])->name('logout');
@@ -133,7 +132,6 @@ Route::group(['prefix'=>$prefix,'middleware'=>'auth:admin'], function () use($pr
     Route::resource('purchase', PurchaseOrderController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.purchase');
     Route::resource('productstock', ProductStockController::class)->only(['index'])->names($prefix .'.productstock');
     Route::resource('sales', SaleController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.sales');
-    Route::resource('quotation', QuatationController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.quotation');
     Route::resource('employee', EmployeeController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.employee');
     //Customer
     Route::resource('customer', CustomerController::class)->only(['index', 'create', 'edit', 'store', 'destroy'])->names($prefix .'.customer');

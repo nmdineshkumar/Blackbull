@@ -399,6 +399,39 @@
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-md-6 col-sm-12 text-end">
+                                        <label for="">Tax Amount</label>
+                                    </div>
+                                    @php
+                                        if ($tax > 0) {
+                                            $taxAmount = number_format(($tax * $SubTotalAmount) / 100, 2);
+                                        }
+
+                                    @endphp
+                                    <div class="col-md-6 col-sm-12">
+                                        <input type="text" name="tax_amount" id="tax_amount" placeholder="Tax"
+                                            class="form-control" value="{{ $taxAmount }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-md-6 col-sm-12 text-end">
+                                        <label for="">Discount</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <input type="text" name="discount" id="discount" placeholder="Discount"
+                                            class="form-control" value="{{ number_format($discount, 2) }}">
+                                    </div>
+                                </div>
+                                {{-- <div class="row mb-2">
+                                    <div class="col-md-6 col-sm-12 text-end">
+                                        <label for="">Discount Amount</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <input type="text" name="discount_amount" id="discount_amount"
+                                            placeholder="Discount" class="form-control" value="">
+                                    </div>
+                                </div> --}}
+                                <div class="row mb-2">
+                                    <div class="col-md-6 col-sm-12 text-end">
                                         <label for="">Total Amount</label>
                                     </div>
                                     <div class="col-md-6 col-sm-12">
@@ -409,7 +442,6 @@
                                         @enderror
                                     </div>
                                 </div>
-
                                 <div class="row mb-2">
                                     <div class="col-md-6 col-sm-12 text-end">
                                         <label for="">Pay Mode</label>
@@ -441,7 +473,7 @@
                                     </div>
                                     <div class="col-md-6 col-sm-12">
                                         <input type="text" name="paidAmount" id="paidAmount" class="form-control"
-                                            value="{{ $paidAmount }}" required>
+                                            value="{{$paidAmount}}" required>
                                         @error('paidAmount')
                                             <div class="error">{{ $message }}</div>
                                         @enderror
@@ -557,6 +589,7 @@
     </div>
     <!-- Brand Modal End -->
     <style>
+        
         .auto-complete {
             position: relative;
         }
@@ -684,7 +717,6 @@
                                     complete_row.addEventListener('click', function(e) {
                                         let parent_Node = this.parentNode
                                             .parentNode;
-
                                         var selectedRow = $(this);
                                         var category = $(this)[0].parentNode
                                             .parentNode.parentNode
@@ -892,7 +924,6 @@
                 } else {
                     Tax_amount.value = 0;
                 }
-
                 if (Number(Delivery_Amount.value) > 0) {
                     DeliveryAmount = Delivery_Amount.value
                 } else {
@@ -948,7 +979,6 @@
                         data.forEach(element => {
                             mySelection.append(new Option(element.name, element.id));
                         });
-
                     }
                 })
             })
